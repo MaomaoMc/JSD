@@ -1,0 +1,81 @@
+@charset "UTF-8";
+div.priceItems {
+  width: 3.595rem;
+  height: 1.265rem;
+  margin: .15rem auto;
+  background-image: url(../../img/bg_kuang_kuangji.png);
+  background-size: 100%; }
+  div.priceItems div {
+    flex-grow: 1;
+    /* default 0 */ }
+  div.priceItems div.price {
+    line-height: .75rem;
+    text-indent: .35rem;
+    color: #ffde00; }
+  div.priceItems div.items {
+    color: white;
+    padding-top: .35rem; }
+    div.priceItems div.items p {
+      line-height: .3rem; }
+
+ul.deal_tab {
+  width: 3.09rem;
+  height: .365rem;
+  border: .005rem solid #00a8ff;
+  border-radius: .5rem;
+  margin: 0 auto; }
+  ul.deal_tab li {
+    flex-grow: 1;
+    /* default 0 */
+    text-align: center;
+    background-color: #06c7ff; }
+    ul.deal_tab li a {
+      display: inline-block;
+      width: 100%;
+      color: white;
+      line-height: .365rem; }
+  ul.deal_tab li.active {
+    background-color: transparent; }
+
+ul.guadanTab {
+  width: 100%;
+  height: .935rem;
+  border-top: .005rem solid #00a8ff;
+  border-bottom: .005rem solid #00a8ff;
+  position: fixed;
+  left: 0;
+  bottom: .65rem; }
+  ul.guadanTab li {
+    flex-grow: 1;
+    height: .935rem;
+    text-align: center; }
+    ul.guadanTab li img {
+      width: .35rem;
+      height: .36rem;
+      margin: .2rem auto 0; }
+    ul.guadanTab li a {
+      color: white; }
+  ul.guadanTab li:nth-child(2) {
+    border-left: .005rem solid #00a8ff; }
+
+/*点对点*/
+.ptpFrom {
+  padding: 0 .4rem; }
+  .ptpFrom ul {
+    flex-direction: column; }
+    .ptpFrom ul li {
+      height: .48rem;
+      line-height: .48rem;
+      font-size: .12rem;
+      border-bottom: .005rem solid #00a8ff; }
+      .ptpFrom ul li span {
+        display: inline-block;
+        width: .95rem;
+        color: #00a8ff; }
+      .ptpFrom ul li input {
+        border: none; }
+      .ptpFrom ul li input[placeholder], .ptpFrom ul li [placeholder], .ptpFrom ul li *[placeholder] {
+        color: rgba(255, 255, 255, 0.3) !important; }
+      .ptpFrom ul li ::-webkit-input-placeholder {
+        /* WebKit browsers */
+        color: rgba(255, 255, 255, 0.3) !important; }
