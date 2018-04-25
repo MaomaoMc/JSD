@@ -1,0 +1,66 @@
+<!doctype html>  
+<html lang="en">  
+ <head>  
+  <meta charset="UTF-8">  
+  <meta name="Generator" content="EditPlus®">  
+  <meta name="Author" content="">  
+  <meta name="Keywords" content="">  
+  <meta name="Description" content="">  
+  <title>条纹背景</title>  
+  <style type="text/css">  
+      * {  
+        box-sizing: border-box;  
+      }  
+      html,body {  
+            
+          width: 100%;  
+          height: 100%;  
+          _height: 100%;  
+          min-height: 100%;  
+          margin: 0;  
+          padding: 0;  
+      }  
+      .comm {  
+          width: 100%;  
+          height: 150px;  
+          margin-bottom: 20px;  
+      }  
+      /* 两种颜色横条纹 */  
+      .bg {  
+          background: linear-gradient(#fb3 30%, #58a 0);  
+          background-size: 100% 30px;  
+      }  
+      /* 多颜色横条纹 */  
+      .bg2 {  
+          background: linear-gradient(#fb3 33.3%,#85a 0,#85a 66.6%,yellowgreen 0);  
+          background-size: 100% 45px;  
+      }  
+      /* 垂直条纹(在水平条纹基础上，添加一个额外的参数来指定渐变方向) */  
+      .bg3 {  
+          background: linear-gradient(to right,/* 或90deg */#09246b 50%, #071c54 0);  
+          background-size: 4px 100%;  
+      }  
+      /* 45度角斜向条纹背景 */  
+      .bg4 {  
+          background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%,#fb3 0, #fb3 75%, #58a 0);  
+          background-size: 30px 30px;  
+      }  
+      /* 重复渐变 */  
+      .bg5 {  
+          background: repeating-linear-gradient(45deg, #fb3, #58a 30px);  
+      }  
+      /* 使用重复渐变创建更加灵活的斜向背景，可以是45deg、60deg等 */  
+      .bg6 {  
+          background: repeating-linear-gradient(30deg,#79b, #79b 15px, #58a 0,#58a 30px);  
+      }  
+  </style>  
+ </head>  
+ <body>  
+    <!-- <div class="bg comm"></div>   -->
+    <!-- <div class="bg2 comm"></div>   -->
+    <div class="bg3 comm"></div>  
+    <!-- <div class="bg4 comm"></div>  
+    <div class="bg5 comm"></div>  
+    <div class="bg6 comm"></div>   -->
+ </body>  
+</html>  

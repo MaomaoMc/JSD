@@ -1,0 +1,24 @@
+{
+  "name": "jsd",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-react": "^3.1.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-watch": "^5.0.0",
+    "query": "^0.2.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-router": "^4.0.0",
+    "react-router-dom": "^4.0.0",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
