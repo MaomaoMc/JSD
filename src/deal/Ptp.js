@@ -20,7 +20,7 @@ class Ptp extends Component {
                     </li>
                 </ul>
                 <p className="fz_18 fc_white mt_10">*交易手续费20%；如转入100JSD，系统将扣120JSD。</p>
-                <span className="btn btn_orange" style={{margin: '.25rem auto'}}>卖出</span>
+                <span className="btn btn_orange block" style={{margin: '.25rem auto', display: 'block'}}>卖出</span>
             </div>
         </div>
     }

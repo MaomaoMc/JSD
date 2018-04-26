@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Tab from './../Tab';
-// import './../css/css/common.css';
 import './../css/css/machineM.css'; //机市css
 
 const goods = [
@@ -15,7 +14,6 @@ const goods = [
         price: "250 JSD"
     },
     {
-        // pic: "../img/pic_xiaokj.png",
         pic:  require("../img/pic_xiaokj.png"),
         name: "小型云矿机",
         items: {
@@ -67,7 +65,43 @@ const goods = [
     }
 ];
 class MachineM extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { 
+          dlgShow: false,
+          jsdShortDlgShow: false
+        };
+      }
+    handleBayEvent (e){
+        this.setState({
+            dlgShow: true
+        })
+    }
+    handleDlgEvent (e){  //取消购买 或者确定购买
+        const type = e.type;
+        if(type === "cancel"){  //取消
+            this.setState({
+                dlgShow: false
+            })
+        }else{  //如果是 确定的话  
+            //如果jsd余额不足
+            const self = this;
+            this.setState({
+                dlgShow: false,
+                jsdShortDlgShow: true
+            }, function(){
+                var timer = setTimeout(
+                    function(){
+                        self.setState({
+                            jsdShortDlgShow: false
+                        })
+                    }
+                , 1000)
+            })
+        }
+    }
     render(){
+        const self = this;
         return <div>
             <div style={{padding: '0 .11rem'}}>
                 {
@@ -84,7 +118,9 @@ class MachineM extends Component {
                                         <p>运行周期：{sl}</p>
                                         <p>收益总量：{sl}</p>
                                     </div>
-                                    <div className="cart fz_26">
+                                    <div className="cart fz_26" onClick = { e => {
+                                            self.handleBayEvent({})
+                                        }}>
                                         <i className="cart_icon"></i>
                                        <span> 250 JSD</span>
                                     </div>
@@ -94,6 +130,22 @@ class MachineM extends Component {
                     })
                 }
             </div>
+            <div className={this.state.dlgShow ? "dialog dlgPayKj" : "dialog dlgPayKj hide"}>
+                <p className="dlg_tit fc_white">购买矿机</p>
+                <div className="dlg_form">
+                    <p className="text_center fz_24 fc_white">确定购买当前矿机？</p>
+                    {/* <input className="b_blue1" type="text"/> */}
+                    <div className="over_hidden" style={{padding: "0 .14rem"}}>
+                        <span className="btn fz_24 fc_white f_lt" onClick = {e => {
+                            self.handleDlgEvent({type: "cancel"})
+                        }}>取消</span>
+                        <span className="btn fz_24 fc_white f_rt" onClick = {e => {
+                            self.handleDlgEvent({type: "confirm"})
+                        }}>确定</span>
+                    </div>
+                </div>
+            </div>
+            <div className={this.state.jsdShortDlgShow ? "dialog jsdShortDlg fc_white fz_24" : "dialog jsdShortDlg fc_white fz_24 hide"}>JSD不足</div>
             <Tab />
         </div>
     }

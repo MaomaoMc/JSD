@@ -11,7 +11,7 @@ class Tab extends Component {
                     <Link to="/"><span className="icon js_icon"></span><p>机市</p></Link>
                 </li>
                 <li>
-                    <Link to="/kuangchi"><span className="icon kc_icon"></span><p>矿池</p></Link>
+                    <Link to="/mineralPool"><span className="icon kc_icon"></span><p>矿池</p></Link>
                 </li>
                 <li>
                     <Link to="/deal"><span className="icon jy_icon"></span><p>交易</p></Link>
