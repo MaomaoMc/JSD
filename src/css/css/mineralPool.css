@@ -38,7 +38,9 @@
 .dlgZtMessage {
   width: 3.025rem;
   height: 2.085rem;
-  background: url(../../img/bg_tanchuxinxi.png) no-repeat 100% 100%; }
+  background: url(../../img/bg_tanchuxinxi.png) no-repeat 100% 100%;
+  margin-left: -1.5225rem;
+  margin-top: -1rem; }
   .dlgZtMessage ul {
     flex-direction: column; }
     .dlgZtMessage ul li {
@@ -49,7 +51,9 @@
 .dlgMessage {
   width: 3.025rem;
   height: 1.745rem;
-  background: url(../../img/bg_gerenxinxi.png) no-repeat 100% 100%; }
+  background: url(../../img/bg_gerenxinxi.png) no-repeat 100% 100%;
+  margin-left: -1.5225rem;
+  margin-top: -1rem; }
   .dlgMessage div {
     font-size: .16rem;
     color: white;

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Tab from './../Tab';
 import './../css/css/mineralPool.css';
-
-const miners = [
-
-]
 const mineralItems = [
     {
         pic: require("../img/pic_toux.png"),
@@ -174,7 +170,7 @@ class MineralPool extends Component {
                     </div>
                 </div>
             </div>
-            <div className={this.state.dlgZtMessageShow ? "shadow" : "shadow hide"}></div>
+            <div className={this.state.shadowShow ? "shadow" : "shadow hide"}></div>
             <Tab />
         </div>
     }

@@ -10,7 +10,7 @@ class DealTab extends Component {
         console.log( window.location, ' loacation.hash')
         return <div>
             <ul className="deal_tab f_flex fz_30">
-                <li className={hash.search(/price/) != -1 ? 'active' : ''} style={{ borderTopLeftRadius: '.25rem', borderBottomLeftRadius: '.25rem'}}>
+                <li className={hash == '#/deal' || hash == '#/deal/price' ? 'active' : ''} style={{ borderTopLeftRadius: '.25rem', borderBottomLeftRadius: '.25rem'}}>
                     <Link to="/deal/price"><span>价格</span></Link>
                 </li>
                 <li className={hash.search(/ptp/) != -1 ? 'active' : ''}>

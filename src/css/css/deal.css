@@ -49,8 +49,7 @@ ul.deal_tab {
 ul.guadanTab {
   width: 100%;
   height: .935rem;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.075) 50%, transparent 0);
-  background-size: .03rem 100%;
+  background-color: #031d59;
   border-top: .01rem solid #00a8ff;
   border-bottom: .01rem solid #00a8ff;
   position: fixed;

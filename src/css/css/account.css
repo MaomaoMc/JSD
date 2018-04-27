@@ -1,0 +1,203 @@
+@charset "UTF-8";
+.logo {
+  width: 1.32rem;
+  height: 1.33rem;
+  background-image: url(../../img/jsd.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin-top: .5rem;
+  margin-left: 1.22rem;
+  margin-bottom: .5rem; }
+
+.account_form {
+  padding: 0 .14rem;
+  margin-top: .2rem; }
+  .account_form input {
+    width: 100%;
+    text-indent: .1rem;
+    height: .4rem;
+    line-height: .4rem;
+    border: .01rem solid #00a8ff;
+    border-radius: .05rem;
+    float: left;
+    margin-top: .1rem; }
+  .account_form input[placeholder], .account_form [placeholder], .account_form *[placeholder] {
+    color: #00a8ff !important; }
+  .account_form ::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #00a8ff !important; }
+  .account_form input.code {
+    width: 2.24rem; }
+  .account_form span.sendMessage {
+    width: 1.07rem;
+    height: .4rem;
+    line-height: .4rem;
+    float: right;
+    margin-top: .1rem; }
+  .account_form .login_btn, .account_form .register_btn, .account_form .submit_btn {
+    line-height: .4rem; }
+    .account_form .login_btn a, .account_form .register_btn a, .account_form .submit_btn a {
+      color: white; }
+  .account_form .back_login {
+    height: .4rem;
+    line-height: .4rem;
+    text-align: center; }
+    .account_form .back_login a {
+      display: block;
+      height: .4rem;
+      line-height: .4rem;
+      color: rgba(255, 255, 255, 0.4); }
+
+/*个人资料*/
+.personalData {
+  text-align: center; }
+  .personalData img {
+    width: .76rem;
+    height: .95rem;
+    margin: .5rem auto 0; }
+  .personalData ul.overview {
+    flex-direction: row; }
+    .personalData ul.overview li {
+      flex-grow: 1;
+      line-height: .3rem; }
+
+/*账单中心*/
+.billTab {
+  flex-direction: row;
+  height: .4rem;
+  line-height: .4rem;
+  border-bottom: .01rem solid #00a8ff; }
+  .billTab li {
+    flex-grow: 1;
+    text-align: center; }
+    .billTab li a {
+      display: inline-block;
+      height: .39rem;
+      font-size: .15rem;
+      color: white;
+      vertical-align: bottom; }
+  .billTab li.active a {
+    color: #00a8ff;
+    border-bottom: .02rem solid #00a8ff; }
+
+.totalSum {
+  text-align: center;
+  line-height: .5rem;
+  margin-top: .5rem; }
+
+.billItems {
+  flex-direction: column;
+  padding: 0 .15rem; }
+  .billItems li {
+    line-height: .2rem;
+    border-bottom: .01rem solid #00a8ff;
+    padding-top: .1rem; }
+
+/*客服中心*/
+.clientService {
+  padding: 0 .2rem;
+  margin-top: .2rem; }
+  .clientService .icon {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    float: left;
+    vertical-align: middle;
+    margin-right: .1rem; }
+  .clientService .icon.kefu {
+    width: .27rem;
+    height: .27rem;
+    background-image: url(../../img/cion_kef.png); }
+  .clientService p {
+    line-height: .3rem; }
+
+img.wechat {
+  width: .3rem;
+  height: .25rem;
+  background-image: url(../../img/icon_weixin.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  vertical-align: middle;
+  margin-right: .1rem; }
+
+img.weChatgzh {
+  width: 1.62rem;
+  height: 1.62rem; }
+
+/*系统通知*/
+.sysNotices {
+  flex-direction: column;
+  padding: .16rem; }
+  .sysNotices li {
+    background-image: url(../../img/bg_xitongkuang.png);
+    background-repeat: repeat;
+    background-size: 100% 100%;
+    padding: .2rem;
+    margin-bottom: .2rem; }
+    .sysNotices li p {
+      line-height: .3rem;
+      text-align: center; }
+
+ul.lists {
+  flex-direction: column;
+  margin-top: .2rem; }
+  ul.lists li {
+    border-top: .01rem solid #00a8ff;
+    height: .47rem;
+    line-height: .47rem;
+    text-indent: .3rem;
+    padding-right: .2rem;
+    position: relative; }
+    ul.lists li .mark {
+      width: .52rem;
+      height: .19rem;
+      font-size: .12rem;
+      border-style: solid;
+      border-width: .01rem;
+      border-radius: .2rem;
+      margin-left: .1rem;
+      padding: .05rem .1rem; }
+    ul.lists li .mark.authenticated {
+      border-color: #14a842;
+      color: #14a842; }
+      ul.lists li .mark.authenticated a {
+        color: #14a842; }
+    ul.lists li .mark.unauthorized {
+      border-color: #aaa;
+      color: #aaa; }
+      ul.lists li .mark.unauthorized a {
+        color: #aaa; }
+    ul.lists li .go_arrow {
+      display: inline-block;
+      width: .16rem;
+      height: .24rem;
+      background-image: url("../../img/icon_more.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      vertical-align: middle;
+      margin-left: .1rem; }
+  ul.lists li:last-child {
+    border-bottom: .01rem solid #00a8ff; }
+
+/*油卡充值*/
+.profile img {
+  width: .76rem;
+  height: .95rem;
+  margin: .5rem auto 0; }
+
+input.czAmount {
+  /*充值金额*/
+  width: .55rem;
+  height: .3rem;
+  text-align: center;
+  border: .01rem solid #00a8ff;
+  color: white; }
+
+/*实名认证*/
+.certify {
+  width: 3.27rem;
+  height: 1.5rem;
+  line-height: .3rem;
+  background-image: url(../../img/pic_card.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: .2rem auto; }
