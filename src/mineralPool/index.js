@@ -1,51 +1,34 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
+import axios from 'axios';
+import qs from 'qs';
+//引入
+import copy from 'copy-to-clipboard';
+
 import Tab from './../Tab';
+import Title from './../Title';
 import './../css/css/mineralPool.css';
-const mineralItems = [
-    {
-        pic: require("../img/pic_toux.png"),
-        id: "1175554",
-        grade: '普通矿工',
-        sl: 2,
-        kj_sum: 0,
-        zt_sum: 12,
-        team_sum: 3
-    },
-    {
-        pic: require("../img/pic_toux.png"),
-        id: "1175554",
-        grade: '普通矿工1',
-        sl: 2,
-        kj_sum: 0,
-        zt_sum: 12,
-        team_sum: 3
-    },
-    {
-        pic: require("../img/pic_toux.png"),
-        id: "1175554",
-        grade: '普通矿工2',
-        sl: 2,
-        kj_sum: 0,
-        zt_sum: 12,
-        team_sum: 3
-    },
-    {
-        pic: require("../img/pic_toux.png"),
-        id: "1175554",
-        grade: '普通矿工3',
-        sl: 2,
-        kj_sum: 0,
-        zt_sum: 12,
-        team_sum: 3
-    }
-]
+
 class MineralPool extends Component {
     constructor (props){
         super(props);
         this.state = {
+            token: localStorage.getItem("token"),
+            code: "",
+            force: 0, //算力
+            num: 0, //总矿工数
+            tabIndex: 0,
+            orePoolTuiAjaxed: false,  //是否已经请求过
+            orePoolTeamAjaxed: false,
+            mineralItems: [],
+            tuiItems: [],
+            teamItems: [],
             dlgZtDlgShow: false,
             dlgZtMessageShow: false,
-            shadowShow: false
+            shadowShow: false,
+            dlgIdNum: "",
+            dlgIdPhone: "",
+            tanTuiMsg: {count: 0, items: []}  //总矿工数弹窗的数据
         };
     }
     handleZtDlgEvent (e){
@@ -60,11 +43,15 @@ class MineralPool extends Component {
             this.setState({
                 dlgZtDlgShow: true,
                 shadowShow: true
+            }, function(){
+                this.tanTuiMsgAjax()
             })
         }
     }
     handleMessageDlg (e){
         const type = e.type;
+        const id = e.id;
+        const phone = e.phone;
         if(type === "close"){
             this.setState({
                 dlgZtMessageShow: false,
@@ -74,55 +61,172 @@ class MineralPool extends Component {
         if(type === "open"){
             this.setState({
                 dlgZtMessageShow: true,
-                shadowShow: true
+                shadowShow: true,
+                dlgIdNum: id,
+                dlgIdPhone: phone
             })
         }
     }
+    handleDealTab (e){ //tab切换
+        const type = e.type;
+        let tabIndex = 0;
+        if(type === "tui"){ //直推
+            tabIndex = 0;
+        }
+        if(type === "team"){ //团队
+            tabIndex = 1;
+        }
+        this.setState({
+            tabIndex: tabIndex
+        }, function(){
+            this.orePoolItemsAjax();
+        })
+        
+    }
+    copy (e){
+        //使用方法
+        copy(e.text);
+        alert('复制成功');
+    }
+    orePoolAjax (){  //总览的数据获取
+        const baseUrl = window.baseUrl;
+        const token = this.state.token;
+        const self = this;
+        axios.post(baseUrl + "/home/Trade/orePool", qs.stringify({
+            token: token
+        })).then(res => {
+            const data = res.data;
+            const code = data.code;
+            if(code === 1){  //成功
+                this.setState({
+                    force: data.data.force, //算力
+                    num: data.data.num, //总矿工数
+                })
+            }
+            self.setState({
+                code: data.code
+            })
+        })
+    }
+    orePoolItemsAjax (){  //直推、团队下面的明细列表的数据获取
+        const baseUrl = window.baseUrl;
+        const token = this.state.token;
+        const self = this;
+        const extraUrl = this.state.tabIndex === 0 ? "orePoolTui" : "orePoolTeam";
+        axios.post(baseUrl + "/home/Trade/" + extraUrl, qs.stringify({
+            token: token
+        })).then(res => {
+            const data = res.data;
+            const code = data.code;
+            if(code === 1){  //成功
+                this.setState({
+                    mineralItems: data.data,
+                    tuiItems: data.data
+                })
+            }
+            self.setState({
+                code: data.code
+            });
+        })
+    }
+    getTanTuiMsgItems (data){
+        return [
+            {text: "入门矿工", count: data.one},
+            {text: "初级矿工", count: data.two},
+            {text: "中级矿工", count: data.three},
+            {text: "高级矿工", count: data.four},
+            {text: "顶级矿工", count: data.five},
+        ]
+    }
+    tanTuiMsgAjax (){  //点击 总矿工数的 弹窗的数据获取
+        const baseUrl = window.baseUrl;
+        const token = this.state.token;
+        const self = this;
+        axios.post(baseUrl + "/home/Trade/tanTuiMsg", qs.stringify({
+            token: token
+        })).then(res => {
+            const data = res.data;
+            const code = data.code;
+            if(code === 1){  //成功
+                this.setState({
+                    tanTuiMsg: {
+                        count: data.data.count,
+                        items:  self.getTanTuiMsgItems(data.data)
+                    }
+                })
+            }
+            self.setState({
+                code: data.code
+            });
+        })
+    }
+    componentDidMount (){
+        this.orePoolAjax();
+        this.orePoolItemsAjax();
+    }
     render (){
         const self = this;
+        const mineralItems = this.state.mineralItems;
+        const tabs = [
+            {type: "tui", text: "直推"},
+            {type: "team", text: "团队"},
+        ];
+        if(this.state.code === 10002){  //token 过期
+            localStorage.removeItem("logined")
+            return (
+                <Redirect to="/account"/>
+            )
+        }
         return <div>
+            <Title title="矿池"/>
             <div style={{padding: '0 .11rem'}}>
                 <div className="pool_overview f_flex">
                     <div>
                         <p className="fc_white fz_26">矿池算力（T）</p>
                         <p className="fc_gray fz_22">(截至昨天)</p>
-                        <p className="fc_yellow fz_60">32</p>
+                        <p className="fc_yellow fz_60">{this.state.force}</p>
                     </div>
                     <div onClick = {e => {
                         self.handleZtDlgEvent({type: "open"})
                     }}>
                         <p className="fc_white fz_26">总矿工数</p>
                         <p className="fc_gray fz_22">(截至昨天)</p>
-                        <p className="fc_yellow fz_60">14</p>
+                        <p className="fc_yellow fz_60">{this.state.num}</p>
                     </div>
                 </div>
                 <ul className="deal_tab f_flex fz_30">
-                    <li className="active" style={{ borderTopLeftRadius: '.25rem', borderBottomLeftRadius: '.25rem'}}>
-                        <a><span>直推</span></a>
-                    </li>
-                    <li>
-                        <a><span>团队</span></a>
-                    </li>
+                {
+                    tabs.map(function(obj, i){
+                        return <li key = {i} className={self.state.tabIndex === i ? "active" : ""}
+                         style={{ borderTopLeftRadius: '.25rem', borderBottomLeftRadius: '.25rem'}}>
+                            <a
+                                onClick = {e => {
+                                    self.handleDealTab({type: obj.type})
+                                }}
+                            ><span>{obj.text}</span></a>
+                        </li>
+                    })
+                }
                 </ul>
                 <ul className="mineralItems f_flex">
                     {
-                        mineralItems.map(function(item, i){
+                        mineralItems.length > 0 && mineralItems.map(function(item, i){
                             return <li key={i} onClick = {e => {
-                                self.handleMessageDlg({type: "open"})
+                                self.handleMessageDlg({type: "open", id: item.id_num, phone: item.phone})
                             }}>
                                 <div className="f_flex">
                                     <div><img src={item.pic} alt=""/></div>
                                     <div>
-                                        <p>ID：{item.id}</p>
-                                        <p>{item.grade}</p>
+                                        <p>ID：{item.id_num}</p>
+                                        <p>{item.level}</p>
                                     </div>
                                     <div>
-                                        <p>算力：{item.sl}</p>
-                                        <p>直推：{item.zt_sum}</p>
+                                        <p>算力：{item.force}</p>
+                                        <p>直推：{item.tui_num}</p>
                                     </div>
                                     <div>
-                                        <p>矿机：{item.kj_sum}</p>
-                                        <p>团队{item.team_sum}</p>
+                                        <p>矿机：{item.count}</p>
+                                        <p>团队：{item.team_num}</p>
                                     </div>
                                 </div>
                             </li>
@@ -137,18 +241,14 @@ class MineralPool extends Component {
                 }}></a>
                 <div style={{padding: '.25rem .45rem'}}>
                     <ul className="f_flex">
-                        <li>
-                            <span>总直推数：6</span>
-                            <span className="f_rt">四级矿工：6</span>
-                        </li>
-                        <li>
-                            <span>总直推数：6</span>
-                            <span className="f_rt">四级矿工：6</span>
-                        </li>
-                        <li>
-                            <span>总直推数：6</span>
-                            <span className="f_rt">四级矿工：6</span>
-                        </li>
+                    {
+                        this.state.tanTuiMsg.items.map(function(item){
+                            return  <li>
+                                <span>总直推数：{self.state.tanTuiMsg.conut}</span>
+                                <span className="f_rt">{item.text}：{item.count}</span>
+                            </li>
+                        })
+                    }
                     </ul>
                 </div>
             </div>
@@ -160,13 +260,21 @@ class MineralPool extends Component {
                 <div style={{padding: '.25rem .35rem'}}>
                     <div>
                         <span className="label">ID</span>
-                        <span className="message">24343434342</span>
-                        <span className="btn">复制</span>
+                        <span className="message">{this.state.dlgIdNum}</span>
+                        <span className="btn" 
+                            onClick = {e => {
+                                this.copy({text: this.state.dlgIdNum})
+                            }}
+                        >复制</span>
                     </div>
                     <div style={{marginTop: '.245rem'}}>
                         <span className="label">TEL</span>
-                        <span className="message">182636645323</span>
-                        <span className="btn">复制</span>
+                        <span className="message">{this.state.dlgIdPhone}</span>
+                        <span className="btn"
+                             onClick = {e => {
+                                this.copy({text: this.state.dlgIdPhone})
+                            }}
+                        >复制</span>
                     </div>
                 </div>
             </div>

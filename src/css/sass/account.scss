@@ -11,15 +11,58 @@
 .account_form{
     padding: 0 .14rem;
     margin-top: .2rem;
-    input{
-        width: 100%;
-        text-indent: .1rem;
+    div{
         height: .4rem;
         line-height: .4rem;
         border: .01rem solid #00a8ff;
         border-radius: .05rem;
-        float: left;
+        position: relative;
         margin-top: .1rem;
+        label{
+            width: 20%;
+            float: left;
+            position: absolute;
+            left: .15rem;
+        }
+    }
+    input{
+        width: 79%;
+        text-indent: .1rem;
+       border: none;
+       height: .4rem;
+       line-height: .4rem;
+        float: right;
+        
+    }
+    
+    input.code{
+        // width: 2.24rem;
+    }
+    span.sendMessage{
+        width: 1.07rem;
+        height: .4rem;
+        line-height: .4rem;
+        float: right;
+    }
+    
+    
+}
+.login_btn, .register_btn, .submit_btn{
+    line-height: .4rem;
+    a{
+        color: white
+    }
+}
+.primary_form{
+    input{
+        width: 100%;
+        text-indent: .15rem;
+        height: .4rem;
+        line-height: .4rem;
+        border: .01rem solid #00a8ff;
+        border-radius: .05rem;
+        float: right;
+        margin-top: .2rem;
     }
     input[placeholder], [placeholder], *[placeholder] {   
         color: #00a8ff !important;
@@ -29,19 +72,14 @@
     }
     input.code{
         width: 2.24rem;
+        float: left;
     }
     span.sendMessage{
         width: 1.07rem;
         height: .4rem;
         line-height: .4rem;
         float: right;
-        margin-top: .1rem;
-    }
-    .login_btn, .register_btn, .submit_btn{
-        line-height: .4rem;
-        a{
-            color: white
-        }
+        margin-top: .2rem;
     }
     .back_login{
         height: .4rem;
@@ -236,4 +274,12 @@ input.czAmount{  /*充值金额*/
     background-repeat: no-repeat;
     background-size: 100% 100%;
     margin: .2rem auto;
+}
+/*记住密码*/
+.keepPwd{
+    display: inline-block;
+    width: .12rem;
+    height: .12rem;
+    border: .01rem solid #00a8ff;
+    border-radius: .05rem;
 }

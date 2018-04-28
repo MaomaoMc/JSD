@@ -1,10 +1,27 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import WeChat from './WeChat';
 import AboutJsd from './AboutJsd';
 
 class SystemSet extends Component{
+    constructor(props) {
+        super(props);
+        this.state = { 
+          exitApp: false,
+        };
+      }
+    exitApp (){ //退出程序
+        this.setState({
+            exitApp: true
+        })
+    }
     render (){
+        if(this.state.exitApp) {
+            localStorage.removeItem("logined");
+            return (
+                <Redirect to="/account"/>
+            )
+        }
         return <div>
             <div className="title"><span className="arrow back_arrow"></span>系统设置<span className="refresh"></span></div>
             <ul className="lists f_flex fz_26" style={{marginTop: 0}}>
@@ -37,7 +54,12 @@ class SystemSet extends Component{
                 </li>
             </ul>
             <div style={{padding: '0 .2rem'}}>
-                <span className="btn btn_primary fz_26" style={{width: "100%", height: ".45rem", lineHeight: '.45rem'}}>退出程序</span>
+                <span className="btn btn_primary fz_26"
+                 style={{width: "100%", height: ".45rem", lineHeight: '.45rem'}}
+                 onClick = {e => {
+                     this.exitApp()
+                 }}
+                >退出程序</span>
             </div>
         </div>
     }

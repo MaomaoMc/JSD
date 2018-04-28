@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import './../css/css/account.css';
 import axios from 'axios';
+import qs from 'qs';
 import MachineM from '../machineMarket/index';
+import ForgetPwd from './ForgetPwd';
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    const l_pass = localStorage.getItem("password");
     this.state = { 
-      logined: false,
-      phone: "12312",
-      pwd: "231223q"
+      logined: localStorage.getItem("logined"),
+      keepPwd: false,
+      phone: "18796271508",
+      l_pass: l_pass ? l_pass : ""
     };
   }
   changeInputVal = (obj) => { //input change事件
@@ -21,31 +25,47 @@ class Login extends Component {
           phone: val
         })
       }
-      if(name === "pwd"){
+      if(name === "l_pass"){
         this.setState({
-          pwd: val
+          l_pass: val
         })
       }
   }
-  login = (e) => { //登录
-    console.log(this.props)
-    const phone = this.state.phone;
-    const l_pass = this.state.pwd;
-    localStorage.setItem("logined", true);
+  keepPwdEvent (){ //记住密码
+    const keepPwd = this.state.keepPwd;
+    const l_pass = this.state.l_pass;
     this.setState({
-      logined: true
+      keepPwd: !keepPwd
+    }, function(){
+      localStorage.setItem("password", l_pass);
     })
-    // axios.post('http://jsd.com/home/Login/login',{
-    //     phone: phone,
-    //     l_pass: l_pass
-    //   })
-    //   .then(function(res){
-    //     console.log(res);
-    //   })
-    //   .catch(function(err){
-    //     console.log(err);
-    // });
-    
+  }
+  checkMobile (phone){ //手机号码验证
+    if(!(/^1[3|4|5|8|9][0-9]\d{4,8}$/.test(phone))){ 
+     return false; 
+    } else{
+      return true;
+    }
+  }
+  login = (e) => { //登录
+    const phone = this.state.phone;
+    const l_pass = this.state.l_pass;
+    if(!this.checkMobile(phone)){
+      alert("请输入正确的手机号码");
+    }
+    axios.post('http://syjsd.it8851.com/home/Login/login', qs.stringify({
+      phone: phone,
+      l_pass: l_pass
+    })).then(re=>{
+      const data = re.data;
+      if(data.code == 1){
+        localStorage.setItem("logined", true);
+        localStorage.setItem("token", data.data.token);
+        this.setState({
+          logined: true
+        })
+      }
+    })
   }
   render() {
     if(this.state.logined) {
@@ -56,20 +76,26 @@ class Login extends Component {
     return (
       <div>
         <div className="logo"></div>
-        <div className="over_hidden account_form" style={{width: '3.392rem', margin: '0 auto'}}>
+        <div className="over_hidden primary_form" style={{width: '3.392rem', margin: '0 auto'}}>
             <div style={{padding: '0 .15rem'}}>
               <input className="h_80" type="text" placeholder="手机号" name="phone" value={this.state.phone}
               onChange={e => {
                 this.changeInputVal({'name': e.target.name, 'val': e.target.value})
               }} />
-              <input className="h_80 mt_50" type="text" placeholder="请输入密码" name="pwd" value={this.state.pwd}
-              onChange={this.changeInputVal.bind(this)} />
-              <div className="f_lt mt_50" style={{width: '100%'}}>
+              <input className="h_80 mt_50" type="password" placeholder="请输入密码" name="l_pass" value={this.state.l_pass}
+              onChange={e => {
+                this.changeInputVal({'name': e.target.name, 'val': e.target.value})
+              }} />
+              <div className="f_lt mt_50" style={{width: '100%', lineHeight: '.15rem'}}>
                 <span>
-                  <input className="f_lt" type="radio"/>
+                  <span className="keepPwd fz_30 fc_white f_lt"
+                    onClick = {e => {
+                      this.keepPwdEvent()
+                    }}
+                  >{this.state.keepPwd ? <span>√</span> : null}</span>
                   <label className="fz_26 fc_blue f_lt ml_10">记住密码</label>
                 </span>
-                <span className="fz_26 fc_blue f_rt">忘记密码？</span>
+                <Link to = "/account/forgetLoginPwd" component = {ForgetPwd}><span className="fz_26 fc_blue f_rt">忘记密码？</span></Link>
               </div>
               <span className="btn btn_primary login_btn h_80 fz_26 f_lt mt_50" style={{width: '100%'}}
               onClick={e => {

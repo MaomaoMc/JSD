@@ -8,7 +8,7 @@ class Tab extends Component {
         return <div>
             <ul className="tabUl">
                 <li>
-                    <Link to="/"><span className="icon js_icon"></span><p>机市</p></Link>
+                    <Link to="/machineMarket"><span className="icon js_icon"></span><p>机市</p></Link>
                 </li>
                 <li>
                     <Link to="/mineralPool"><span className="icon kc_icon"></span><p>矿池</p></Link>

@@ -21,7 +21,7 @@ import ChangeTradePwd from './ChangeTradePwd';
 import ChangeLoginPwd from './ChangeLoginPwd';
 import CreditCertify from './CreditCertify';  //银行卡认证
 import SetHead from './SetHead';  //银行卡认证
-// import ForgetTradePwd from './ForgetTradePwd';
+import ForgetPwd from './ForgetPwd';
 
 const logined = localStorage.getItem("logined"); //判断是否已经登陆了
 
@@ -48,7 +48,8 @@ class Account extends Component {
                 <Route path="/account/changeLoginPwd" component = {ChangeLoginPwd} />
                 <Route path="/account/creditCertify" component = {CreditCertify} />
                 <Route path="/account/setHead" component = {SetHead} />
-                {/* <Route path="/account/forgetTradePwd" component = {ForgetTradePwd} /> */}
+                <Route path="/account/forgetLoginPwd" component = {ForgetPwd} />
+                <Route path="/account/forgetTradePwd" component = {ForgetPwd} />
                 <Route path="/account" component = {logined == "true" ? Personal : Login} />
             </Switch>
         </div>

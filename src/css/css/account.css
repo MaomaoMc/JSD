@@ -12,41 +12,73 @@
 .account_form {
   padding: 0 .14rem;
   margin-top: .2rem; }
-  .account_form input {
-    width: 100%;
-    text-indent: .1rem;
+  .account_form div {
     height: .4rem;
     line-height: .4rem;
     border: .01rem solid #00a8ff;
     border-radius: .05rem;
-    float: left;
+    position: relative;
     margin-top: .1rem; }
-  .account_form input[placeholder], .account_form [placeholder], .account_form *[placeholder] {
-    color: #00a8ff !important; }
-  .account_form ::-webkit-input-placeholder {
-    /* WebKit browsers */
-    color: #00a8ff !important; }
-  .account_form input.code {
-    width: 2.24rem; }
+    .account_form div label {
+      width: 20%;
+      float: left;
+      position: absolute;
+      left: .15rem; }
+  .account_form input {
+    width: 79%;
+    text-indent: .1rem;
+    border: none;
+    height: .4rem;
+    line-height: .4rem;
+    float: right; }
   .account_form span.sendMessage {
     width: 1.07rem;
     height: .4rem;
     line-height: .4rem;
-    float: right;
-    margin-top: .1rem; }
-  .account_form .login_btn, .account_form .register_btn, .account_form .submit_btn {
-    line-height: .4rem; }
-    .account_form .login_btn a, .account_form .register_btn a, .account_form .submit_btn a {
-      color: white; }
-  .account_form .back_login {
+    float: right; }
+
+.login_btn, .register_btn, .submit_btn {
+  line-height: .4rem; }
+  .login_btn a, .register_btn a, .submit_btn a {
+    color: white; }
+
+.primary_form input {
+  width: 100%;
+  text-indent: .15rem;
+  height: .4rem;
+  line-height: .4rem;
+  border: .01rem solid #00a8ff;
+  border-radius: .05rem;
+  float: right;
+  margin-top: .2rem; }
+
+.primary_form input[placeholder], .primary_form [placeholder], .primary_form *[placeholder] {
+  color: #00a8ff !important; }
+
+.primary_form ::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #00a8ff !important; }
+
+.primary_form input.code {
+  width: 2.24rem;
+  float: left; }
+
+.primary_form span.sendMessage {
+  width: 1.07rem;
+  height: .4rem;
+  line-height: .4rem;
+  float: right;
+  margin-top: .2rem; }
+
+.primary_form .back_login {
+  height: .4rem;
+  line-height: .4rem;
+  text-align: center; }
+  .primary_form .back_login a {
+    display: block;
     height: .4rem;
     line-height: .4rem;
-    text-align: center; }
-    .account_form .back_login a {
-      display: block;
-      height: .4rem;
-      line-height: .4rem;
-      color: rgba(255, 255, 255, 0.4); }
+    color: rgba(255, 255, 255, 0.4); }
 
 /*个人资料*/
 .personalData {
@@ -201,3 +233,11 @@ input.czAmount {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   margin: .2rem auto; }
+
+/*记住密码*/
+.keepPwd {
+  display: inline-block;
+  width: .12rem;
+  height: .12rem;
+  border: .01rem solid #00a8ff;
+  border-radius: .05rem; }

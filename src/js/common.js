@@ -37,3 +37,4 @@ console.log(docHtml.getAttribute('data-dpr'))
     docHtml.addEventListener('DOMContentLoaded', setHtmlFontSize, false);
 
 })(window);
+window.baseUrl = "http://syjsd.it8851.com"

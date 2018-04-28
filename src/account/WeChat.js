@@ -8,7 +8,7 @@ class WeChat extends Component{
             <div className="title"><span className="arrow back_arrow"></span>微信公众号<span className="refresh"></span></div>
             <div className="text_center fz_24">
                 <p class="fc_white" style={{lineHeight: '.8rem'}}>
-                    <img className="wechat" src={wechat}></img>
+                    <img className="wechat" src={wechat} alt="" />
                     <span>JSD微信官方公众号：</span>
                 </p>
                 <img className="weChatgzh" src={wechat_gzh} alt=""/>

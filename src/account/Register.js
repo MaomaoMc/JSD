@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import '../css/css/common.css';
-import '../css/css/account.css';
-console.log("67yhgb")
+import './../css/css/account.css';
 
+import Title from '../Title';
 class Register extends Component {
     register () {
         
     }
     render (){
         return <div>
+            <Title title="注册页面"/>
             <div className="logo"></div>
             <p className="fc_white fz_30 text_center">创建账户</p>
-            <div className="account_form">
+            <div className="primary_form" style={{width: '3.392rem', margin: '0 auto'}}>
                 <input type="text" name="" placeholder="手机号："/>
                 <div>
                     <input className="code" type="text" placeholder="验证码：" />
