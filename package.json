@@ -25,6 +25,7 @@
     "axios": "^0.18.0",
     "clipboard": "^2.0.0",
     "copy-to-clipboard": "^3.0.8",
+    "echarts": "^4.0.4",
     "fetch": "^1.1.0",
     "qs": "^6.5.1"
   },

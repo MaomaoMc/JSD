@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import Tab from './../Tab';
+import Title from './../Title';
 import axios from "axios";
 import qs from 'qs';
 import './../css/css/machineM.css'; //机市css
@@ -100,6 +101,7 @@ class MachineM extends Component {
         const self = this;
         const data = this.state.data;
         return <div>
+            <Title  title="机市"/>
             <div style={{padding: '0 .11rem'}}>
                 {
                      data.length > 0 && data.map(function (item, i) {

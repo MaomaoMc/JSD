@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {} from 'react-router-dom';
+import Title from "./../Title";
 
 const dealItems = [
     {
@@ -67,9 +68,11 @@ class DealItems extends Component {
                                 <span className="f_rt fc_white">ID：{item.id}</span>
                             </p>
                             <p className="fc_white text_center" style={{lineHeight: ".5rem"}}>{item.items}</p>
-                            <span className="btn" onClick = { e => {
-                                self.handleSellEvent({})
-                            }}>卖给他</span>
+                            <p className="text_center">
+                                <span className="btn" onClick = { e => {
+                                    self.handleSellEvent({})
+                                }}>卖给他</span>
+                            </p>
                         </li>
                     })
                 }

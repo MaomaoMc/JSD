@@ -69,6 +69,7 @@ ul.guadanTab{
     position: fixed;
     left: 0;
     bottom: .65rem;
+    z-index: 99;
     li{
         flex-grow: 1;
         height: .935rem;

@@ -54,7 +54,8 @@ ul.guadanTab {
   border-bottom: .01rem solid #00a8ff;
   position: fixed;
   left: 0;
-  bottom: .65rem; }
+  bottom: .65rem;
+  z-index: 99; }
   ul.guadanTab li {
     flex-grow: 1;
     height: .935rem;

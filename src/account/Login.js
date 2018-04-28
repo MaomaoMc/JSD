@@ -63,8 +63,21 @@ class Login extends Component {
         localStorage.setItem("token", data.data.token);
         this.setState({
           logined: true
+        }, function(){
+          this.getSundry(data.data.token);
         })
       }
+    })
+  }
+  getSundry (token) { //一些杂项的数据
+    axios.post(window.baseUrl + "/home/Login/getSundry", qs.stringify({
+      token: token,
+    })).then(re=>{
+      const data = re.data;
+      const code = re.code;
+     if(data.code === 1){ //成功
+      localStorage.setItem("sundryData", data.data);  //后面的页面时不时要用到的 先存着
+     }
     })
   }
   render() {

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import Title from './../Title';
+import axios from 'axios';
+import qs from 'qs';
 import '../css/css/deal.css';
 
 class Ptp extends Component {
     render(){
-        return <div> 
+        return <div style={{paddingBottom: "2rem"}}> 
             <div className="ptpFrom mt_20">
                 <ul className="f_flex">
                     <li>

@@ -4,13 +4,15 @@ import PriceItem from './PriceItem';
 import DealTab from './DealTab';
 import GuaDanTab from './GuaDanTab';
 import Tab from './../Tab';
+import Title from './../Title';
 import Price from './Price';
 import Ptp from './Ptp';
 import DealItems from './DealItems';
 
 class Deal extends Component {
     render(){
-        return <div> 
+        return <div style={{marginBottom: '2rem'}}> 
+        <Title  title="交易"/>
             <PriceItem />
             <DealTab />
             <GuaDanTab />
