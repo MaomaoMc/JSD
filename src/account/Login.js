@@ -76,7 +76,7 @@ class Login extends Component {
       const data = re.data;
       const code = re.code;
      if(data.code === 1){ //成功
-      localStorage.setItem("sundryData", data.data);  //后面的页面时不时要用到的 先存着
+      localStorage.setItem("sundryData", JSON.stringify(data.data));  //后面的页面时不时要用到的 先存着
      }
     })
   }

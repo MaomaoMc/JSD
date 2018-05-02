@@ -11,11 +11,6 @@ import GuaDan from './guadan/index.js';
 // import registerServiceWorker from './registerServiceWorker';
 
 
-//     header: {
-//         "Access-Control-Allow-Origin": "*"
-//     }
-// }
-
 ReactDOM.render(
         <Router>
             <div>

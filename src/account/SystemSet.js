@@ -11,13 +11,15 @@ class SystemSet extends Component{
         };
       }
     exitApp (){ //退出程序
+        localStorage.removeItem("logined");
+        console.log(localStorage.getItem("logined"), 'exit')
         this.setState({
             exitApp: true
         })
     }
     render (){
         if(this.state.exitApp) {
-            localStorage.removeItem("logined");
+            console.log(localStorage.getItem("logined"), 'exit2')
             return (
                 <Redirect to="/account"/>
             )

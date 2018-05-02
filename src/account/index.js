@@ -24,7 +24,7 @@ import SetHead from './SetHead';  //银行卡认证
 import ForgetPwd from './ForgetPwd';
 
 const logined = localStorage.getItem("logined"); //判断是否已经登陆了
-
+console.log(logined == "true", logined, 'loginedlogined')
 class Account extends Component {
     render(){
         return <div> 
@@ -50,7 +50,7 @@ class Account extends Component {
                 <Route path="/account/setHead" component = {SetHead} />
                 <Route path="/account/forgetLoginPwd" component = {ForgetPwd} />
                 <Route path="/account/forgetTradePwd" component = {ForgetPwd} />
-                <Route path="/account" component = {logined == "true" ? Personal : Login} />
+                <Route path="/account" component = {localStorage.getItem("logined") == "true" ? Personal : Login} />
             </Switch>
         </div>
     }

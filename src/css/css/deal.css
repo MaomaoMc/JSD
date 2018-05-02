@@ -84,7 +84,9 @@ ul.guadanTab {
         width: .95rem;
         color: #00a8ff; }
       .ptpFrom ul li input {
-        border: none; }
+        border: none;
+        height: .3rem;
+        line-height: .3rem; }
       .ptpFrom ul li input[placeholder], .ptpFrom ul li [placeholder], .ptpFrom ul li *[placeholder] {
         color: rgba(255, 255, 255, 0.3) !important; }
       .ptpFrom ul li ::-webkit-input-placeholder {
@@ -126,6 +128,8 @@ ul.dealItems {
   background-image: url(../../img/bg_mima.png);
   margin-left: -1.5225rem;
   margin-top: -1rem; }
+  .dlgPayPwd input {
+    color: white; }
 
 .dialog {
   background-repeat: no-repeat;

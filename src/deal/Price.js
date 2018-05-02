@@ -13,25 +13,6 @@ class Price extends Component {
             priceData: []
         };
     }
-    ajax () {
-        const token = this.state.token;
-        const self = this;
-        axios.post(window.baseUrl + "/home/Trade/tradeMsg", qs.stringify({
-            token: token
-        })).then(res => {
-            const data = res.data;
-            const code = data.code;
-            if(code === 1){  //成功
-                this.setState({
-                    force: data.data.force, //算力
-                    num: data.data.num, //总矿工数
-                })
-            }
-            self.setState({
-                code: data.code
-            })
-        })
-    }
     priceAjax () { //价格折线图数据获取
         const token = this.state.token;
         const self = this;
@@ -148,7 +129,6 @@ class Price extends Component {
         });
     }
     componentDidMount () {
-        this.ajax();
         this.priceAjax();
     }
     render (){

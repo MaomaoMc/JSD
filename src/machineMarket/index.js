@@ -14,9 +14,10 @@ class MachineM extends Component {
             data: [],
             token: "",
             id: "",
-          dlgShow: false,
-          jsdShortDlgShow: false,
-          tradePassPwd: ""
+            dlgShow: false,
+            jsdShortDlgShow: false,
+            tradePassPwd: "",
+            code: ""
         };
       }
     handlePwdEvent (e){  //交易密码
@@ -81,18 +82,20 @@ class MachineM extends Component {
             token: token,
           })).then(re=>{
             const data = re.data;
-            const code = re.code;
-           if(data.code === 10002){
+            const code = data.code;
+           if(code === 10002){
                localStorage.removeItem("logined");
-               
            }
-           if(data.code === 1){ //成功
+           if(code === 1){ //成功
             self.setState({
                 data: data.data,
                 token: token
             })
            }
-          })
+           self.setState({
+            code: code
+           })
+        })
     }
     componentDidMount (){
         this.ajax();
@@ -100,6 +103,12 @@ class MachineM extends Component {
     render(){
         const self = this;
         const data = this.state.data;
+        console.log(this.state.code, 'this.state.code')
+        if(this.state.code === 10002){  //token 过期
+            return (
+                <Redirect to="/account"/>
+            )
+        }
         return <div>
             <Title  title="机市"/>
             <div style={{padding: '0 .11rem'}}>
@@ -146,7 +155,7 @@ class MachineM extends Component {
                     </div>
                 </div>
             </div>
-            <div className={this.state.jsdShortDlgShow ? "dialog jsdShortDlg fc_white fz_24" : "dialog jsdShortDlg fc_white fz_24 hide"}>JSD不足</div>
+            <div className={this.state.jsdShortDlgShow ? "dialog warningDlg jsdShortDlg fc_white fz_24" : "dialog warningDlg jsdShortDlg fc_white fz_24 hide"}>JSD不足</div>
             <Tab />
         </div>
     }

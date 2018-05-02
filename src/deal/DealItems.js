@@ -1,50 +1,34 @@
 import React, {Component} from 'react';
-import {} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import axios from "axios";
+import qs from "qs";
 import Title from "./../Title";
 
-const dealItems = [
-    {
-        ticketNum: '1806807119',
-        id: '11754',
-        items: '挂卖10Mac, 单价14.5元，总计145.00'
-    },
-    {
-        ticketNum: '1806807119',
-        id: '2231',
-        items: '挂卖10Mac, 单价14.5元，总计145.00'
-    },
-    {
-        ticketNum: '1806807119',
-        id: '23123',
-        items: '挂卖10Mac, 单价14.5元，总计145.00'
-    },
-    {
-        ticketNum: '1806807119',
-        id: '243545',
-        items: '挂卖10Mac, 单价14.5元，总计145.00'
-    },
-    {
-        ticketNum: '1806807119',
-        id: '254353432',
-        items: '挂卖10Mac, 单价14.5元，总计145.00'
-    },
-    {
-        ticketNum: '1806807119',
-        id: '876543',
-        items: '挂卖10Mac, 单价14.5元，总计145.00'
-    }
-]
 
 class DealItems extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          dlgShow: false
+          dlgShow: false,
+          page: 1, //默认第一页
+          isLoadingMore: false,
+          dealItems: [],
+          trade_id: "",
+          tradePassPwd: "",
+          code: "",
+          loading: false,
+          data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
         };
       }
     handleSellEvent (e) { //卖给他
         this.setState({
-            dlgShow: true
+            dlgShow: true,
+            trade_id: e.trade_id
+        })
+    }
+    handlePwdEvent (e){  //输入交易密码
+        this.setState({
+            tradePassPwd: e.val
         })
     }
     handlePayPwd (e){ //弹窗 取消/确定
@@ -53,35 +37,155 @@ class DealItems extends Component {
             this.setState({
                 dlgShow: false
             })
+        }else{   //如果是 确定的话  要判断支付密码是否正确了
+            const self = this;
+            const trade_id = this.state.trade_id;
+            const tradePassPwd = this.state.tradePassPwd;
+            axios.post(window.baseUrl + "/home/Trade/selljd", qs.stringify({
+                token: localStorage.getItem("token"),
+                trade_id: trade_id,
+                pass: tradePassPwd
+            })).then(re => {
+                const data = re.data;
+                const code = data.code;
+                if(code === 1){ //购买成功
+                    this.setState({
+                        dlgShow: false,
+                        tradePassPwd: ""
+                    })
+                }
+                if(code === -4){ //支付密码不正确
+                    this.setState({
+                        dlgShow: false,
+                        // jsdShortDlgShow: true,
+                        tradePassPwd: ""
+                    })
+                }
+                if(code === -3){//如果jsd余额不足
+                    this.setState({
+                        dlgShow: false,
+                        jsdShortDlgShow: true,
+                        tradePassPwd: ""
+                    }, function(){
+                        var timer = setTimeout(
+                            function(){
+                                self.setState({
+                                    jsdShortDlgShow: false
+                                })
+                            }
+                        , 1000)
+                    })
+                }
+            })
         }
-        //如果是 确定的话  要判断支付密码是否正确了
+       
+    }
+    componentDidMount (){
+        this.ajax();
+        const wrapper = this.refs.wrapper;
+        const loadMoreDataFn = this.loadMoreDataFn;
+        const that = this; // 为解决不同context的问题
+        let timeCount;
+
+
+        function callback() {
+            const top = wrapper.getBoundingClientRect().top;
+            const windowHeight = window.screen.height;
+            if (top && top < windowHeight) {
+                // 当 wrapper 已经被滚动到页面可视范围之内触发
+                loadMoreDataFn(that);
+            }
+        }
+
+        window.addEventListener('scroll', function () {
+            if (this.state.isLoadingMore) {
+                return ;
+            }
+            if (timeCount) {
+                clearTimeout(timeCount);
+            }
+
+            timeCount = setTimeout(callback, 50);
+        }.bind(this), false);
+    }
+    loadMoreDataFn(that) {
+        that.setState({
+            loading: true
+        }, function(){
+            that.ajax(that.state.page + 1); //翻页了
+        })
+    }
+    ajax (page) {
+        const self = this;
+        const dealItems = this.state.dealItems;
+        axios.post(window.baseUrl + "/home/Trade/tradeRecords", qs.stringify({
+            token: localStorage.getItem("token"),
+            page: page ? page : 1,
+            limit: 10  //每页显示多少条
+        })).then(function(res){
+            const data = res.data;
+            const dataArr = data.data;
+            const code = data.code;
+            if(code === 10002){ //token失效
+                localStorage.removeItem("logined");
+            }
+            if(code === 1){  //成功
+                if(dataArr.length === 0){ //没有数据可展示了
+                    self.setState({
+                        isLoadingMore: true
+                    })
+                }else{
+                    self.setState({
+                        page: page ? page : 1,
+                        dealItems: dealItems.concat(data.data)
+                    })
+                }
+            }
+            self.setState({
+                code: code
+            })
+        })
     }
     render(){
         const self = this;
+        const dealItems = this.state.dealItems;
+        if(this.state.code === 10002){  //token 过期
+            return (
+                <Redirect to="/account"/>
+            )
+        }
         return <div>
             <ul className="dealItems f_flex">
                 {
-                    dealItems.map(function (item, i) {
+                    dealItems.length > 0 && dealItems.map(function (item, i) {
+                        const num = item.num;
+                        const price = item.price;
                         return <li key={i} className="fz_22">
                             <p>
-                                <span className="fc_blue">单号：{item.ticketNum}</span>
-                                <span className="f_rt fc_white">ID：{item.id}</span>
+                                <span className="fc_blue">单号：{item.buy_id}</span>
+                                <span className="f_rt fc_white">ID：{item.trade_id}</span>
                             </p>
-                            <p className="fc_white text_center" style={{lineHeight: ".5rem"}}>{item.items}</p>
+                            <p className="fc_white text_center" style={{lineHeight: ".5rem"}}>挂卖{num}MAC，单价{price}元，总价{Math.round(parseFloat(num * price)*100)/100}</p>
                             <p className="text_center">
                                 <span className="btn" onClick = { e => {
-                                    self.handleSellEvent({})
+                                    self.handleSellEvent({trade_id: item.trade_id})
                                 }}>卖给他</span>
                             </p>
                         </li>
                     })
                 }
             </ul>
+            <div className="loadMore fz_12 fc_gray text_center mt_20" ref="wrapper"
+             onClick={this.loadMoreDataFn.bind(this, this)}>{this.state.isLoadingMore ? "没有更多数据了" : "加载更多"}</div>
             <div className={this.state.dlgShow ? "dialog dlgPayPwd" : "dialog dlgPayPwd hide"}>
                 <p className="dlg_tit fc_white">输入密码</p>
                 <div className="dlg_form">
                     <p className="text_center fz_24 fc_white">请输入支付密码：</p>
-                    <input className="b_blue1" type="text"/>
+                    <input className="b_blue1" type="text" value = {this.state.tradePassPwd} 
+                    onChange = {e => {
+                        this.handlePwdEvent({val: e.target.value})
+                    }}
+                    />
                     <div className="over_hidden" style={{padding: "0 .14rem"}}>
                         <span className="btn fz_24 fc_white f_lt" onClick = {e => {
                             self.handlePayPwd({type: "cancel"})

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import Tab from '../Tab';
+import Title from '../Title';
 import PersonalData from "./PersonalData";
 import Bill from "./Bill";
 import ClientService from "./ClientService";
@@ -103,6 +104,7 @@ const accountMenus = [
 class Personal extends Component {
     render (){
         return <div>
+            <Title title="个人中心"/>
            <div className="assetTotal">
             <div style={{height: '100%', padding:  '0 .5rem'}}>
                 <p className="fc_white fz_30 text_center" style={{lineHeight: '.35rem'}}>资产总额</p>
