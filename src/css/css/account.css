@@ -87,6 +87,20 @@
     width: .76rem;
     height: .95rem;
     margin: .5rem auto 0; }
+  .personalData .file {
+    width: .76rem;
+    height: .95rem;
+    margin: .5rem auto 0;
+    background-size: 100% 100%;
+    position: relative; }
+    .personalData .file input[type='file'] {
+      display: inline-block;
+      width: .76rem;
+      height: .95rem;
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      left: 0; }
   .personalData ul.overview {
     flex-direction: row; }
     .personalData ul.overview li {

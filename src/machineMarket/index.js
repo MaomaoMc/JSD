@@ -103,7 +103,6 @@ class MachineM extends Component {
     render(){
         const self = this;
         const data = this.state.data;
-        console.log(this.state.code, 'this.state.code')
         if(this.state.code === 10002){  //token 过期
             return (
                 <Redirect to="/account"/>
@@ -111,7 +110,7 @@ class MachineM extends Component {
         }
         return <div>
             <Title  title="机市"/>
-            <div style={{padding: '0 .11rem'}}>
+            <div style={{padding: '0 .11rem', marginBottom: ".1rem"}}>
                 {
                      data.length > 0 && data.map(function (item, i) {
                         return <div key={i} className="item">

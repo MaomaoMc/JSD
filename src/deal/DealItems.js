@@ -118,7 +118,10 @@ class DealItems extends Component {
     ajax (page) {
         const self = this;
         const dealItems = this.state.dealItems;
-        axios.post(window.baseUrl + "/home/Trade/tradeRecords", qs.stringify({
+        const type = this.props.type;
+        console.log(type, 'typetype')
+        const str = type === "kanban" ? "tradeList" : "tradeRecords";
+        axios.post(window.baseUrl + "/home/Trade/" + str, qs.stringify({
             token: localStorage.getItem("token"),
             page: page ? page : 1,
             limit: 10  //每页显示多少条
@@ -145,6 +148,15 @@ class DealItems extends Component {
                 code: code
             })
         })
+    }
+    componentDidUpdate (nextProps){
+        if(nextProps.type != this.props.type){
+            this.setState({
+                dealItems: []
+            }, function(){
+                this.ajax();
+            })
+        }
     }
     render(){
         const self = this;

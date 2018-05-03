@@ -103,6 +103,8 @@ const accountMenus = [
 ];
 class Personal extends Component {
     render (){
+        const asset_total = JSON.parse(localStorage.getItem("sundryData"));
+        console.log(asset_total, 'asset_total')
         return <div>
             <Title title="个人中心"/>
            <div className="assetTotal">

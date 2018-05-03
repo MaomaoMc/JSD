@@ -75,37 +75,62 @@ class GuaDan extends Component {
         this.state = { 
             type: type,
             cont: cont,
-            count: 1
+            count: 1,
+            type: "kanban", // 默认看板选中
+            tabIndex: 0,
+            page: 1, //默认第一页啊
+            lists: []
         };
       }
-    ajax () {
-        const token = localStorage.getItem("token");
-        const self = this;
-        axios.post(window.baseUrl + "/home/Login//tradeList", qs.stringify({
-            token: token,
-          })).then(re=>{
-            const data = re.data;
-            const code = re.code;
-           if(data.code === 10002){
-               localStorage.removeItem("logined");
+    // ajax () {
+    //     const token = localStorage.getItem("token");
+    //     const self = this;
+    //     const page = this.state.page;
+    //     axios.post(window.baseUrl + "/home/Login//tradeList", qs.stringify({
+    //         token: token,
+    //         page: page,
+    //         limit: 10
+    //       })).then(re=>{
+    //         const data = re.data;
+    //         const code = re.code;
+    //        if(data.code === 10002){
+    //            localStorage.removeItem("logined");
                
-           }
-           if(data.code === 1){ //成功
-            self.setState({
-                data: data.data,
-                token: token
-            })
-           }
-          })
+    //        }
+    //        if(data.code === 1){ //成功
+    //         self.setState({
+    //             lists: data.data,
+    //             token: token
+    //         })
+    //        }
+    //       })
+    // }
+    handleDealTab (e) {  //tab切换
+        const type = e.type;
+        const tabIndex = e.tabIndex;
+        this.setState({
+            type: type,
+            tabIndex: tabIndex
+        })
     }
     componentDidMount (){
-        this.ajax();
+        // this.ajax();
     }
     render (){
         const type = this.state.type;
         const cont = this.state.cont;
         const count = this.state.count;
         const self = this;
+        const tabs = [
+            {
+                type: "kanban",
+                text: "买家看板"
+            },
+            {
+                type: "dealRecord",
+                text: "交易记录"
+            }
+        ];
         return <div>
             <Title title="挂单"/>
             <div style={{marginBottom: ".4rem"}}>
@@ -134,16 +159,17 @@ class GuaDan extends Component {
                     </div>
                     <div style={{padding: '0 .25rem'}}>
                         <ul className="deal_tab f_flex fz_30">
-                            <li className="active">
-                                <a><span>买家看板</span></a>
-                            </li>
-                            <li>
-                                <a><span>交易记录</span></a>
-                            </li>
+                        {
+                            tabs.map(function(item, index){
+                                return <li key = {index} className = {index === self.state.tabIndex ? "active" : ""}>
+                                    <a onClick = {e => {self.handleDealTab({type: item.type, tabIndex: index}) }}>{item.text}</a>
+                                </li>
+                            })
+                        }
                         </ul>
                     </div>
                 </div>
-                <DealItems />
+                <DealItems type={this.state.type} />
             </div>
         </div>
     }

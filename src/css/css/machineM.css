@@ -19,14 +19,13 @@ div.item {
       line-height: .2rem;
       color: white; }
     div.item div.goodItem .cart {
-      width: .92rem;
       height: .245rem;
       line-height: .245rem;
-      text-indent: .15rem;
       color: white;
       background-color: rgba(255, 251, 2, 0.5);
       border: .01rem solid #fffb02;
       border-radius: .15rem;
+      padding: 0 .1rem;
       position: absolute;
       right: .19rem; }
       div.item div.goodItem .cart .cart_icon {
