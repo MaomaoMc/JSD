@@ -207,6 +207,7 @@ ul.dealItems {
       display: inline-block;
       width: .415rem;
       height: .355rem;
+      line-height: .3rem;
       background: linear-gradient(to right, rgba(255, 255, 255, 0.075) 90%, transparent 0);
       background-size: .03rem 100%;
       position: absolute;
@@ -219,6 +220,16 @@ ul.dealItems {
       right: 0;
       border-top-right-radius: .5rem;
       border-bottom-right-radius: .5rem; }
+    .guadanItems .price_adjust div.unit_price input.price_ipt {
+      height: .335rem;
+      width: 1.36rem;
+      color: white;
+      text-align: center;
+      border: none;
+      position: absolute;
+      left: .415rem;
+      top: 0;
+      margin: 0 !important; }
   .guadanItems .price_adjust .draft_opt {
     height: .025rem;
     border-radius: .025rem;

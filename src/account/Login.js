@@ -53,7 +53,7 @@ class Login extends Component {
     if(!this.checkMobile(phone)){
       alert("请输入正确的手机号码");
     }
-    axios.post('http://syjsd.it8851.com/home/Login/login', qs.stringify({
+    axios.post(window.baseUrl + '/home/Login/login', qs.stringify({
       phone: phone,
       l_pass: l_pass
     })).then(re=>{

@@ -107,31 +107,45 @@ class Personal extends Component {
     constructor (props){
         super(props);
         this.state = {
-            data: {}
+            data: {
+                total: 0,
+                jd_num: 0,
+                djd_num: 0,
+                code: ""
+            }
         }
     }
     ajax (){
+        const self = this;
         axios.post(window.baseUrl + "/home/Member/myMoney", qs.stringify({
             token: localStorage.getItem("token")
         })).then(function(res){
-
+            const data = res.data;
+            const code = data.code;
+            if(code === 1){ //成功
+                self.setState({
+                    data: data.data
+                })  
+            }
+            self.setState({
+                code: code
+            })
         })
     }
     componentDidMount (){
         this.ajax();
     }
     render (){
-        const asset_total = JSON.parse(localStorage.getItem("sundryData"));
-        console.log(asset_total, 'asset_total')
+        const data = this.state.data;
         return <div>
-            <Title title="个人中心"/>
+            <Title title="个人中心" code = {this.state.code}/>
            <div className="assetTotal">
             <div style={{height: '100%', padding:  '0 .5rem'}}>
                 <p className="fc_white fz_30 text_center" style={{lineHeight: '.35rem'}}>资产总额</p>
-                <p className="fc_yellow fz_70 text_center" style={{lineHeight: '.75rem'}}>10.37612454</p>
+                <p className="fc_yellow fz_70 text_center" style={{lineHeight: '.75rem'}}>{data.total}</p>
                 <div className="fc_30 fz_30 text_center over_hidden">
-                    <span className="fc_blue f_lt"><span>可用JSD：</span><span className="fc_white">10.37</span></span>
-                    <span className="fc_blue f_rt"><span>冻结JSD：<span className="fc_white">0</span></span></span>
+                    <span className="fc_blue f_lt"><span>可用JSD：</span><span className="fc_white">{parseFloat(data.jd_num).toFixed(2)}</span></span>
+                    <span className="fc_blue f_rt"><span>冻结JSD：<span className="fc_white">{parseFloat(data.djd_num).toFixed(2)}</span></span></span>
                 </div>
             </div>
            </div>

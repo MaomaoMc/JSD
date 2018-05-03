@@ -229,7 +229,7 @@ ul.dealItems{
             display: -webkit-flex;
             display: flex; 
             height: .365rem;
-        line-height: .365rem;
+            line-height: .365rem;
             padding: 0 .2rem;
             div{
                 width: 2.19rem;
@@ -242,6 +242,7 @@ ul.dealItems{
                 display: inline-block;
                 width: .415rem;
                 height: .355rem;
+                line-height: .3rem;
                 background: linear-gradient(to right,/* 或90deg */rgba(255, 255, 255, .075) 90%, transparent 0);  
                 background-size: .03rem 100%;  
                 position: absolute;
@@ -256,6 +257,17 @@ ul.dealItems{
                 right: 0;
                 border-top-right-radius: .5rem;
                 border-bottom-right-radius: .5rem;
+            }
+            input.price_ipt{
+                height: .335rem;
+                width: 1.36rem;
+                color: white;
+                text-align: center;
+                border: none;
+                position: absolute;
+                left: .415rem;
+                top: 0;
+                margin: 0 !important;
             }
         }
         .draft_opt{

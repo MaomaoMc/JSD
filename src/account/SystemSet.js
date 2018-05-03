@@ -13,14 +13,12 @@ class SystemSet extends Component{
       }
     exitApp (){ //退出程序
         localStorage.removeItem("logined");
-        console.log(localStorage.getItem("logined"), 'exit')
         this.setState({
             exitApp: true
         })
     }
     render (){
         if(this.state.exitApp) {
-            console.log(localStorage.getItem("logined"), 'exit2')
             return (
                 <Redirect to="/account"/>
             )
@@ -38,7 +36,6 @@ class SystemSet extends Component{
                 <li>
                     <span className="f_lt fc_blue">名词解释</span>
                     <span className="f_rt">
-                        {/* <span className="fc_white">13952663325</span> */}
                         <span className="go_arrow"></span>
                     </span>
                 </li>
