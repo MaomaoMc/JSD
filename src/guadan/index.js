@@ -7,6 +7,7 @@ import '../css/css/deal.css';
 
 const wenhao = require("../img/icon_xinshouwenti.png");
 const sundryData = JSON.parse(localStorage.getItem("sundryData"));
+console.log(sundryData, 'sundryData')
 const newPrice = sundryData.newPrice;  //当前价格
 class GuaDan extends Component {
     static defaultProps = {
@@ -19,7 +20,7 @@ class GuaDan extends Component {
         const hash = window.location.hash;
         const index = hash.search(/newerGuad/i);
         const newPrice = this.props.sundryData.newPrice;
-        let page_type, tip, count,
+        let page_type, tip,
          percent = (newPrice - this.props.less_price) / (this.props.more_price - this.props.less_price); //圆点 在线上的 百分多少的位置
          if(index === -1){ // 高手挂单
             page_type = "2";

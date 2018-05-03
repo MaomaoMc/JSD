@@ -11,7 +11,7 @@ class Title extends Component{
     render (){
         if(this.props.code === 10002){
             return (
-                <Redirect to="/account"/>
+                <Redirect to="/"/>
             )
         }
         return  <div className="title">

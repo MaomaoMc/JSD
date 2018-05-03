@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import WeChat from './WeChat';
-import AboutJsd from './AboutJsd';
 import Title from '../Title';
 
 class SystemSet extends Component{
@@ -20,7 +18,7 @@ class SystemSet extends Component{
     render (){
         if(this.state.exitApp) {
             return (
-                <Redirect to="/account"/>
+                <Redirect to="/"/>
             )
         }
         return <div>
@@ -29,7 +27,7 @@ class SystemSet extends Component{
                 <li>
                     <span className="f_lt fc_blue">关于JSD</span>
                     <span className="f_rt">
-                        <Link to="/account/systemSet/about" component = {WeChat}><span className="go_arrow"></span>
+                        <Link to="/account/systemSet/about"><span className="go_arrow"></span>
                         </Link>
                     </span>
                 </li>
@@ -42,7 +40,7 @@ class SystemSet extends Component{
                 <li>
                     <span className="f_lt fc_blue">微信公众号</span>
                     <span className="f_rt">
-                    <Link to="/account/systemSet/wechat" component = {WeChat}><span className="fc_white">J_SD</span>
+                    <Link to="/account/systemSet/wechat"><span className="fc_white">J_SD</span>
                     </Link>
                     </span>
                 </li>

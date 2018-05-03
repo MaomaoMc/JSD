@@ -17,12 +17,12 @@ class OilCard extends Component{
     }
     handleInputChange (e){ //输入金币数
         const type = e.type;
-        if(type == "jd_num"){
+        if(type === "jd_num"){
             this.setState({
                 jd_num: e.value
             });
         }
-        if(type == "oil_num"){
+        if(type === "oil_num"){
             this.setState({
                 oil_num: e.value
             });
@@ -31,7 +31,6 @@ class OilCard extends Component{
     handleReChange (){ //油卡充值
         const state = this.state;
         const oil_num = state.oil_num;
-        const oil_name = state.oil_name;
         const type = state.type;
         const jd_num = state.jd_num;
         const self = this;
@@ -77,7 +76,7 @@ class OilCard extends Component{
     }
     handleSltOilCardType (){  //选择油卡类型
         const self = this;
-        let oil_name, type;
+        let type;
         var as = new ActionSheet({
             buttons: {
                 '中石油': function(e){
@@ -97,7 +96,7 @@ class OilCard extends Component{
     render (){
         if(this.state.code === 10002){  //token 过期
             return (
-                <Redirect to="/account"/>
+                <Redirect to="/"/>
             )
         }
         return <div className="text_center">

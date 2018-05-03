@@ -8,16 +8,16 @@ class Tab extends Component {
         return <div>
             <ul className="tabUl">
                 <li>
-                    <Link to="/machineMarket"><span className="icon js_icon"></span><p>机市</p></Link>
+                    <Link to="/machineMarket"><span className="icon js_icon"></span><span>机市</span></Link>
                 </li>
                 <li>
-                    <Link to="/mineralPool"><span className="icon kc_icon"></span><p>矿池</p></Link>
+                    <Link to="/mineralPool"><span className="icon kc_icon"></span><span>矿池</span></Link>
                 </li>
                 <li>
-                    <Link to="/deal"><span className="icon jy_icon"></span><p>交易</p></Link>
+                    <Link to="/deal"><span className="icon jy_icon"></span><span>交易</span></Link>
                 </li>
                 <li>
-                    <Link to="/account"><span className="icon my_icon"></span><p>我的</p></Link>
+                    <Link to="/"><span className="icon my_icon"></span><span>我的</span></Link>
                 </li>
             </ul>
         </div>

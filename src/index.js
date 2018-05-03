@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 // import Tab from './Tab';
 import './js/common.js'
 import Account from './account/index.js';
@@ -12,19 +12,19 @@ import GuaDan from './guadan/index.js';
 
 
 ReactDOM.render(
-        <Router>
-            <div>
-                <Switch>
-                    <Route path="/account" component={Account}/>
-                    <Route path="/machineMarket" component={MachineM}/>
-                    <Route exact path="/mineralPool" component={MineralPool}/>
-                    <Route path="/deal" component={Deal} />
-                    <Route path="/guadan" component={GuaDan} />
-                </Switch>
-            </div>
-        </Router>
+    <Router>
+        <div>
+            <Switch>
+                <Route  path="/machineMarket" component={MachineM} />
+                <Route  path="/mineralPool" component={MineralPool} />
+                <Route path="/deal" component={Deal} />
+                <Route path="/guadan" component={GuaDan} />
+                <Route path="/" component={Account} />
+            </Switch>
+        </div>
+    </Router>
     ,
-  document.getElementById('root')
+    document.getElementById('root')
 )
 
 // registerServiceWorker();

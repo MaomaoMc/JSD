@@ -8,7 +8,7 @@ class ClientService extends Component{
             <div className="title"><span className="arrow back_arrow"></span>客服中心<span className="refresh"></span></div>
             <div className="clientService fc_white fz_24">
                 <p>
-                    <img className="wechat" src={wechat}></img>
+                    <img className="wechat" src={wechat} alt=""></img>
                     <span>JSD微信官方公众号：</span>
                 </p>
                 <img className="weChatgzh" src={wechat_gzh} alt=""/>

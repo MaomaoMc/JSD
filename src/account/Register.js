@@ -26,7 +26,7 @@ class Register extends Component {
                     this.register({})
                 }}>注册</span>
                 <span className="back_login f_lt block fc_gray fz_28 mt_50" style={{width: '100%'}}>
-                    <Link to="/account">返回登录页面</Link></span>
+                    <Link to="/">返回登录页面</Link></span>
             </div>
         </div>
     }

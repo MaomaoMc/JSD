@@ -15,17 +15,17 @@ class ExchangeYtf extends Component{
     }
     handleInputChange (e){
         const type = e.type;
-        if(type == "name"){
+        if(type === "name"){
             this.setState({
                 name: e.value
             });
         }
-        if(type == "num"){
+        if(type === "num"){
             this.setState({
                 num: e.value
             });
         }
-        if(type == "jd_num"){
+        if(type === "jd_num"){
             this.setState({
                 jd_num: e.value
             });

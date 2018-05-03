@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from "axios";
 import qs from "qs";
-import Title from "./../Title";
-
 
 class DealItems extends Component {
     constructor(props) {
@@ -149,7 +147,7 @@ class DealItems extends Component {
         })
     }
     componentDidUpdate (nextProps){
-        if(nextProps.type != this.props.type){
+        if(nextProps.type !== this.props.type){
             this.setState({
                 dealItems: []
             }, function(){
@@ -162,7 +160,7 @@ class DealItems extends Component {
         const dealItems = this.state.dealItems;
         if(this.state.code === 10002){  //token 过期
             return (
-                <Redirect to="/account"/>
+                <Redirect to="/"/>
             )
         }
         return <div>

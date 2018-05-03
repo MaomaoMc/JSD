@@ -152,14 +152,8 @@ class Personal extends Component {
            <div className="account_menus f_flex">
             {
                 accountMenus.map(function(item, i){
-                    // let linkStyle;
-                    // if(this.state.hover){
-                    //     linkStyle = {backgroundImage: "url(" + item.pic + ")"}
-                    // }else{
-                    //     linkStyle = {backgroundImage: "url(" + item.picActive + ")"}
-                    // }
                     return <div className="menus_item mt_40" key={i}>
-                        <Link to = {item.link} component = {item.component}>
+                        <Link to = {item.link}>
                             <span className="icon" style={{backgroundImage: "url(" + item.pic + ")"}} activestyle={{backgroundImage: "url(" + item.picActive + ")"}}></span>
                         </Link>
                         <div className="text fc_white fz_26 mt_10">{item.text}</div>

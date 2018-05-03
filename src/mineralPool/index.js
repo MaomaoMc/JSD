@@ -174,7 +174,7 @@ class MineralPool extends Component {
         if(this.state.code === 10002){  //token 过期
             localStorage.removeItem("logined")
             return (
-                <Redirect to="/account"/>
+                <Redirect to="/"/>
             )
         }
         return <div>

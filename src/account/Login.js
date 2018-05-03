@@ -108,7 +108,7 @@ class Login extends Component {
                   >{this.state.keepPwd ? <span>√</span> : null}</span>
                   <label className="fz_26 fc_blue f_lt ml_10">记住密码</label>
                 </span>
-                <Link to = "/account/forgetLoginPwd" component = {ForgetPwd}><span className="fz_26 fc_blue f_rt">忘记密码？</span></Link>
+                <Link to = "/account/forgetLoginPwd"><span className="fz_26 fc_blue f_rt">忘记密码？</span></Link>
               </div>
               <span className="btn btn_primary login_btn h_80 fz_26 f_lt mt_50" style={{width: '100%'}}
               onClick={e => {

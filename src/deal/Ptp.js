@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
-import Title from './../Title';
 // import '../css/css/deal.css';
 
 class Ptp extends Component {
@@ -81,7 +80,7 @@ class Ptp extends Component {
         if(this.state.code === 10002){  //token 过期
             localStorage.removeItem("logined")
             return (
-                <Redirect to="/account"/>
+                <Redirect to="/"/>
             )
         }
         return <div style={{paddingBottom: "2rem"}}> 
