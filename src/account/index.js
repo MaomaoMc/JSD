@@ -17,8 +17,10 @@ import RobPacket from './RobPacket';
 import LuckDial from './LuckDial';
 import Lottery from './Lottery';
 import Certify from './Certify';
-import ChangeTradePwd from './ChangeTradePwd';
-import ChangeLoginPwd from './ChangeLoginPwd';
+import ChangePwd from './ChangePwd';
+import WeChatBind from './WeChatBind';
+import AliPayBind from './AliPayBind';
+// import ChangeLoginPwd from './ChangeLoginPwd';
 import CreditCertify from './CreditCertify';  //银行卡认证
 import SetHead from './SetHead';  //银行卡认证
 import ForgetPwd from './ForgetPwd';
@@ -43,13 +45,16 @@ class Account extends Component {
                 <Route path="/account/robPacket" component = {RobPacket} />
                 <Route path="/account/luckDial" component = {LuckDial} />
                 <Route path="/account/lottery" component = {Lottery} />
-                <Route path="/account/certify" component = {Certify} />
-                <Route path="/account/changeTradePwd" component = {ChangeTradePwd} />
-                <Route path="/account/changeLoginPwd" component = {ChangeLoginPwd} />
+                <Route path="/account/certify/:type" component = {Certify} />
+                
+                <Route path="/account/changeLoginPwd" component = {ChangePwd} />
+                <Route path="/account/changeTradePwd" component = {ChangePwd} />
                 <Route path="/account/creditCertify" component = {CreditCertify} />
                 <Route path="/account/setHead" component = {SetHead} />
                 <Route path="/account/forgetLoginPwd" component = {ForgetPwd} />
                 <Route path="/account/forgetTradePwd" component = {ForgetPwd} />
+                <Route path="/account/weChatBind" component = {WeChatBind} />
+                <Route path="/account/aliPayBind" component = {AliPayBind} />
                 <Route path="/account" component = {localStorage.getItem("logined") == "true" ? Personal : Login} />
             </Switch>
         </div>

@@ -119,8 +119,7 @@ class DealItems extends Component {
         const self = this;
         const dealItems = this.state.dealItems;
         const type = this.props.type;
-        console.log(type, 'typetype')
-        const str = type === "kanban" ? "tradeList" : "tradeRecords";
+        const str = type === "kanban" ? "tradeList" : "tradeRecords";  //买家看板 还是 交易记录
         axios.post(window.baseUrl + "/home/Trade/" + str, qs.stringify({
             token: localStorage.getItem("token"),
             page: page ? page : 1,

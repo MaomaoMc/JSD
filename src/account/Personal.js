@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import qs from 'qs';
 import Tab from '../Tab';
 import Title from '../Title';
 import PersonalData from "./PersonalData";
@@ -102,6 +104,22 @@ const accountMenus = [
     }
 ];
 class Personal extends Component {
+    constructor (props){
+        super(props);
+        this.state = {
+            data: {}
+        }
+    }
+    ajax (){
+        axios.post(window.baseUrl + "/home/Member/myMoney", qs.stringify({
+            token: localStorage.getItem("token")
+        })).then(function(res){
+
+        })
+    }
+    componentDidMount (){
+        this.ajax();
+    }
     render (){
         const asset_total = JSON.parse(localStorage.getItem("sundryData"));
         console.log(asset_total, 'asset_total')

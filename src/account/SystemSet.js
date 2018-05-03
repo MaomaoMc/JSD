@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import WeChat from './WeChat';
 import AboutJsd from './AboutJsd';
+import Title from '../Title';
 
 class SystemSet extends Component{
     constructor(props) {
@@ -25,7 +26,7 @@ class SystemSet extends Component{
             )
         }
         return <div>
-            <div className="title"><span className="arrow back_arrow"></span>系统设置<span className="refresh"></span></div>
+            <Title title = "系统设置"/>
             <ul className="lists f_flex fz_26" style={{marginTop: 0}}>
                 <li>
                     <span className="f_lt fc_blue">关于JSD</span>

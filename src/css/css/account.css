@@ -30,7 +30,8 @@
     border: none;
     height: .4rem;
     line-height: .4rem;
-    float: right; }
+    float: right;
+    color: white; }
   .account_form span.sendMessage {
     width: 1.07rem;
     height: .4rem;
@@ -229,6 +230,11 @@ ul.lists {
   width: .76rem;
   height: .95rem;
   margin: .5rem auto 0; }
+
+input.card_num {
+  height: .3rem;
+  border: none;
+  color: white; }
 
 input.czAmount {
   /*充值金额*/

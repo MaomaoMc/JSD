@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 
 class Title extends Component{
     back (){
@@ -8,6 +9,11 @@ class Title extends Component{
         window.location.reload();
     }
     render (){
+        if(this.props.code === 10002){
+            return (
+                <Redirect to="/account"/>
+            )
+        }
         return  <div className="title">
             <span className="arrow back_arrow" onClick = {e => {
                 this.back()

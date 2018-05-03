@@ -228,7 +228,8 @@ span.btn {
   border-bottom: .01rem solid #00a8ff;
   position: fixed;
   top: 0;
-  left: 98; }
+  left: 0;
+  z-index: 100; }
   .title .arrow.back_arrow {
     float: left;
     vertical-align: bottom;

@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import Title from '../Title';
 
 class AboutJsd extends Component{
     render (){
+        console.log( JSON.parse(localStorage.getItem("sundryData")))
         return <div>
-            <div className="title"><span className="arrow back_arrow"></span>关于JSD<span className="refresh"></span></div>
-            <p className="fc_white fz_26" style={{lineHeight: ".25rem", textIndent: '.2rem', padding: '.2rem'}}>
-                关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍，关于JSD的介绍。
+            <Title title = "关于JSD"/>
+            <p className="fc_white fz_26" style={{lineHeight: ".25rem", textIndent: '.2rem', padding: '.2rem'}}
+                dangerouslySetInnerHTML = {{__html: JSON.parse(localStorage.getItem("sundryData")).about_us}} >
             </p>
         </div>
     }
