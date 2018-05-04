@@ -23,6 +23,7 @@ class SetHead extends Component{
                 const code = data.code;
                 if(code === 10002){
                     localStorage.removeItem("logined");
+                    localStorage.removeItem("sundryData");
                 }
                 self.setState({
                     code: code

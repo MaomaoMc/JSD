@@ -8,16 +8,20 @@ import Title from './../Title';
 import Price from './Price';
 import Ptp from './Ptp';
 import DealItems from './DealItems';
+import GuaDan from '../guadan/index.js';
 
 class Deal extends Component {
     render(){
+        const hash = window.location.hash;
+        console.log(hash)
         return <div style={{marginBottom: '2rem'}}> 
         <Title  title="交易"/>
-            <PriceItem />
-            <DealTab />
+            {hash.search(/guadan/) === -1 ? <PriceItem /> : null}
+            {hash.search(/guadan/) === -1 ? <DealTab /> : null}
             <GuaDanTab />
             <Tab />
             <Switch>
+                <Route path="/deal/guadan/:hash" component={GuaDan}/>
                 <Route path="/deal/price" component = {Price} />
                 <Route path="/deal/ptp" component = {Ptp} />
                 <Route path="/deal/dealItem" component = {DealItems} />

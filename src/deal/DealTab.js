@@ -7,7 +7,6 @@ import '../css/css/deal.css';
 class DealTab extends Component {
     render (){
         const hash = window.location.hash;
-        console.log( window.location, ' loacation.hash')
         return <div>
             <ul className="deal_tab f_flex fz_30">
                 <li className={hash === '#/deal' || hash === '#/deal/price' ? 'active' : ''} style={{ borderTopLeftRadius: '.25rem', borderBottomLeftRadius: '.25rem'}}>

@@ -11,6 +11,7 @@ class SystemSet extends Component{
       }
     exitApp (){ //退出程序
         localStorage.removeItem("logined");
+        localStorage.removeItem("sundryData");
         this.setState({
             exitApp: true
         })

@@ -46,6 +46,7 @@ class ExchangeYtf extends Component{
             const code = data.code;
             if(code === 10002){ //token失效
                 localStorage.removeItem("logined");
+                localStorage.removeItem("sundryData");
             }
             if(code === -3){  //JSD数量不能为空
                 alert(data.msg);

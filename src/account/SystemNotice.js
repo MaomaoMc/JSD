@@ -48,6 +48,7 @@ class SystemNotice extends Component{
             const dataArr = data.data;
             if(code === 10002){ //token失效
                 localStorage.removeItem("logined");
+                localStorage.removeItem("sundryData");
             }
             if(code === 1){  //成功
                 if(dataArr.length === 0){ //没有数据可展示了

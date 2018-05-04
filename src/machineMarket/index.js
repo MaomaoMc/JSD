@@ -85,6 +85,7 @@ class MachineM extends Component {
             const code = data.code;
            if(code === 10002){
                localStorage.removeItem("logined");
+               localStorage.removeItem("sundryData");
            }
            if(code === 1){ //成功
             self.setState({

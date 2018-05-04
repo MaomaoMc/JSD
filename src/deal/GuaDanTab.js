@@ -10,10 +10,10 @@ class GuaDanTab extends Component {
         return <div>
             <ul className="guadanTab fz_30 f_flex">
                 <li>
-                    <Link to="/guadan/newerGuad"><img src={newerGuad_icon} alt="" /><p>新手挂单</p></Link>
+                    <Link to="/deal/guadan/newerGuad"><img src={newerGuad_icon} alt="" /><p>新手挂单</p></Link>
                 </li>
                 <li>
-                    <Link to="/guadan/expertGuad"><img src={expertGuad_icon} alt="" /><p>高手挂单</p></Link>
+                    <Link to="/deal/guadan/expertGuad"><img src={expertGuad_icon} alt="" /><p>高手挂单</p></Link>
                 </li>
             </ul>
         </div>

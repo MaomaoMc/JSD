@@ -6,22 +6,24 @@ import DealItems from '../deal/DealItems';
 import '../css/css/deal.css';
 
 const wenhao = require("../img/icon_xinshouwenti.png");
-const sundryData = JSON.parse(localStorage.getItem("sundryData"));
-console.log(sundryData, 'sundryData')
-const newPrice = sundryData.newPrice;  //当前价格
+
 class GuaDan extends Component {
     static defaultProps = {
-        sundryData:　sundryData,
-        less_price: sundryData.less_bee * newPrice,
-        more_price: sundryData.more_bee * newPrice,
+        sundryData: JSON.parse(localStorage.getItem("sundryData")) || {newPrice: 0, less_bee: 0, more_bee: 0},
+        // less_price: sundryData.less_bee * newPrice,
+        // more_price: sundryData.more_bee * newPrice,
+        hash : window.location.hash
     }
     constructor(props) {
         super(props);
-        const hash = window.location.hash;
+        const hash = this.props.hash;
         const index = hash.search(/newerGuad/i);
-        const newPrice = this.props.sundryData.newPrice;
+        const sundryData = this.props.sundryData;
+        const newPrice = sundryData.newPrice;  //当前价格
+        const less_price =  sundryData.less_bee * newPrice;
+        const more_price = sundryData.more_bee * newPrice;
         let page_type, tip,
-         percent = (newPrice - this.props.less_price) / (this.props.more_price - this.props.less_price); //圆点 在线上的 百分多少的位置
+         percent = (newPrice - less_price) / (more_price - less_price); //圆点 在线上的 百分多少的位置
          if(index === -1){ // 高手挂单
             page_type = "2";
             tip =  "认证用户可进行1-10JSD议价交易！";
@@ -32,9 +34,12 @@ class GuaDan extends Component {
         this.state = { 
             page_type: page_type,
             tip: tip,
-            price: newPrice,
+            price: 0,
             count: 1,
+            newPrice: newPrice,
             percent: percent,
+            less_price: less_price,
+            more_price: more_price,
             barLeft: 0,
             type: "kanban", // 默认看板选中
             tabIndex: 0,
@@ -47,14 +52,14 @@ class GuaDan extends Component {
         let price = parseFloat(this.state.price);
         if(type === "add"){ //加价
             price = (price + 0.01).toFixed(2);
-            if( price > this.props.more_price){  //不能大于最大值 
+            if( price > this.state.more_price){  //不能大于最大值 
                 alert("不能大于最大值");
                 return;
             }
         }
         if(type === "reduce"){ //加价
             price = (price - 0.01).toFixed(2);
-            if( price < this.props.less_price){  //不能小于最小值 
+            if( price < this.state.less_price){  //不能小于最小值 
                 alert("不能小于最小值")
             }
         }
@@ -90,7 +95,6 @@ class GuaDan extends Component {
         const bar = document.getElementById("bar");
         var barleft = 0;
         bar.ontouchstart = function(event){
-            console.log("saugy")
             var event = event || window.event;
             var leftVal = event.changedTouches[0].clientX - this.offsetLeft;
             var that = this;
@@ -98,7 +102,6 @@ class GuaDan extends Component {
             document.ontouchmove = function(event){
               var event = event || window.event;
               barleft = event.changedTouches[0].clientX - leftVal;   
-              console.log(scroll.offsetWidth, bar.offsetWidth)
               if(barleft < 0)
                 barleft = 0;
               else if(barleft > scroll.offsetWidth - bar.offsetWidth)
@@ -107,7 +110,7 @@ class GuaDan extends Component {
               that.style.left = percent * 100 + "%";
                 self.setState({
                     percent: percent,
-                    price: (self.props.less_price + (self.props.more_price - self.props.less_price) * percent).toFixed(2)
+                    price: (self.state.less_price + (self.state.more_price - self.state.less_price) * percent).toFixed(2)
                 })
               //防止选择内容--当拖动鼠标过快时候，弹起鼠标，bar也会移动，修复bug
               window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
@@ -118,8 +121,25 @@ class GuaDan extends Component {
             document.onmousemove = null; //弹起鼠标不做任何操作
           }
     }
+    componentDidUpdate(nextProps){
+        if(nextProps !== this.props){
+            const hash = window.location.hash;
+        const index = hash.search(/newerGuad/i);
+        let page_type, tip;
+            if(index === -1){ // 高手挂单
+                page_type = "2";
+                tip =  "认证用户可进行1-10JSD议价交易！";
+            }else{  //新手挂单
+                page_type = "1";
+                tip = "3esdsdd-10JSD议价交易！";
+            }
+            this.setState({
+                page_type: page_type,
+                tip: tip
+            })
+        }
+    }
     handleBuyJd (){  //挂买单
-        console.log()
         let num = this.state.count;
         if(num === ""){
             num = 0;
@@ -152,7 +172,7 @@ class GuaDan extends Component {
                 <div className = "guadanItems">
                     <div className="tip fz_26 fc_white">{this.state.tip}</div>
                     <p className="fc_yellow" style={{lineHeight: '.5rem'}}><span className="fz_30">当前价：</span>
-                        <span style={{fontSize: '.35rem'}}>{newPrice}</span>
+                        <span style={{fontSize: '.35rem'}}>{this.state.newPrice}</span>
                         <span className="fz_30">JSD</span>
                     </p>
                     <div className="price_adjust fc_white fz_26 mb_20">
@@ -165,14 +185,14 @@ class GuaDan extends Component {
                                 }}
                                 onBlur = {e => {
                                     const value = e.target.value;
-                                    if(value > this.props.more_price ){
+                                    if(value > this.state.more_price ){
                                         alert("不能大于最大值");
                                     }
-                                    if(value < this.props.less_price ){
+                                    if(value < this.state.less_price ){
                                         alert("不能小于最大值");
                                     }
                                     this.setState({
-                                        price: newPrice
+                                        price: this.state.newPrice
                                     })
                                 }}
                                 />
