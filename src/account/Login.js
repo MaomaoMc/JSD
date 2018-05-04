@@ -58,7 +58,11 @@ class Login extends Component {
       l_pass: l_pass
     })).then(re=>{
       const data = re.data;
-      if(data.code == 1){
+      if(data.code === -3){ //登录失败
+        alert("登录失败，请确认账号密码是否正确");
+        return;
+      }
+      if(data.code === 1){  //登录成功
         localStorage.setItem("logined", true);
         localStorage.setItem("token", data.data.token);
         this.setState({
