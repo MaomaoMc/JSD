@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import Tab from './../Tab';
-import Title from './../Title';
 import axios from "axios";
 import qs from 'qs';
+import Tab from './../Tab';
+import Title from './../Title';
+import WarningDlg from './../WarningDlg';
+import Shadow from './../Shadow';
 import './../css/css/machineM.css'; //机市css
 
 const baseUrl = window.baseUrl;
@@ -14,8 +16,10 @@ class MachineM extends Component {
             data: [],
             token: "",
             id: "",
+            shadowShow: false,
             dlgShow: false,
-            jsdShortDlgShow: false,
+            warningDlgShow: false,
+            warningText: "", //警告文字
             tradePassPwd: "",
             code: ""
         };
@@ -28,8 +32,19 @@ class MachineM extends Component {
     handleBayEvent (e){  //购买矿机
         this.setState({
             dlgShow: true,
+            shadowShow: true,
             id: e.id
         })
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     handleDlgEvent (e){  //取消购买 或者确定购买
         const type = e.type;
@@ -39,6 +54,7 @@ class MachineM extends Component {
         if(type === "cancel"){  //取消
             this.setState({
                 dlgShow: false,
+                shadowShow: false,
                 id: ""
             })
         }else{  //如果是 确定的话  
@@ -53,22 +69,25 @@ class MachineM extends Component {
                 if(code === 1){ //购买成功
                     this.setState({
                         dlgShow: false,
+                        shadowShow: false,
                         tradePassPwd: ""
                     })
-                }
-                if(code === -3){//如果jsd余额不足
+                }else if(code === -3){//如果jsd余额不足
                     this.setState({
                         dlgShow: false,
-                        jsdShortDlgShow: true,
+                        shadowShow: false,
+                        warningDlgShow: true,
+                        warningText: "JSD不足",
                         tradePassPwd: ""
                     }, function(){
-                        var timer = setTimeout(
-                            function(){
-                                self.setState({
-                                    jsdShortDlgShow: false
-                                })
-                            }
-                        , 1000)
+                        this.hanleWarningDlgTimer()
+                    })
+                }else{  //不管有什么弹出来 万一失败了 用户好知道
+                    this.setState({
+                        warningDlgShow: true,
+                        warningText: data.msg
+                    }, function(){
+                        this.hanleWarningDlgTimer()
                     })
                 }
             })
@@ -87,10 +106,17 @@ class MachineM extends Component {
                localStorage.removeItem("logined");
                localStorage.removeItem("sundryData");
            }
-           if(code === 1){ //成功
+           else if(code === 1){ //成功
             self.setState({
                 data: data.data,
                 token: token
+            })
+           } else {
+            this.setState({
+                warningDlgShow: true,
+                warningText: data.msg
+            }, function(){
+                this.hanleWarningDlgTimer();
             })
            }
            self.setState({
@@ -111,13 +137,13 @@ class MachineM extends Component {
         }
         return <div>
             <Title  title="机市" code = {this.state.code}/>
-            <div style={{padding: '0 .11rem', marginBottom: ".1rem"}}>
+            <div style={{padding: '0 .11rem', marginBottom: "2rem"}}>
                 {
                      data.length > 0 && data.map(function (item, i) {
                         return <div key={i} className="item">
-                            <div className="goodPic f_lt" style={{background: "url(" + baseUrl + item.pic + ") no-repeat 50% 50%"}}></div>
+                            <div className="goodPic f_lt" style={{backgroundImage: "url(" + baseUrl + item.pic + ")"}}></div>
                             <div className="goodItem f_rt">
-                                <h6 className="fz_30">{item.name}</h6>
+                                <h6 className="fz_30 fc_blue">{item.name}</h6>
                                 <div>
                                     <div className="f_lt fz_22">
                                         <p>算力：{item.force}</p>
@@ -155,7 +181,8 @@ class MachineM extends Component {
                     </div>
                 </div>
             </div>
-            <div className={this.state.jsdShortDlgShow ? "dialog warningDlg jsdShortDlg fc_white fz_24" : "dialog warningDlg jsdShortDlg fc_white fz_24 hide"}>JSD不足</div>
+            {this.state.shadowShow ? <Shadow /> : null}
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
             <Tab />
         </div>
     }

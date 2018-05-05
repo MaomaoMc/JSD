@@ -26,24 +26,28 @@ class SystemSet extends Component{
             <Title title = "系统设置"/>
             <ul className="lists f_flex fz_26" style={{marginTop: 0}}>
                 <li>
-                    <span className="f_lt fc_blue">关于JSD</span>
-                    <span className="f_rt">
-                        <Link to="/account/systemSet/about"><span className="go_arrow"></span>
-                        </Link>
-                    </span>
-                </li>
-                <li>
-                    <span className="f_lt fc_blue">名词解释</span>
-                    <span className="f_rt">
-                        <span className="go_arrow"></span>
-                    </span>
-                </li>
-                <li>
-                    <span className="f_lt fc_blue">微信公众号</span>
-                    <span className="f_rt">
-                    <Link to="/account/systemSet/wechat"><span className="fc_white">J_SD</span>
+                    <Link to="/account/systemSet/about">
+                        <span className="f_lt fc_blue">关于JSD</span>
+                        <span className="f_rt">
+                            <span className="go_arrow"></span>
+                        </span>
                     </Link>
-                    </span>
+                </li>
+                <li>
+                    <Link to = "/account/systemSet/nounExplain">
+                        <span className="f_lt fc_blue">名词解释</span>
+                        <span className="f_rt">
+                            <span className="go_arrow"></span>
+                        </span> 
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/account/systemSet/wechat">
+                        <span className="f_lt fc_blue">微信公众号</span>
+                        <span className="f_rt">
+                            <span className="fc_white">J_SD</span>
+                        </span>
+                    </Link>
                 </li>
                 <li>
                     <span className="f_lt fc_blue">当前版本</span>

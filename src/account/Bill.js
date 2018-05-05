@@ -1,4 +1,10 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
+import axios from 'axios';
+import qs from 'qs';
+import Title from './../Title';
+import WarningDlg from './../WarningDlg';
+
 
 const bills = [
    {
@@ -18,33 +24,123 @@ const bills = [
         count: -10
     },
 ];
+const tabs = [
+    {
+        type: "0",
+        text: "全部",
+    },
+    {
+        type: "1",
+        text: "支出",
+    },
+    {
+        type: "2",
+        text: "收入",
+    },
+    {
+        type: "3",
+        text: "收益",
+    },
+    {
+        type: "4",
+        text: "奖励",
+    },
+]
 class Bill extends Component {
+    constructor (props){
+        super(props);
+        this.state = {
+            tabIndex: 0,
+            type: 0,
+            data: [],  //数据
+            warningDlgShow: false,
+            warningText: ""
+        }
+    }
+    handleTabSwitch (e){ //tab切换
+        const tabIndex = e.tabIndex;
+        this.setState({
+            tabIndex: tabIndex
+        }, function(){
+            this.ajax(tabIndex);
+        })
+    }
+    ajax (tabIndex){
+        const self = this;
+        axios.post(window.baseUrl + "/home/Member/getMyFince", qs.stringify({
+            token: localStorage.getItem("token"),
+            type: tabIndex || self.state.type
+        })).then(function(res){
+            const data = res.data;
+            const code = data.code;
+            if(code === 10002){  //token 失效
+                window.tokenLoseFun();
+            }
+            if(code === 1){ //成功
+                self.setState({
+                    data: data.data
+                })
+            }
+            self.setState({
+                code: code
+            })
+        })
+    }
+    renderMoneyType (type) {  //类型 支出 还是其他的
+        console.log(type, 'type')
+        let text = "";
+        if(type === 1){
+            text = "支出";
+        }
+        if(type === 2){
+            text = "收入";
+        }
+        if(type === 3){
+            text = "收益";
+        }
+        if(type === 4){
+            text = "奖励";
+        }
+        return text;
+    }
+    componentDidMount (){
+        this.ajax();
+    }
     render (){
+        const self = this;
+        const data = this.state.data;
+        if(this.state.code === 10002){
+            return <Redirect to = "/account"/>
+        }
         return <div>
-            <div className="title"><span className="arrow back_arrow"></span>账单中心<span className="refresh"></span></div>
+            <Title title="账单中心"/>
           <ul className="billTab f_flex">
-            <li className="active"><a>全部</a></li>
-            <li><a>转入</a></li>
-            <li><a>转出</a></li>
-            <li><a>收益</a></li>
-            <li><a>奖励</a></li>
-            <li><a>支出</a></li>
-            <li><a>冻结</a></li>
+          {
+              tabs.map(function(tab, index){
+                  return <li key={index} className = {self.state.tabIndex == index ? "active" : ""}>
+                      <a onClick = {e => {
+                          self.handleTabSwitch({tabIndex: index})
+                      }}>{tab.text}</a>
+                  </li>
+              })
+          }
           </ul>
           <p className="fc_yellow totalSum" style={{fontSize: ".395rem"}}>+13.75644342</p>
           <ul className="billItems f_flex fz_24">
           {
-              bills.map(function(bill, i){
-                  return <li>
-                    <span className="fc_blue">支出</span><br/>
+              data.map(function(bill, i){
+                  const money_type = bill.money_type;
+                  return <li key={i}>
+                    <span className="fc_blue">{self.renderMoneyType(money_type)}</span><br/>
                     <p className="fc_white">
-                        <span className="f_lt">{bill.date}</span>
-                        <span className="f_rt">{bill.count}</span>
+                        <span className="f_lt">{bill.add_time}</span>
+                        <span className="f_rt">{parseFloat(bill.money).toFixed(2)}</span>
                     </p>
                 </li>
               })
           }
           </ul>
+          {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

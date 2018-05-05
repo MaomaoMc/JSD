@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
-// import '../css/css/deal.css';
+import WarningDlg from './../WarningDlg';
 
 class Ptp extends Component {
     constructor (props){
@@ -10,7 +10,9 @@ class Ptp extends Component {
         this.state = {
             buy_num: "",
             price: "",
-            num: ""
+            num: "",
+            warningDlgShow: false,
+            warningText: ""
         }
     }
     handleInputChange (e){
@@ -32,23 +34,34 @@ class Ptp extends Component {
             })
         }
     }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
+    }
     handleSell (){  //卖出
         const token = localStorage.getItem("token");
         const buy_num = this.state.buy_num;
         const price = this.state.price;
         const num = this.state.num;
-        if(buy_num === ""){
-            alert("买家ID号不能为空");
-            return;
-        }
-        if(num === ""){
-            alert("售出数量不能为空");
-            return;
-        }
-        if(price === ""){
-            alert("约定价格不能为空");
-            return;
-        }
+        const self = this;
+        // if(buy_num === ""){
+        //     alert("买家ID号不能为空");
+        //     return;
+        // }
+        // if(num === ""){
+        //     alert("售出数量不能为空");
+        //     return;
+        // }
+        // if(price === ""){
+        //     alert("约定价格不能为空");
+        //     return;
+        // }
         axios.post(window.baseUrl + "/home/Trade/faceTrade", qs.stringify({
             token : token,
             buy_num: buy_num,
@@ -58,20 +71,32 @@ class Ptp extends Component {
             const data = res.data;
             const code = data.code;
             if(data.code === -6){  //卖家不存在
-                this.setState({
-                    buy_num: ""
+                self.setState({
+                    buy_num: "",
+                    warningDlgShow: true,
+                    warningText: "卖家不存在"
+                }, function(){
+                    this.hanleWarningDlgTimer();
                 })
-                alert("卖家不存在");
-            }
-            if(data.code === 1){  //操作成功
-                this.setState({
+            }else if(data.code === 1){  //操作成功
+                self.setState({
                     buy_num: "",
                     num: "",
-                    price: ""
+                    price: "",
+                    warningDlgShow: true,
+                    warningText: "卖出成功"
+                }, function(){
+                    this.hanleWarningDlgTimer();
                 })
-                alert("卖出成功");
+            }else{
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
             }
-            this.setState({
+            self.setState({
                 code: code
             })
         })
@@ -118,6 +143,7 @@ class Ptp extends Component {
                 }}
                 >卖出</span>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

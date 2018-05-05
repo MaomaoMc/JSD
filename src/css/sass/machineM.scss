@@ -5,10 +5,10 @@ div.item{
     background-repeat: no-repeat;
     background-size: 100%;
     div.goodPic{
-        width: 1rem;
-         height: 1.12rem; 
-         line-height: 1.12rem;
-          text-align: center;
+        width: .8rem;
+         height: .8rem; 
+         background-size: 100% 100%;
+          margin: .2rem;
     }
     div.goodItem{
         width: 2.32rem;
@@ -22,10 +22,8 @@ div.item{
             color: white;
         }
         .cart{
-            // width: .92rem;
             height: .245rem;
             line-height: .245rem;
-            // text-indent: .15rem;
             color: white;
             background-color: rgba(255, 251, 2, 0.5);
             border: .01rem solid #fffb02;

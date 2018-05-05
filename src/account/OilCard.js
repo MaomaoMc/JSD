@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import ActionSheet from 'action-sheet';
+import Title from './../Title';
+import WarningDlg from './../WarningDlg';
 
 const oilCard_pic = require("../img/icon_ykcz_nor.png");
 class OilCard extends Component{
@@ -10,48 +12,67 @@ class OilCard extends Component{
         super(props);
         this.state = {
             oil_num: "", //油卡号
-            oil_name: "", //油卡名称
+            oil_name: "", //姓名
+            name: "", //姓名
             type: "",  //油卡类型
             jd_num: 100, //金币
+            idcard: "",
+            warningDlgShow: false,
+            warningText: ""
         }
     }
-    handleInputChange (e){ //输入金币数
+    handleInputChange (e){ // inpu change event
         const type = e.type;
-        if(type === "jd_num"){
-            this.setState({
-                jd_num: e.value
-            });
-        }
         if(type === "oil_num"){
             this.setState({
                 oil_num: e.value
             });
         }
+        if(type === "idcard"){
+            this.setState({
+                idcard: e.value
+            });
+        }
+        if(type === "oil_name"){
+            this.setState({
+                oil_name: e.value
+            });
+        }
+        if(type === "jd_num"){
+            this.setState({
+                jd_num: e.value
+            });
+        }
+    }
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){  //成功了 返回个人中心页面
+                        window.history.back();
+                    }
+                })
+            }
+        , 1000)
     }
     handleReChange (){ //油卡充值
         const state = this.state;
         const oil_num = state.oil_num;
+        const oil_name = state.oil_name;  //姓名
         const type = state.type;
+        const idcard = state.idcard;
         const jd_num = state.jd_num;
         const self = this;
-        if(type === ""){
-            alert("请先选择要充值的油卡类型");
-            return;
-        }
-        if(oil_num === ""){
-            alert("油卡卡号不能为空");
-            return;
-        }
-        if(jd_num === ""){
-            alert("充值金额不能为空");
-            return;
-        }
         axios.post(window.baseUrl + "/home/Member/oilCard", qs.stringify({
             token: localStorage.getItem("token"),
-            oil_num: state.oil_num,
-            oil_name: state.oil_name,
-            type: state.type,
-            jd_num: state.jd_num,
+            oil_num: oil_num,
+            oil_name: oil_name,
+            type: type,
+            idcard: idcard,
+            jd_num: jd_num,
         })).then(function(res){
             const data = res.data;
             const code = data.code;
@@ -59,17 +80,18 @@ class OilCard extends Component{
                 localStorage.removeItem("logined");
                 localStorage.removeItem("sundryData");
             }
-            if(code === 1){ //成功
-                alert("充值成功");
-            }
             self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
                 code: code
+            }, function(){
+                this.hanleWarningDlgTimer({code: code})
             })
         })
     }
     renderOilCardType (name, type, that){
         this.setState({
-            oil_name : name,
+            name : name,
             type: type
         }, function(){
             that.hide();
@@ -101,27 +123,25 @@ class OilCard extends Component{
             )
         }
         return <div className="text_center">
-            <div className="title"><span className="arrow back_arrow"></span>油卡充值<span className="refresh"></span></div>
+            <Title title="油卡充值"/>
            <div className="profile">
             <img src={oilCard_pic} alt=""/>
            </div>
             <ul className="lists f_flex fz_26" style={{marginTop: 0}}>
-                <li>
+                <li onClick = {e => {
+                            this.handleSltOilCardType()
+                        }}>
                     <span className="f_lt fc_blue">油卡类型</span>
                     <span className="f_rt">
-                        <span className="fc_white">{this.state.oil_name}</span>
+                        <span className="fc_white">{this.state.name}</span>
                         <span className="go_arrow" 
-                        onClick = {e => {
-                            this.handleSltOilCardType()
-                        }}
+                       
                         ></span>
                     </span>
                 </li>
                 <li>
                     <span className="f_lt fc_blue">卡号</span>
                     <span className="f_rt">
-                        {/* <span className="fc_white">{this.state.oil_num}</span>
-                        <span className="go_arrow"></span> */}
                         <input className = "card_num" type="text" placeholder = "输入油卡卡号" value = {this.state.oil_num}
                          onChange = {e => {
                             this.handleInputChange({type: "oil_num", value: e.target.value})
@@ -130,7 +150,27 @@ class OilCard extends Component{
                     </span>
                 </li>
                 <li>
-                    <span className="f_lt fc_blue">请输入充值金额<span className="fc_gray fz_24">（最低额度100元）</span></span>
+                    <span className="f_lt fc_blue">身份证号码</span>
+                    <span className="f_rt">
+                        <input className = "card_num" type="text" placeholder = "输入身份证号码" value = {this.state.idcard}
+                         onChange = {e => {
+                            this.handleInputChange({type: "idcard", value: e.target.value})
+                        }}
+                        />
+                    </span>
+                </li>
+                <li>
+                    <span className="f_lt fc_blue">姓名</span>
+                    <span className="f_rt">
+                        <input className = "card_num" type="text" placeholder = "输入姓名" value = {this.state.oil_name}
+                         onChange = {e => {
+                            this.handleInputChange({type: "oil_name", value: e.target.value})
+                        }}
+                        />
+                    </span>
+                </li>
+                <li>
+                    <span className="f_lt fc_blue">请输入充值JSD<span className="fc_gray fz_24">（最低额度100JSD）</span></span>
                     <span className="f_rt">
                         <input className="czAmount" type="text" value={this.state.jd_num} 
                         onChange = {e => {
@@ -147,6 +187,7 @@ class OilCard extends Component{
                 }}
                 >充值</span>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

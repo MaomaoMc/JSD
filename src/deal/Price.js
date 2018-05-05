@@ -1,17 +1,29 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
-import qs from 'qs';
 import echarts from 'echarts';
-import Title from './../Title';
+import qs from 'qs';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import WarningDlg from './../WarningDlg';
 
 class Price extends Component {
     constructor (props){
         super(props);
         this.state = {
             token: localStorage.getItem("token"),
-            priceData: []
+            priceData: [],
+            warningDlgShow: false,
+            warningText: ""
         };
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     priceAjax () { //价格折线图数据获取
         const token = this.state.token;
@@ -27,7 +39,14 @@ class Price extends Component {
                 }, function(){
                     this.chartLine()  //渲染图表
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer()
+                })
+             }
             self.setState({
                 code: data.code
             })
@@ -133,13 +152,14 @@ class Price extends Component {
     }
     render (){
         if(this.state.code === 10002){  //token 过期
-            localStorage.removeItem("logined")
+            window.tokenLoseFun();
             return (
                 <Redirect to="/"/>
             )
         }
         return <div style={{paddingBottom: "2rem"}}>
             <div id="main" className="mt_20" style={{width: "3.35rem", height: "2.12rem", margin: "0 auto", zIndex: "98"}}></div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

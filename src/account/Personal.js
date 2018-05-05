@@ -4,6 +4,7 @@ import axios from 'axios';
 import qs from 'qs';
 import Tab from '../Tab';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 import PersonalData from "./PersonalData";
 import Bill from "./Bill";
 import ClientService from "./ClientService";
@@ -49,7 +50,7 @@ const accountMenus = [
     {
         pic: require("../img/icon_wdzd_nor.png"),
         picActive: require("../img/icon_wdzd_hot.png"),
-        link: "/account/PersonalData",
+        link: "/mineralPool",
         component: PersonalData,
         text: "我的战队"
     },
@@ -111,9 +112,21 @@ class Personal extends Component {
                 total: 0,
                 jd_num: 0,
                 djd_num: 0,
+                warningDlgShow: false,
+                warningText: "",
                 code: ""
             }
         }
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     ajax (){
         const self = this;
@@ -126,7 +139,14 @@ class Personal extends Component {
                 self.setState({
                     data: data.data
                 })  
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg,
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+             }
             self.setState({
                 code: code
             })
@@ -161,6 +181,7 @@ class Personal extends Component {
                 })
             }
            </div>
+           {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
            <Tab />
         </div>
     }

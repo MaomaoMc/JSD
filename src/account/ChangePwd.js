@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 
 class ChangePwd extends Component {
     constructor (props){
@@ -21,7 +22,9 @@ class ChangePwd extends Component {
             pass: "",
             repass: "",
             title: title,
-            code: ""
+            code: "",
+            warningDlgShow: false,
+            warningText: ""
         }
     }
     handleInputChange (e){  //input change event
@@ -43,6 +46,16 @@ class ChangePwd extends Component {
             })
         }
     }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
+    }
     submit() {  //提交
         const state = this.state;
         const type = state.type;
@@ -59,17 +72,12 @@ class ChangePwd extends Component {
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === -4 || code === -5){  //旧密码不正确
-                alert(data.msg);
-            }
-            if(code === -3){  //两次密码不一致
-                alert(data.msg);
-            }
-            if(code === 1){  //修改成功
-                alert("修改成功");
-            }
             self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
                 code: code
+            }, function(){
+                this.hanleWarningDlgTimer()
             })
         })
     }
@@ -107,6 +115,7 @@ class ChangePwd extends Component {
                         this.submit({})
                     }}>提交</span>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

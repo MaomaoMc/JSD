@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 
 const pic = require("../img/pic_morentx.png");
 class AliPayBind extends Component{
@@ -9,6 +10,8 @@ class AliPayBind extends Component{
         super(props);
         this.state ={
             zfb_num: "",  //账号
+            warningDlgShow: false,
+            warningText: ""
         }
     }
     handleInputChange (e){
@@ -20,6 +23,20 @@ class AliPayBind extends Component{
             })
         }
     }
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){
+                        window.history.back();
+                    }
+                })
+            }
+        , 1000)
+    }
     submit (){ //提交
         const self = this;
         const zfb_num = this.state.zfb_num;
@@ -27,17 +44,14 @@ class AliPayBind extends Component{
             token: localStorage.getItem("token"),
             zfb_num: zfb_num
         })).then(function(res){
-            console.log(res, "ftdg")
             const data = res.data;
             const code = data.code;
-            if(code === -3){ //身份证号码不符合规则
-                alert(data.msg);
-            }
-            if(code === 1){ //成功
-                alert("认证成功");
-            }
             self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
                 code: code
+            }, function(){
+                this.hanleWarningDlgTimer({code: code})
             })
         })
     }
@@ -55,20 +69,12 @@ class AliPayBind extends Component{
                     }} 
                     />
                 </div>
-                {/* <div>
-                    <label className="fc_white">身份证号：</label>
-                    <input type="text" placeholder="请确认身份证号" value = {this.state.card_num} 
-                    onChange = {e => {
-                        this.handleInputChange({type: "card_num", val: e.target.value})
-                    }}
-                    />
-                </div> */}
-
                 <span className="btn btn_primary login_btn h_80 fz_26 f_lt mt_50" style={{ width: '100%' }}
                     onClick={e => {
                         this.submit({})
                     }}>提交</span>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

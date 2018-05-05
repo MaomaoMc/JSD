@@ -7,6 +7,8 @@ import copy from 'copy-to-clipboard';
 
 import Tab from './../Tab';
 import Title from './../Title';
+import Shadow from './../Shadow';
+import WarningDlg from './../WarningDlg';
 import './../css/css/mineralPool.css';
 
 class MineralPool extends Component {
@@ -28,7 +30,11 @@ class MineralPool extends Component {
             shadowShow: false,
             dlgIdNum: "",
             dlgIdPhone: "",
-            tanTuiMsg: {count: 0, items: []}  //总矿工数弹窗的数据
+            tanTuiData: {
+
+            },
+            warningDlgShow: false,
+            warningText: ""
         };
     }
     handleZtDlgEvent (e){
@@ -88,6 +94,16 @@ class MineralPool extends Component {
         copy(e.text);
         alert('复制成功');
     }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
+    }
     orePoolAjax (){  //总览的数据获取
         const baseUrl = window.baseUrl;
         const token = this.state.token;
@@ -102,7 +118,14 @@ class MineralPool extends Component {
                     force: data.data.force, //算力
                     num: data.data.num, //总矿工数
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+           }
             self.setState({
                 code: data.code
             })
@@ -123,20 +146,18 @@ class MineralPool extends Component {
                     mineralItems: data.data,
                     tuiItems: data.data
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+           }
             self.setState({
                 code: data.code
             });
         })
-    }
-    getTanTuiMsgItems (data){
-        return [
-            {text: "入门矿工", count: data.one},
-            {text: "初级矿工", count: data.two},
-            {text: "中级矿工", count: data.three},
-            {text: "高级矿工", count: data.four},
-            {text: "顶级矿工", count: data.five},
-        ]
     }
     tanTuiMsgAjax (){  //点击 总矿工数的 弹窗的数据获取
         const baseUrl = window.baseUrl;
@@ -149,12 +170,16 @@ class MineralPool extends Component {
             const code = data.code;
             if(code === 1){  //成功
                 this.setState({
-                    tanTuiMsg: {
-                        count: data.data.count,
-                        items:  self.getTanTuiMsgItems(data.data)
-                    }
+                    tanTuiData: data.data
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+           }
             self.setState({
                 code: data.code
             });
@@ -171,6 +196,7 @@ class MineralPool extends Component {
             {type: "tui", text: "直推"},
             {type: "team", text: "团队"},
         ];
+        const tanTuiData = this.state.tanTuiData;
         if(this.state.code === 10002){  //token 过期
             localStorage.removeItem("logined")
             return (
@@ -241,14 +267,18 @@ class MineralPool extends Component {
                 }}></a>
                 <div style={{padding: '.25rem .45rem'}}>
                     <ul className="f_flex">
-                    {
-                        this.state.tanTuiMsg.items.map(function(item){
-                            return  <li>
-                                <span>总直推数：{self.state.tanTuiMsg.conut}</span>
-                                <span className="f_rt">{item.text}：{item.count}</span>
-                            </li>
-                        })
-                    }
+                        <li>
+                            <span>总直推数：{tanTuiData.count}</span>
+                            <span className="f_rt">入门矿工：{tanTuiData.one}</span>
+                        </li>
+                        <li>
+                            <span>初级矿工：{tanTuiData.two}</span>
+                            <span className="f_rt">中级矿工：{tanTuiData.three}</span>
+                        </li>
+                        <li>
+                            <span>高级矿工：{tanTuiData.four}</span>
+                            <span className="f_rt">顶级矿工：{tanTuiData.five}</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -278,7 +308,8 @@ class MineralPool extends Component {
                     </div>
                 </div>
             </div>
-            <div className={this.state.shadowShow ? "shadow" : "shadow hide"}></div>
+            {this.state.shadowShow ? <Shadow /> : null}
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
             <Tab />
         </div>
     }

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 
 const sysNotices = [
     {
@@ -30,8 +31,20 @@ class SystemNotice extends Component{
         super(props);
         this.state = {
             data: [],
-            page: 1 //默认第一页
+            page: 1, //默认第一页
+            warningDlgShow: false,
+            warningText: ""
         }
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     ajax (){
         const self = this;
@@ -50,7 +63,7 @@ class SystemNotice extends Component{
                 localStorage.removeItem("logined");
                 localStorage.removeItem("sundryData");
             }
-            if(code === 1){  //成功
+            else if(code === 1){  //成功
                 if(dataArr.length === 0){ //没有数据可展示了
                     self.setState({
                         isLoadingMore: true
@@ -61,7 +74,14 @@ class SystemNotice extends Component{
                         data: data_arr.concat(dataArr)
                     })
                 }
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+             }
             self.setState({
                 code: code
             })
@@ -119,6 +139,7 @@ class SystemNotice extends Component{
            </ul>
            <div className="loadMore fz_12 fc_gray text_center mt_20" ref="wrapper"
              onClick={this.loadMoreDataFn.bind(this, this)}>{this.state.isLoadingMore ? "没有更多数据了" : "加载更多"}</div>
+             {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

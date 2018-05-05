@@ -4,12 +4,7 @@ import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
 import Tab from '../Tab';
-import Certify from './Certify';
-import ChangePwd from './ChangePwd';
-import CreditCertify from './CreditCertify';
-import SetHead from './SetHead';
-import AliPayBind from './AliPayBind';
-import WeChatBind from './WeChatBind';
+import WarningDlg from './../WarningDlg';
 
 const personal_data = {
     profile_pic: require("../img/icon_grzl_nor.png")
@@ -21,8 +16,20 @@ class PersonalData extends Component {
         console.log(window.baseUrl + JSON.parse(sundryData).adminpic, 'sundryData')
         this.state = {
             profile_pic: (window.baseUrl + JSON.parse(sundryData).adminpic), //头像
-            data: {}  //个人数据
+            data: {},  //个人数据
+            warningDlgShow: false,
+            warningText: ""
         }
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     uploadedFile (e){ //修改头像
         const self = this;
@@ -39,11 +46,18 @@ class PersonalData extends Component {
                 localStorage.removeItem("logined");
                 localStorage.removeItem("sundryData");
             }
-            if(code === 1){ //成功
+            else if(code === 1){ //成功
                 self.setState({
                     profile_pic: window.baseUrl +  data.data
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+             }
             self.setState({
                 code: code
             })
@@ -61,11 +75,18 @@ class PersonalData extends Component {
                 localStorage.removeItem("logined");
                 localStorage.removeItem("sundryData");
             }
-            if(code === 1){ //成功
+            else if(code === 1){ //成功
                 self.setState({
                     data: data.data
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+             }
             self.setState({
                 code: code
             })
@@ -112,61 +133,62 @@ class PersonalData extends Component {
                     </span>
                 </li>
                 <li>
-                    <span className="f_lt fc_blue">实名认证</span>
-                    <span className="f_rt">
-                        <span className="fc_white">{data.username}</span>
-                        {data.username != "" ? <span className="mark authenticated"><Link to = "/account/certify/authenticated" component = {Certify}>已认证</Link></span> 
-                         : <span className="mark unauthorized"><Link to = "/account/certify/unauthorized" component = {Certify}>未认证</Link></span>}
-                        
-                    </span>
+                    <Link to = {data.username != "" ? "/account/certify/authenticated" : "/account/certify/unauthorized"}>
+                        <span className="f_lt fc_blue">实名认证</span>
+                        <span className="f_rt">
+                            <span className="fc_white">{data.username}</span>
+                            {data.username != "" ? <span className="mark authenticated">已认证</span> 
+                            : <span className="mark unauthorized">未认证</span>}
+                            
+                        </span>
+                    </Link>
+                    
                 </li>
-                {/* <li>
-                    <span className="f_lt fc_blue">银行卡认证</span>
-                    <span className="f_rt">
-                        <span className="fc_white">建设银行</span>
-                        <span className="mark authenticated"><Link to = "/account/creditCertify" component = {CreditCertify}>已认证</Link></span>
-                    </span>
-                </li> */}
                 <li>
-                    <span className="f_lt fc_blue">刷脸认证</span>
-                    <span className="f_rt">
-                        <span className="mark unauthorized">未认证</span>
-                    </span>
+                    <Link to = "/account/shuaCertify/" >
+                        <span className="f_lt fc_blue">刷脸认证</span>
+                        <span className="f_rt">
+                            <span className="mark unauthorized">未认证</span>
+                        </span>
+                    </Link>
                 </li>
                 <li style={{height: ".21rem"}}></li>
                 <li>
-                    <span className="f_lt fc_blue">微信</span>
-                    <span className="f_rt">
-                        <span className="fc_white">{data.wx_num}</span>
-                        <Link to="/account/weChatBind" component = {WeChatBind}> <span className="go_arrow"></span></Link>
-                    </span>
+                    <Link to="/account/weChatBind">
+                        <span className="f_lt fc_blue">微信</span>
+                        <span className="f_rt">
+                            <span className="fc_white">{data.wx_num}</span>
+                            <span className="go_arrow"></span>
+                        </span>
+                    </Link>
                 </li>
                 <li>
-                    <span className="f_lt fc_blue">支付宝</span>
-                    <span className="f_rt">
-                        <span className="fc_white">{data.zfb_num}</span>
-                        <Link to="/account/aliPayBind" component = {AliPayBind}>  <span className="go_arrow"></span></Link>
-                    </span>
+                    <Link to="/account/aliPayBind">
+                        <span className="f_lt fc_blue">支付宝</span>
+                        <span className="f_rt">
+                            <span className="fc_white">{data.zfb_num}</span>
+                            <span className="go_arrow"></span>
+                        </span>
+                    </Link>
                 </li>
                 <li>
-                    <span className="f_lt fc_blue">虚拟钱包</span>
-                    <span className="f_rt">
+                    <Link to="/account/changeLoginPwd">
+                        <span className="f_lt fc_blue">修改登录密码</span>
+                        <span className="f_rt">
                         <span className="go_arrow"></span>
-                    </span>
+                        </span>
+                    </Link>
                 </li>
                 <li>
-                    <span className="f_lt fc_blue">修改登录密码</span>
-                    <span className="f_rt">
-                    <Link to="/account/changeLoginPwd" component = {ChangePwd}><span className="go_arrow"></span></Link>
-                    </span>
-                </li>
-                <li>
-                    <span className="f_lt fc_blue">修改交易密码</span>
-                    <span className="f_rt">
-                       <Link to="/account/changeTradePwd" component = {ChangePwd}> <span className="go_arrow"></span> </Link>
-                    </span>
+                    <Link to="/account/changeTradePwd"> 
+                        <span className="f_lt fc_blue">修改交易密码</span>
+                        <span className="f_rt">
+                        <span className="go_arrow"></span> 
+                        </span>
+                    </Link>
                 </li>
             </ul>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
            <Tab />
         </div>
     }

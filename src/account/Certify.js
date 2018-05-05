@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 
 const pic = require("../img/pic_morentx.png");
 class Certify extends Component{
@@ -9,7 +10,9 @@ class Certify extends Component{
         super(props);
         this.state ={
             username: "",  //姓名
-            card_num: "" //身份证号码
+            card_num: "", //身份证号码
+            warningDlgShow: false,
+            warningText: ""
         }
     }
     handleInputChange (e){
@@ -26,6 +29,16 @@ class Certify extends Component{
             })
         }
     }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
+    }
     submit (){ //提交
         const self = this;
         const username = this.state.username;
@@ -38,20 +51,17 @@ class Certify extends Component{
             console.log(res, "ftdg")
             const data = res.data;
             const code = data.code;
-            if(code === -3){ //身份证号码不符合规则
-                alert(data.msg);
-            }
-            if(code === 1){ //成功
-                alert("认证成功");
-            }
             self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
                 code: code
+            }, function(){
+                this.hanleWarningDlgTimer()
             })
         })
     }
     render (){
         const type = this.props.match.params.type;
-        console.log(type)
         return <div>
             <Title title="实名认证" code = {this.state.code}/>
             {type === "authorized" ? 
@@ -84,7 +94,7 @@ class Certify extends Component{
                     }}>提交</span>
             </div>
             }
-           
+           {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

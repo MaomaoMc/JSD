@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 
 const pic = require("../img/pic_morentx.png");
 class WeChatBind extends Component{
@@ -9,16 +10,32 @@ class WeChatBind extends Component{
         super(props);
         this.state ={
             wx_num: "",  //账号
+            warningDlgShow: false,
+            warningText: ""
         }
     }
     handleInputChange (e){
         const type = e.type;
         const value = e.val;
-        if(type === "username"){
+        if(type === "wx_num"){
             this.setState({
                 wx_num: value
             })
         }
+    }
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){
+                        window.history.back();
+                    }
+                })
+            }
+        , 1000)
     }
     submit (){ //提交
         const self = this;
@@ -27,17 +44,14 @@ class WeChatBind extends Component{
             token: localStorage.getItem("token"),
             wx_num: wx_num
         })).then(function(res){
-            console.log(res, "ftdg")
             const data = res.data;
             const code = data.code;
-            if(code === -3){ //身份证号码不符合规则
-                alert(data.msg);
-            }
-            if(code === 1){ //成功
-                alert("认证成功");
-            }
             self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
                 code: code
+            }, function(){
+                self.hanleWarningDlgTimer({code: code});
             })
         })
     }
@@ -53,20 +67,12 @@ class WeChatBind extends Component{
                     }} 
                     />
                 </div>
-                <div>
-                    <label className="fc_white">登陆密码：</label>
-                    <input type="text" placeholder="请确认微信登录密码" value = {this.state.card_num} 
-                    onChange = {e => {
-                        this.handleInputChange({type: "card_num", val: e.target.value})
-                    }}
-                    />
-                </div>
-
                 <span className="btn btn_primary login_btn h_80 fz_26 f_lt mt_50" style={{ width: '100%' }}
                     onClick={e => {
                         this.submit({})
                     }}>提交</span>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

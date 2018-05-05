@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from "axios";
 import qs from "qs";
+import WarningDlg from './../WarningDlg';
 
 class DealItems extends Component {
     constructor(props) {
@@ -16,6 +17,8 @@ class DealItems extends Component {
           code: "",
           loading: false,
           data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+          warningDlgShow: false,
+          warningText: ""
         };
       }
     handleSellEvent (e) { //卖给他
@@ -28,6 +31,16 @@ class DealItems extends Component {
         this.setState({
             tradePassPwd: e.val
         })
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     handlePayPwd (e){ //弹窗 取消/确定
         const type = e.type;
@@ -49,29 +62,38 @@ class DealItems extends Component {
                 if(code === 1){ //购买成功
                     this.setState({
                         dlgShow: false,
-                        tradePassPwd: ""
-                    })
-                }
-                if(code === -4){ //支付密码不正确
-                    this.setState({
-                        dlgShow: false,
-                        // jsdShortDlgShow: true,
-                        tradePassPwd: ""
-                    })
-                }
-                if(code === -3){//如果jsd余额不足
-                    this.setState({
-                        dlgShow: false,
-                        jsdShortDlgShow: true,
+                        warningDlgShow: true,
+                        warningText: "购买成功",
                         tradePassPwd: ""
                     }, function(){
-                        var timer = setTimeout(
-                            function(){
-                                self.setState({
-                                    jsdShortDlgShow: false
-                                })
-                            }
-                        , 1000)
+                        this.hanleWarningDlgTimer()
+                    })
+                }
+                else if(code === -4){ //支付密码不正确
+                    this.setState({
+                        warningDlgShow: true,
+                        warningText: "支付密码不正确",
+                        tradePassPwd: ""
+                    }, function(){
+                        this.hanleWarningDlgTimer()
+                    })
+                }
+                else if(code === -3){//如果jsd余额不足
+                    this.setState({
+                        dlgShow: false,
+                        warningDlgShow: true,
+                        warningText: "JSD余额不足",
+                        tradePassPwd: ""
+                    }, function(){
+                        this.hanleWarningDlgTimer()
+                    })
+                } else{
+                    self.setState({
+                        warningDlgShow: true,
+                        warningText: data.msg,
+                        code: code
+                    }, function(){
+                        this.hanleWarningDlgTimer()
                     })
                 }
             })
@@ -130,7 +152,7 @@ class DealItems extends Component {
                 localStorage.removeItem("logined");
                 localStorage.removeItem("sundryData");
             }
-            if(code === 1){  //成功
+            else if(code === 1){  //成功
                 if(dataArr.length === 0){ //没有数据可展示了
                     self.setState({
                         isLoadingMore: true
@@ -141,6 +163,13 @@ class DealItems extends Component {
                         dealItems: dealItems.concat(data.data)
                     })
                 }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg,
+                }, function(){
+                    self.hanleWarningDlgTimer()
+                })
             }
             self.setState({
                 code: code
@@ -172,7 +201,7 @@ class DealItems extends Component {
                         const price = item.price;
                         return <li key={i} className="fz_22">
                             <p>
-                                <span className="fc_blue">单号：{item.buy_id}</span>
+                                <span className="fc_blue">单号：{item.trade_num}</span>
                                 <span className="f_rt fc_white">ID：{item.trade_id}</span>
                             </p>
                             <p className="fc_white text_center" style={{lineHeight: ".5rem"}}>挂卖{num}MAC，单价{price}元，总价{Math.round(parseFloat(num * price)*100)/100}</p>
@@ -206,6 +235,7 @@ class DealItems extends Component {
                     </div>
                 </div>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

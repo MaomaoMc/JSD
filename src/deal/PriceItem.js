@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
+import WarningDlg from './../WarningDlg';
 import '../css/css/deal.css';
 
 const priceItems = {
@@ -16,11 +17,23 @@ class PriceItem extends Component {
         super(props);
         this.state = {
             data: {},
+            warningDlgShow: false,
+            warningText: "",
             code: ""
         }
     }
     componentDidMount (){
         this.ajax();
+    }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
     }
     ajax (){
         const self = this;
@@ -33,7 +46,14 @@ class PriceItem extends Component {
                 self.setState({
                     data: data.data,
                 })
-            }
+            } else {
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
+                })
+             }
             self.setState({
                 code: code
             })
@@ -56,6 +76,7 @@ class PriceItem extends Component {
                 <p>高：{data.topPrice}</p>
                 <p>量：{data.num}</p>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

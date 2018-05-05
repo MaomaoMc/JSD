@@ -23,16 +23,20 @@ ul.tabUl {
       width: .26rem;
       height: .26rem;
       margin: .05rem auto 0;
-      background-size: 100%; }
+      background-size: 100% 100%; }
     ul.tabUl li span.js_icon {
-      background-image: url(../../img/icon_jishi_bor.png); }
-      ul.tabUl li span.js_icon :active {
-        background-image: url(../../img/icon_jishi_hot.png); }
+      background-image: url(../../img/icon_jishi_nor.png); }
+    ul.tabUl li span.js_icon.active {
+      background-image: url(../../img/icon_jishi_hot.png); }
     ul.tabUl li span.kc_icon {
       background-image: url(../../img/icon_kuangchi_nor.png); }
+    ul.tabUl li span.kc_icon.active {
+      background-image: url(../../img/icon_kuangchi_hot.png); }
     ul.tabUl li span.jy_icon {
-      background-image: url(../../img/icon_jiaoyii_nor.png); }
-      ul.tabUl li span.jy_icon :active {
-        background-image: url(../../img/icon_jiaoyi_hot.png); }
+      background-image: url(../../img/icon_jiaoyi_nor.png); }
+    ul.tabUl li span.jy_icon.active {
+      background-image: url(../../img/icon_jiaoyi_hot.png); }
     ul.tabUl li span.my_icon {
       background-image: url(../../img/icon_wode_nor.png); }
+    ul.tabUl li span.my_icon.active {
+      background-image: url(../../img/icon_wode_hot.png); }

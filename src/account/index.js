@@ -17,13 +17,13 @@ import RobPacket from './RobPacket';
 import LuckDial from './LuckDial';
 import Lottery from './Lottery';
 import Certify from './Certify';
+import ShuaCertify from './ShuaCertify';
 import ChangePwd from './ChangePwd';
 import WeChatBind from './WeChatBind';
 import AliPayBind from './AliPayBind';
-// import ChangeLoginPwd from './ChangeLoginPwd';
 import CreditCertify from './CreditCertify';  //银行卡认证
-import SetHead from './SetHead';  //银行卡认证
 import ForgetPwd from './ForgetPwd';
+import NounExplain from './NounExplain';
 
 class Account extends Component {
     render(){
@@ -35,6 +35,7 @@ class Account extends Component {
                 <Route path="/account/service" component = {ClientService} />
                 <Route path="/account/systemNotice" component = {SystemNotice} />
                 <Route path="/account/systemSet/about" component = {AboutJsd} />
+                <Route path="/account/systemSet/nounExplain" component = {NounExplain} />
                 <Route path="/account/systemSet/wechat" component = {WeChat} />
                 <Route path="/account/systemSet" component = {SystemSet} />
                 <Route path="/account/oilCard" component = {OilCard} />
@@ -44,11 +45,11 @@ class Account extends Component {
                 <Route path="/account/luckDial" component = {LuckDial} />
                 <Route path="/account/lottery" component = {Lottery} />
                 <Route path="/account/certify/:type" component = {Certify} />
+                <Route path="/account/shuaCertify/" component = {ShuaCertify} />
                 
                 <Route path="/account/changeLoginPwd" component = {ChangePwd} />
                 <Route path="/account/changeTradePwd" component = {ChangePwd} />
                 <Route path="/account/creditCertify" component = {CreditCertify} />
-                <Route path="/account/setHead" component = {SetHead} />
                 <Route path="/account/forgetLoginPwd" component = {ForgetPwd} />
                 <Route path="/account/forgetTradePwd" component = {ForgetPwd} />
                 <Route path="/account/weChatBind" component = {WeChatBind} />

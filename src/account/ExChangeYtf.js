@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
+import WarningDlg from './../WarningDlg';
 
 const ytf_pic = require("../img/icon_ytf_nor.png")
 class ExchangeYtf extends Component{
@@ -10,7 +11,9 @@ class ExchangeYtf extends Component{
         this.state = {
             name: "",
             num: "",
-            jd_num: 0
+            jd_num: 0,
+            warningDlgShow: false,
+            warningText: ""
         }
     }
     handleInputChange (e){
@@ -31,6 +34,16 @@ class ExchangeYtf extends Component{
             });
         }
     }
+    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+        const self = this;
+        setTimeout(
+            function(){
+                self.setState({
+                    warningDlgShow: false
+                })
+            }
+        , 1000)
+    }
     handleSubmit (){ //兑换
         const self = this;
         const name = this.state.name;
@@ -48,14 +61,12 @@ class ExchangeYtf extends Component{
                 localStorage.removeItem("logined");
                 localStorage.removeItem("sundryData");
             }
-            if(code === -3){  //JSD数量不能为空
-                alert(data.msg);
-            }
-            if(code === 1){  //成功
-               alert("兑换成功");
-            }
             self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
                 code: code
+            }, function(){
+                this.hanleWarningDlgTimer()
             })
         })
     }
@@ -87,7 +98,7 @@ class ExchangeYtf extends Component{
                     </span>
                 </li>
                 <li>
-                    <span className="f_lt fc_blue">请输入兑换金额</span>
+                    <span className="f_lt fc_blue">请输入兑换JSD</span>
                     <span className="f_rt">
                         <input className="czAmount" type="text" value = {this.state.jd_num}
                           onChange = {e => {
@@ -104,6 +115,7 @@ class ExchangeYtf extends Component{
                 }}
                 >兑换</span>
             </div>
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }
 }

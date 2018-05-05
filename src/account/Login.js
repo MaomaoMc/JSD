@@ -5,6 +5,7 @@ import axios from 'axios';
 import qs from 'qs';
 import MachineM from '../machineMarket/index';
 import ForgetPwd from './ForgetPwd';
+import WarningDlg from './../WarningDlg';
 
 class Login extends Component {
   constructor(props) {
@@ -13,8 +14,10 @@ class Login extends Component {
     this.state = { 
       logined: localStorage.getItem("logined"),
       keepPwd: false,
-      phone: "18796271508",
-      l_pass: l_pass ? l_pass : ""
+      phone: "",
+      l_pass: l_pass ? l_pass : "",
+      warningDlgShow: false,
+      warningText: ""
     };
   }
   changeInputVal = (obj) => { //input change事件
@@ -47,6 +50,16 @@ class Login extends Component {
       return true;
     }
   }
+  hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    const self = this;
+    setTimeout(
+        function(){
+            self.setState({
+                warningDlgShow: false
+            })
+        }
+    , 1000)
+  }
   login = (e) => { //登录
     const phone = this.state.phone;
     const l_pass = this.state.l_pass;
@@ -59,10 +72,14 @@ class Login extends Component {
     })).then(re=>{
       const data = re.data;
       if(data.code === -3){ //登录失败
-        alert("登录失败，请确认账号密码是否正确");
-        return;
-      }
-      if(data.code === 1){  //登录成功
+        this.setState({
+            warningDlgShow: true,
+            warningText: "登录失败，请确认账号密码是否正确",
+        }, function(){
+          this.hanleWarningDlgTimer()
+      })
+      } 
+       if(data.code === 1){  //登录成功
         localStorage.setItem("logined", true);
         localStorage.setItem("token", data.data.token);
         this.setState({
@@ -70,6 +87,13 @@ class Login extends Component {
         }, function(){
           this.getSundry(data.data.token);
         })
+       } else {
+        this.setState({
+          warningDlgShow: true,
+          warningText: data.msg,
+      }, function(){
+          this.hanleWarningDlgTimer()
+      })
       }
     })
   }
@@ -81,6 +105,13 @@ class Login extends Component {
       const code = re.code;
      if(data.code === 1){ //成功
       localStorage.setItem("sundryData", JSON.stringify(data.data));  //后面的页面时不时要用到的 先存着
+     } else {
+        this.setState({
+          warningDlgShow: true,
+          warningText: data.msg,
+      }, function(){
+          this.hanleWarningDlgTimer()
+      })
      }
     })
   }
@@ -123,6 +154,7 @@ class Login extends Component {
               </Link>  
               </div>    
         </div>
+        {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
       </div>
     );
   }

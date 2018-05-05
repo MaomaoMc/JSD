@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import Title from './../Title';
 
 const wechat_gzh = require("../img/wechatgzh.jpg");
 const wechat = require("../img/icon_weixin.png");
 class ClientService extends Component{
     render (){
         return <div>
-            <div className="title"><span className="arrow back_arrow"></span>客服中心<span className="refresh"></span></div>
+            <Title title="客服中心"/>
             <div className="clientService fc_white fz_24">
                 <p>
                     <img className="wechat" src={wechat} alt=""></img>
