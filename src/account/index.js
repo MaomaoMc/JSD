@@ -24,6 +24,7 @@ import AliPayBind from './AliPayBind';
 import CreditCertify from './CreditCertify';  //银行卡认证
 import ForgetPwd from './ForgetPwd';
 import NounExplain from './NounExplain';
+// import SetHead from './SetHead';
 
 class Account extends Component {
     render(){
@@ -31,6 +32,7 @@ class Account extends Component {
             <Switch>
                 <Route path="/account/register" component = {Register} />
                 <Route path="/account/personalData" component = {PersonalData} />
+                {/* <Route path="/account/setHead" component = {SetHead} /> */}
                 <Route path="/account/bill" component = {Bill} />
                 <Route path="/account/service" component = {ClientService} />
                 <Route path="/account/systemNotice" component = {SystemNotice} />

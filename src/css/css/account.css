@@ -85,12 +85,11 @@
 .personalData {
   text-align: center; }
   .personalData img {
-    width: .76rem;
-    height: .95rem;
-    margin: .5rem auto 0; }
+    width: .76rem; }
   .personalData .file {
     width: .76rem;
     height: .95rem;
+    line-height: .95rem;
     margin: .5rem auto 0;
     background-size: 100% 100%;
     position: relative; }

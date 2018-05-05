@@ -5,25 +5,6 @@ import qs from 'qs';
 import Title from './../Title';
 import WarningDlg from './../WarningDlg';
 
-
-const bills = [
-   {
-       date: "04.18 11:47:21",
-       count: -10
-   },
-   {
-        date: "04.18 11:47:21",
-        count: -10
-    },
-    {
-        date: "04.18 11:47:21",
-        count: -10
-    },
-    {
-        date: "04.18 11:47:21",
-        count: -10
-    },
-];
 const tabs = [
     {
         type: "0",
@@ -52,6 +33,7 @@ class Bill extends Component {
         this.state = {
             tabIndex: 0,
             type: 0,
+            money: 0,
             data: [],  //数据
             warningDlgShow: false,
             warningText: ""
@@ -78,6 +60,7 @@ class Bill extends Component {
             }
             if(code === 1){ //成功
                 self.setState({
+                    money: data.money,
                     data: data.data
                 })
             }
@@ -109,6 +92,7 @@ class Bill extends Component {
     render (){
         const self = this;
         const data = this.state.data;
+        const money = this.state.money;
         if(this.state.code === 10002){
             return <Redirect to = "/account"/>
         }
@@ -125,16 +109,16 @@ class Bill extends Component {
               })
           }
           </ul>
-          <p className="fc_yellow totalSum" style={{fontSize: ".395rem"}}>+13.75644342</p>
+          <p className="fc_yellow totalSum" style={{fontSize: ".395rem"}}>{money > 0 ? "+" : "-"}{this.state.money}</p>
           <ul className="billItems f_flex fz_24">
           {
               data.map(function(bill, i){
-                  const money_type = bill.money_type;
+                  const type = bill.type;
                   return <li key={i}>
-                    <span className="fc_blue">{self.renderMoneyType(money_type)}</span><br/>
+                    <span className="fc_blue">{bill.content}</span><br/>
                     <p className="fc_white">
                         <span className="f_lt">{bill.add_time}</span>
-                        <span className="f_rt">{parseFloat(bill.money).toFixed(2)}</span>
+                        <span className="f_rt">{type === 1 ? "+" : "-"}{parseFloat(bill.money).toFixed(2)}</span>
                     </p>
                 </li>
               })

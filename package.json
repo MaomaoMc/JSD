@@ -8,6 +8,7 @@
     "gulp-react": "^3.1.0",
     "gulp-sass": "^4.0.1",
     "gulp-watch": "^5.0.0",
+    "lrz": "^4.9.40",
     "query": "^0.2.0",
     "react": "^16.3.2",
     "react-cropper": "^1.0.1",
@@ -33,6 +34,7 @@
     "echarts": "^4.0.4",
     "fetch": "^1.1.0",
     "qs": "^6.5.1",
+    "react-core-image-upload": "^2.2.3",
     "react-dropzone": "^4.2.9",
     "superagent": "^3.8.3",
     "zepto": "^1.2.0"
