@@ -101,7 +101,7 @@ class Bill extends Component {
           <ul className="billTab f_flex">
           {
               tabs.map(function(tab, index){
-                  return <li key={index} className = {self.state.tabIndex == index ? "active" : ""}>
+                  return <li key={index} className = {self.state.tabIndex === index ? "active" : ""}>
                       <a onClick = {e => {
                           self.handleTabSwitch({tabIndex: index})
                       }}>{tab.text}</a>

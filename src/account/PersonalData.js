@@ -142,16 +142,19 @@ class PersonalData extends Component {
                     </span>
                 </li>
                 <li>
-                    <Link to = {data.username != "" ? "/account/certify/authenticated" : "/account/certify/unauthorized"}>
+                    {data.username === "" ? <Link to = "/account/certify/unauthorized">
                         <span className="f_lt fc_blue">实名认证</span>
                         <span className="f_rt">
                             <span className="fc_white">{data.username}</span>
-                            {data.username != "" ? <span className="mark authenticated">已认证</span> 
-                            : <span className="mark unauthorized">未认证</span>}
-                            
+                            <span className="mark unauthorized">未认证</span>
                         </span>
-                    </Link>
-                    
+                    </Link> :  <span><span className="f_lt fc_blue">实名认证</span>
+                            <span className="f_rt">
+                                <span className="fc_white">{data.username}</span>
+                                <span className="mark authenticated">已认证</span> 
+                            </span>
+                        </span>
+                    }
                 </li>
                 <li>
                     <Link to = "/account/shuaCertify/" >

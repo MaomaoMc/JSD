@@ -40,7 +40,7 @@ class AliPayBind extends Component{
     submit (){ //提交
         const self = this;
         const zfb_num = this.state.zfb_num;
-        axios.post(window.baseUrl + "/home/Member/realName", qs.stringify({
+        axios.post(window.baseUrl + "/home/Member/bindZfbNum", qs.stringify({
             token: localStorage.getItem("token"),
             zfb_num: zfb_num
         })).then(function(res){
@@ -57,7 +57,6 @@ class AliPayBind extends Component{
     }
     render (){
         const type = this.props.match.params.type;
-        console.log(type)
         return <div>
             <Title title="支付宝绑定" code = {this.state.code}/>
             <div className="account_form fz_26">

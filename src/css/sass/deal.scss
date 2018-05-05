@@ -66,10 +66,10 @@ ul.guadanTab{
     // background-size: .03rem 100%;    
     border-top: .01rem solid #00a8ff; 
     border-bottom: .01rem solid #00a8ff; 
-    position: fixed;
-    left: 0;
-    bottom: .65rem;
-    z-index: 99;
+    // position: fixed;
+    // left: 0;
+    // bottom: .65rem;
+    // z-index: 99;
     li{
         flex-grow: 1;
         height: .935rem;
@@ -132,13 +132,80 @@ ul.dealItems{
         margin-top: .15rem;
         span.btn{
             width: .9rem;
+            margin: 0 auto;
+        }
+    }
+}
+.records, .dealItems{
+    li{
+        span.btn{
             height: .24rem;
             line-height: .24rem;
             color: rgb(255, 255, 0);
-            border: .005rem solid rgb(255, 255, 0);
+            border: .01rem solid rgb(255, 255, 0);
             border-radius: .12rem;
             background-color: rgba(255, 255, 0, .3);
-            margin: 0 auto;
+            // margin: 0 auto;
+        }
+    }
+}
+//交易记录  我的买单 我的卖单
+.dealRecords{
+    width: 3.35rem;
+    height: 2.12rem;
+    border-radius: .1rem;
+    margin: .1rem auto;
+    position: relative;
+    ul.tabs{
+        flex-direction: row;
+        width: 100%;
+        height: .4rem;
+        border-bottom: .01rem solid #00a8ff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        li{
+            flex-grow: 1;
+            color: white;
+            font-size: .14rem;
+            text-align: center;
+            a{
+                display: inline-block;
+                height: .39rem;
+                line-height: .39rem;
+            }
+        }
+        li.active{
+            color: #00a8ff;
+            a{
+                border-bottom: .015rem solid #00a8ff;
+            }
+        }
+    }
+    ul.records{
+        flex-direction: column;
+        padding: 0 .2rem;
+        overflow: hidden;
+        li{
+            flex-grow: 1;
+            border-bottom: .01rem solid #00a8ff;
+            padding: .1rem;
+            position: relative;
+            a{
+                display: block;
+                width: 100%;
+                height: 100%;
+                p{
+                    line-height: .2rem;
+                }
+                span.btn{
+                    width: .8rem;
+                    position: absolute;
+                    right: 0;
+                    bottom: .1rem;
+                }
+            }
+           
         }
     }
 }

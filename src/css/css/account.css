@@ -265,3 +265,21 @@ input.czAmount {
   height: .12rem;
   border: .01rem solid #00a8ff;
   border-radius: .05rem; }
+
+/*留言反馈*/
+.feedbackWrap {
+  padding: .2rem; }
+  .feedbackWrap div {
+    height: 3rem;
+    border: .01rem solid #00a8ff;
+    border-radius: .1rem;
+    padding: .1rem; }
+  .feedbackWrap textarea {
+    width: 100%;
+    height: 100%;
+    border: none; }
+  .feedbackWrap input[placeholder], .feedbackWrap [placeholder], .feedbackWrap *[placeholder] {
+    color: #00a8ff !important; }
+  .feedbackWrap ::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #00a8ff !important; }

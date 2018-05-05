@@ -99,7 +99,6 @@ class OilCard extends Component{
     }
     handleSltOilCardType (){  //选择油卡类型
         const self = this;
-        let type;
         var as = new ActionSheet({
             buttons: {
                 '中石油': function(e){

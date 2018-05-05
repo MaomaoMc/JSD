@@ -42,6 +42,14 @@ class SystemSet extends Component{
                     </Link>
                 </li>
                 <li>
+                    <Link to = "/account/systemSet/feedback">
+                        <span className="f_lt fc_blue">留言反馈</span>
+                        <span className="f_rt">
+                            <span className="go_arrow"></span>
+                        </span> 
+                    </Link>
+                </li>
+                <li>
                     <Link to="/account/systemSet/wechat">
                         <span className="f_lt fc_blue">微信公众号</span>
                         <span className="f_rt">

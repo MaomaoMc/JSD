@@ -46,16 +46,14 @@ class SystemNotice extends Component{
             }
         , 1000)
     }
-    ajax (){
+    ajax (page){
         const self = this;
-        const page = this.state.page;
         const data_arr = this.state.data;
         axios.post(window.baseUrl + "/home/Member/systemInforms", qs.stringify({
             token: localStorage.getItem("token"),
-            page: page,
+            page: page || self.state.page,
             limit: 10
         })).then(function(res){
-            console.log(res, 'ressss');
             const data = res.data;
             const code = data.code;
             const dataArr = data.data;
@@ -93,8 +91,6 @@ class SystemNotice extends Component{
         const loadMoreDataFn = this.loadMoreDataFn;
         const that = this; // 为解决不同context的问题
         let timeCount;
-
-
         function callback() {
             const top = wrapper.getBoundingClientRect().top;
             const windowHeight = window.screen.height;

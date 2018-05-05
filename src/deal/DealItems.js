@@ -16,7 +16,6 @@ class DealItems extends Component {
           tradePassPwd: "",
           code: "",
           loading: false,
-          data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
           warningDlgShow: false,
           warningText: ""
         };

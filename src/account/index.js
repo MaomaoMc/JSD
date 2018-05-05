@@ -24,7 +24,7 @@ import AliPayBind from './AliPayBind';
 import CreditCertify from './CreditCertify';  //银行卡认证
 import ForgetPwd from './ForgetPwd';
 import NounExplain from './NounExplain';
-// import SetHead from './SetHead';
+import Feedback from './Feedback';
 
 class Account extends Component {
     render(){
@@ -38,6 +38,7 @@ class Account extends Component {
                 <Route path="/account/systemNotice" component = {SystemNotice} />
                 <Route path="/account/systemSet/about" component = {AboutJsd} />
                 <Route path="/account/systemSet/nounExplain" component = {NounExplain} />
+                <Route path="/account/systemSet/feedback" component = {Feedback} />
                 <Route path="/account/systemSet/wechat" component = {WeChat} />
                 <Route path="/account/systemSet" component = {SystemSet} />
                 <Route path="/account/oilCard" component = {OilCard} />

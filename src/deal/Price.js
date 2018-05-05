@@ -157,8 +157,9 @@ class Price extends Component {
                 <Redirect to="/"/>
             )
         }
-        return <div style={{paddingBottom: "2rem"}}>
+        return <div>
             <div id="main" className="mt_20" style={{width: "3.35rem", height: "2.12rem", margin: "0 auto", zIndex: "98"}}></div>
+
             {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }

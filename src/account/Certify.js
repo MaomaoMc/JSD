@@ -29,12 +29,16 @@ class Certify extends Component{
             })
         }
     }
-    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
         setTimeout(
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){  //操作成功的话  回到个人中心页面
+                        window.history.back();
+                    }
                 })
             }
         , 1000)
@@ -48,7 +52,6 @@ class Certify extends Component{
             username: username,
             card_num: card_num
         })).then(function(res){
-            console.log(res, "ftdg")
             const data = res.data;
             const code = data.code;
             self.setState({
@@ -56,7 +59,7 @@ class Certify extends Component{
                 warningText: data.msg,
                 code: code
             }, function(){
-                this.hanleWarningDlgTimer()
+                this.hanleWarningDlgTimer({code: code})
             })
         })
     }

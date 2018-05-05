@@ -108,7 +108,7 @@ class Ptp extends Component {
                 <Redirect to="/"/>
             )
         }
-        return <div style={{paddingBottom: "2rem"}}> 
+        return <div> 
             <div className="ptpFrom mt_20">
                 <ul className="f_flex">
                     <li>
