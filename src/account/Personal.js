@@ -27,6 +27,13 @@ const accountMenus = [
         text: "个人资料"
     },
     {
+        pic: require("../img/icon_wdkj_nor.png"),
+        picActive: require("../img/icon_zdzx_hot.png"),
+        link: "/account/myMineral",
+        component: Bill,
+        text: "我的矿机"
+    },
+    {
         pic: require("../img/icon_zdzx_nor.png"),
         picActive: require("../img/icon_zdzx_hot.png"),
         link: "/account/Bill",

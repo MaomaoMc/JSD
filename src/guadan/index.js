@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import Title from './../Title';
+import Shadow from "./../Shadow";
 import DealItems from '../deal/DealItems';
 import WarningDlg from './../WarningDlg';
 import '../css/css/deal.css';
@@ -15,7 +17,7 @@ class GuaDan extends Component {
     }
     constructor(props) {
         super(props);
-        const hash = this.props.hash;
+        const hash = window.location.hash;
         const index = hash.indexOf("newerGuad");
         const sundryData = this.props.sundryData;
         const newPrice = sundryData.newPrice;  //当前价格
@@ -44,16 +46,25 @@ class GuaDan extends Component {
             tabIndex: 0,
             page: 1, //默认第一页啊
             lists: [],
+            dlgShow: false,  //支付密码弹窗
+            pass: "", //支付密码
             warningDlgShow: false,
             warningText: "", //警告文字
         };
     }
-    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
         setTimeout(
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                    if(obj){
+                        const code = obj.code;
+                        if(code === 1){ //成功
+                           window.location.reload()
+                        }
+                    }
                 })
             }
         , 1000)
@@ -81,16 +92,9 @@ class GuaDan extends Component {
     handleIptChange(e) { // input change event
         const type = e.type;
         const value = e.value;
-        if (type === "price") {  //价格
-            this.setState({
-                price: value
-            })
-        }
-        if (type === "count") {  //价格
-            this.setState({
-                count: value
-            })
-        }
+        this.setState({
+            [type]: value
+        })
     }
     handleDealTab(e) {  //tab切换
         const type = e.type;
@@ -135,14 +139,14 @@ class GuaDan extends Component {
     componentDidUpdate(nextProps) {
         if (nextProps !== this.props) {
             const hash = window.location.hash;
-            const index = hash.search(/newerGuad/i);
+            const index = hash.indexOf("newerGuad");
             let page_type, tip;
             if (index === -1) { // 高手挂单
                 page_type = "2";
-                tip = "认证用户可进行1-10JSD议价交易！";
+                tip = "算力≥5用户可进行10-200JSD议价交易！";
             } else {  //新手挂单
                 page_type = "1";
-                tip = "3esdsdd-10JSD议价交易！";
+                tip = "认证用户可进行1-10JSD议价交易！";
             }
             this.setState({
                 page_type: page_type,
@@ -150,25 +154,50 @@ class GuaDan extends Component {
             })
         }
     }
-    handleBuyJd() {  //挂买单
-        const self = this;
-        let num = this.state.count;
-        if (num === "") {
-            num = 0;
-        }
-        axios.post(window.baseUrl + "/home/Trade/buyjd", qs.stringify({
-            token: localStorage.getItem("token"),
-            price: this.state.price,
-            type: this.state.page_type,  //新手 还是进阶
-            num: num,  //数量
-        })).then(function (res) {
-            self.setState({
-                warningDlgShow: true,
-                warningText: res.data.msg
-            }, function(){
-                self.hanleWarningDlgTimer()
-            })
+    handlePwdEvent (e){  //输入交易密码
+        this.setState({
+            pass: e.val
         })
+    }
+    
+    handlePayPwd (e){ //弹窗 取消/确定
+        const type = e.type;
+        if(type === "cancel"){  //取消
+            this.setState({
+                dlgShow: false,
+                pass: ""
+            })
+        }else{   //如果是 确定的话  要判断支付密码是否正确了
+            const self = this;
+            const trade_id = this.state.trade_id;
+            const pass = this.state.pass;
+            let num = this.state.count;
+            if (num === "") {
+                num = 0;
+            }
+            axios.post(window.baseUrl + "/home/Trade/buyjd", qs.stringify({
+                token: localStorage.getItem("token"),
+                price: this.state.price,
+                type: this.state.page_type,  //新手 还是进阶
+                num: num,  //数量
+                pass: pass
+            })).then(function (res) {
+                const code = res.data.code;
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: res.data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer({code: code})
+                })
+            })
+        }
+       
+    }
+    handleBuyJd() {  //挂买单
+        this.setState({
+            dlgShow: true
+        })
+        
     }
     render() {
         const count = this.state.count;
@@ -242,7 +271,7 @@ class GuaDan extends Component {
                                 this.handleBuyJd()
                             }}
                         >挂买单</span>
-                        <p className="text_center notice fz_24"><a><img src={wenhao} alt="" />新手挂单交易须知</a></p>
+                        <p className="text_center notice fz_24"><Link to = "/newerGdNotes"><img src={wenhao} alt="" />新手挂单交易须知</Link></p>
                     </div>
                     <div style={{ padding: '0 .25rem' }}>
                         <ul className="deal_tab f_flex fz_30">
@@ -256,7 +285,27 @@ class GuaDan extends Component {
                         </ul>
                     </div>
                 </div>
-                <DealItems type={this.state.type} />
+                <DealItems type={this.state.type}/>
+            </div>
+            {this.state.dlgShow ? <Shadow /> : null}
+            <div className={this.state.dlgShow ? "dialog dlgPayPwd" : "dialog dlgPayPwd hide"}>
+                <p className="dlg_tit fc_white">输入密码</p>
+                <div className="dlg_form">
+                    <p className="text_center fz_24 fc_white">请输入支付密码：</p>
+                    <input className="b_blue1" type="password" value = {this.state.pass} 
+                    onChange = {e => {
+                        this.handlePwdEvent({val: e.target.value})
+                    }}
+                    />
+                    <div className="over_hidden" style={{padding: "0 .14rem"}}>
+                        <span className="btn fz_24 fc_white f_lt" onClick = {e => {
+                            self.handlePayPwd({type: "cancel"})
+                        }}>取消</span>
+                        <span className="btn fz_24 fc_white f_rt" onClick = {e => {
+                            self.handlePayPwd({type: "confirm"})
+                        }}>确定</span>
+                    </div>
+                </div>
             </div>
             {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>

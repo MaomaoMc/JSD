@@ -8,7 +8,7 @@ class DealItems extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          dlgShow: false,
+          dlgShow: this.props.dlgShow || false,
           page: 1, //默认第一页
           isLoadingMore: false,
           dealItems: [],
@@ -105,8 +105,6 @@ class DealItems extends Component {
         const loadMoreDataFn = this.loadMoreDataFn;
         const that = this; // 为解决不同context的问题
         let timeCount;
-
-
         function callback() {
             const top = wrapper.getBoundingClientRect().top;
             const windowHeight = window.screen.height;
@@ -219,7 +217,7 @@ class DealItems extends Component {
                 <p className="dlg_tit fc_white">输入密码</p>
                 <div className="dlg_form">
                     <p className="text_center fz_24 fc_white">请输入支付密码：</p>
-                    <input className="b_blue1" type="text" value = {this.state.tradePassPwd} 
+                    <input className="b_blue1" type="password" value = {this.state.tradePassPwd} 
                     onChange = {e => {
                         this.handlePwdEvent({val: e.target.value})
                     }}

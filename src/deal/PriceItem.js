@@ -5,13 +5,6 @@ import qs from 'qs';
 import WarningDlg from './../WarningDlg';
 import '../css/css/deal.css';
 
-const priceItems = {
-    price: 10.71,
-    high: 10.71,
-    amount: 2683
-}
-
-
 class PriceItem extends Component {
     constructor (props){
         super(props);
@@ -61,7 +54,6 @@ class PriceItem extends Component {
     }
     render (){
         const data = this.state.data;
-        console.log(data, 'data')
         if(this.state.code === 10002){  //token 过期
             return (
                 <Redirect to="/"/>

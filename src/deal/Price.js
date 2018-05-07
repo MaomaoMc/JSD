@@ -56,7 +56,6 @@ class Price extends Component {
         const priceData = this.state.priceData;
         let date_arr = [] , data_arr = [];
         priceData.map(function(item, i){
-            console.log(item)
             date_arr[i] = item.time.substring(5);
             data_arr[i] = item.price;
         })
