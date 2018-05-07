@@ -198,7 +198,7 @@ class MineralPool extends Component {
         ];
         const tanTuiData = this.state.tanTuiData;
         if(this.state.code === 10002){  //token 过期
-            localStorage.removeItem("logined")
+            window.tokenLoseFun();
             return (
                 <Redirect to="/"/>
             )

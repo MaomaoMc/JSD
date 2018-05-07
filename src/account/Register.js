@@ -7,6 +7,13 @@ import WarningDlg from '../WarningDlg';
 class Register extends Component {
     constructor (props){
         super(props);
+        
+        let tui_id = "";
+        const hash = window.location.hash;
+        if(hash.indexOf("tui_id") !== -1){
+            tui_id = hash.substring(hash.indexOf("tui_id") + 7);
+        }
+        console.log(tui_id, 'tui_id')
         this.state = {
             phone: "",
             code: "", //验证码
@@ -14,7 +21,7 @@ class Register extends Component {
             rl_pass: "",
             t_pass: "",  //交易密码
             rt_pass: "",  //重复交易密码
-            tui_id: "", //推荐人ID
+            tui_id: tui_id, //推荐人ID
             data_code: "", //接口返回的code  例如10002  1 等
             countDown: 60,
             warningDlgShow: false,
@@ -187,22 +194,22 @@ class Register extends Component {
                         this.handleSendCode()
                     }}>{countDown > 0 && countDown < 60 ? countDown + "s后重新发送" : countDown === 0 ? "重新发送" : "发送短信"}</span>
                 </div>
-                <input type="password" placeholder="创建密码：" maxlength = "6" value = {this.state.l_pass} onChange = {e => {
+                <input type="password" placeholder="创建密码：" maxLength = "6" value = {this.state.l_pass} onChange = {e => {
                     this.handleInputChange({type: "l_pass", value: e.target.value})
                 }} onBlur = {e => {
                     this.passValidate({value: e.target.value})
                 }}/>
-                <input type="password" placeholder="重复确认密码：" maxlength = "6" value = {this.state.rl_pass} onChange = {e => {
+                <input type="password" placeholder="重复确认密码：" maxLength = "6" value = {this.state.rl_pass} onChange = {e => {
                     this.handleInputChange({type: "rl_pass", value: e.target.value})
                 }} onBlur = {e => {
                     this.passValidate({value: e.target.value})
                 }}/>
-                <input type="password" placeholder="创建交易密码：" maxlength = "6" value = {this.state.t_pass} onChange = {e => {
+                <input type="password" placeholder="创建交易密码：" maxLength = "6" value = {this.state.t_pass} onChange = {e => {
                     this.handleInputChange({type: "t_pass", value: e.target.value})
                 }} onBlur = {e => {
                     this.passValidate({value: e.target.value})
                 }}/>
-                <input type="password" placeholder="重复交易密码：" maxlength = "6" value = {this.state.rt_pass} onChange = {e => {
+                <input type="password" placeholder="重复交易密码：" maxLength = "6" value = {this.state.rt_pass} onChange = {e => {
                     this.handleInputChange({type: "rt_pass", value: e.target.value})
                 }} onBlur = {e => {
                     this.passValidate({value: e.target.value})

@@ -336,3 +336,86 @@ input.czAmount{  /*充值金额*/
         color: #00a8ff !important;
     }
 }
+/*我的矿机*/
+ul.myMineralUl{
+    flex-direction: column;
+    padding: .15rem;
+    li{
+        flex-grow: 1;
+        border: .01rem solid #00a8ff;
+        border-radius: .05rem;
+        background: linear-gradient(to right,/* 或90deg */rgba(255, 255, 255, .075) 50%, transparent 0);  
+        background-size: .03rem 100%;  
+        padding: .2rem;
+        margin-bottom: .15rem;
+        position: relative;
+        p{
+            span{
+                margin-right: .05rem;
+            }
+        }
+        span.btn{
+            display: block;
+            padding: .05rem .2rem;
+            color: white;
+            position: absolute;
+            right: .15rem;
+            bottom: .25rem;
+        }
+        span.btn.active{
+            color: rgb(255, 255, 0);
+            border: .01rem solid rgb(255, 255, 0);
+            border-radius: .12rem;
+            background-color: rgba(255, 255, 0, .3);
+        }
+    }
+}
+/*邀请好友*/
+.inviteOpt{
+    flex-direction: column;
+    span.inviteId, span.inviteLink{
+        float: left;
+        font-size: .1rem;
+        line-height: .19rem;
+        padding: 0 !important;
+        color: white;
+        border: .01rem solid #00a8ff;
+        background-color: rgba(7, 79, 155, .5);
+        height: .19rem;
+        overflow: hidden;
+        text-indent: .05rem;
+    }
+    p{
+       flex-grow: 1;
+    }
+    span.inviteId{
+        width: 1.2rem;
+    }
+    span.inviteLink{
+        width: 1.8rem;
+    }
+    span.btn{
+        display: block;
+        width: 100%;
+        float: left;
+        font-size: .1rem;
+        width: .38rem;
+        height: .19rem;
+        line-height: .19rem;
+        margin-left: .1rem;
+    }
+}
+.btn.shareBtn{
+    display: block;
+    height: .3rem;
+    line-height: .3rem;
+    margin-top: .2rem;
+}
+i.inviteCode{
+    display: inline-block;
+    width: .15rem;
+    height: .15rem;
+    background-image: url(../../img/invite_code.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}

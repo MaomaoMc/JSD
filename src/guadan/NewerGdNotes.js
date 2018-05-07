@@ -6,7 +6,7 @@ class NewerGdNotes extends Component{
         return <div>
             <Title title = "新手挂单须知"/>
             <p className="fc_white fz_26" style={{lineHeight: ".25rem", textIndent: '.2rem', padding: '.2rem'}}
-                dangerouslySetInnerHTML = {{__html: JSON.parse(localStorage.getItem("sundryData")).about_us}} >
+                dangerouslySetInnerHTML = {{__html: JSON.parse(localStorage.getItem("sundryData")).new_rules}} >
             </p>
         </div>
     }

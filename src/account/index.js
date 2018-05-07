@@ -26,6 +26,7 @@ import ForgetPwd from './ForgetPwd';
 import NounExplain from './NounExplain';
 import Feedback from './Feedback';
 import MyMineral from './MyMineral';
+import Invite from './Invite';
 
 class Account extends Component {
     render(){
@@ -33,6 +34,7 @@ class Account extends Component {
             <Switch>
                 <Route path="/account/register" component = {Register} />
                 <Route path="/account/personalData" component = {PersonalData} />
+                <Route path="/account/invite" component = {Invite} />
                 <Route path="/account/myMineral" component = {MyMineral} />
                 {/* <Route path="/account/setHead" component = {SetHead} /> */}
                 <Route path="/account/bill" component = {Bill} />

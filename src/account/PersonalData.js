@@ -52,8 +52,7 @@ class PersonalData extends Component {
             const data = res.data;
             const code = data.code;
             if(code === 10002){
-                localStorage.removeItem("logined");
-                localStorage.removeItem("sundryData");
+                window.tokenLoseFun();
             }
             else if(code === 1){ //成功
                 self.setState({
@@ -196,6 +195,14 @@ class PersonalData extends Component {
                         <span className="f_lt fc_blue">修改交易密码</span>
                         <span className="f_rt">
                         <span className="go_arrow"></span> 
+                        </span>
+                    </Link>
+                </li>
+                <li>
+                    <Link to = "/account/invite">
+                        <span className="f_lt fc_blue">我的推广</span>
+                        <span className="f_rt">
+                            <span className="go_arrow"></span> 
                         </span>
                     </Link>
                 </li>

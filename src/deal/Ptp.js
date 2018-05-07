@@ -103,7 +103,7 @@ class Ptp extends Component {
     }
     render(){
         if(this.state.code === 10002){  //token 过期
-            localStorage.removeItem("logined")
+            window.tokenLoseFun();
             return (
                 <Redirect to="/"/>
             )

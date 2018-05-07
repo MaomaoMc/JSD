@@ -146,8 +146,7 @@ class DealItems extends Component {
             const dataArr = data.data;
             const code = data.code;
             if(code === 10002){ //token失效
-                localStorage.removeItem("logined");
-                localStorage.removeItem("sundryData");
+                window.tokenLoseFun();
             }
             else if(code === 1){  //成功
                 if(dataArr.length === 0){ //没有数据可展示了
