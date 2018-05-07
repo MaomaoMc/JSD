@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router-dom';
 import './../css/css/account.css';
 import axios from 'axios';
 import qs from 'qs';
+import Title from './../Title';
 import MachineM from '../machineMarket/index';
 import ForgetPwd from './ForgetPwd';
 import WarningDlg from './../WarningDlg';
@@ -14,7 +15,7 @@ class Login extends Component {
     this.state = { 
       logined: localStorage.getItem("logined"),
       keepPwd: false,
-      phone: "18796271508",
+      phone: "",
       l_pass: l_pass ? l_pass : "",
       warningDlgShow: false,
       warningText: ""
@@ -123,6 +124,7 @@ class Login extends Component {
      }
     return (
       <div>
+        <Title title="登录页面"/>
         <div className="logo"></div>
         <div className="over_hidden primary_form" style={{width: '3.392rem', margin: '0 auto'}}>
             <div style={{padding: '0 .15rem'}}>

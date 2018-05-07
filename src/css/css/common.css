@@ -189,6 +189,12 @@ span.btn {
   display: inline-block;
   text-align: center; }
 
+.btn_default {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.5);
+  border-radius: .025rem; }
+
 .btn_primary, .register_btn:hover {
   background-color: #00a8ff;
   color: white;
