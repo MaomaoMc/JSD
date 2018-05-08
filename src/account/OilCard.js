@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import ActionSheet from 'action-sheet';
@@ -76,9 +75,6 @@ class OilCard extends Component{
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === 10002){
-                window.tokenLoseFun();
-            }
             self.setState({
                 warningDlgShow: true,
                 warningText: data.msg,
@@ -115,13 +111,8 @@ class OilCard extends Component{
         as.show();
     }
     render (){
-        if(this.state.code === 10002){  //token 过期
-            return (
-                <Redirect to="/"/>
-            )
-        }
         return <div className="text_center">
-            <Title title="油卡充值"/>
+            <Title title="油卡充值" code = {this.state.code}/>
            <div className="profile">
             <img src={oilCard_pic} alt=""/>
            </div>

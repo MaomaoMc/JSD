@@ -9,7 +9,6 @@ class ExchangeYtf extends Component{
     constructor (props){
         super(props);
         this.state = {
-            name: "",
             num: "",
             jd_num: 0,
             warningDlgShow: false,
@@ -18,21 +17,9 @@ class ExchangeYtf extends Component{
     }
     handleInputChange (e){
         const type = e.type;
-        if(type === "name"){
-            this.setState({
-                name: e.value
-            });
-        }
-        if(type === "num"){
-            this.setState({
-                num: e.value
-            });
-        }
-        if(type === "jd_num"){
-            this.setState({
-                jd_num: e.value
-            });
-        }
+       this.setState({
+           [type] : e.value
+       })
     }
     hanleWarningDlgTimer (){  //定时关闭 警告弹窗
         const self = this;
@@ -46,20 +33,15 @@ class ExchangeYtf extends Component{
     }
     handleSubmit (){ //兑换
         const self = this;
-        const name = this.state.name;
         const num = this.state.num;
         const jd_num = this.state.jd_num;
         axios.post(window.baseUrl + "/home/Member/etheric", qs.stringify({
             token: localStorage.getItem("token"),
-            name: name,
             num: num,
             jd_num: jd_num,
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === 10002){ //token失效
-                window.tokenLoseFun();
-            }
             self.setState({
                 warningDlgShow: true,
                 warningText: data.msg,
@@ -71,25 +53,15 @@ class ExchangeYtf extends Component{
     }
     render (){
         return <div className="text_center">
-        <Title title="兑换以太坊"/>
+        <Title title="兑换以太坊" code = {this.state.code}/>
            <div className="profile">
             <img src={ytf_pic} alt=""/>
            </div>
             <ul className="lists f_flex fz_26" style={{marginTop: 0}}>
                 <li>
-                    <span className="f_lt fc_blue">姓名</span>
+                    <span className="f_lt fc_blue">钱包地址</span>
                     <span className="f_rt">
-                        <input className = "card_num" type="text" placeholder = "输入以太坊姓名" value = {this.state.oil_num}
-                         onChange = {e => {
-                            this.handleInputChange({type: "name", value: e.target.value})
-                        }}
-                        />
-                    </span>
-                </li>
-                <li>
-                    <span className="f_lt fc_blue">账号</span>
-                    <span className="f_rt">
-                        <input className = "card_num" type="text" placeholder = "输入以太坊账号" value = {this.state.oil_num}
+                        <input className = "card_num" type="text" placeholder = "输入钱包地址" value = {this.state.num}
                          onChange = {e => {
                             this.handleInputChange({type: "num", value: e.target.value})
                         }}

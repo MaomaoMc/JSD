@@ -57,10 +57,7 @@ class SystemNotice extends Component{
             const data = res.data;
             const code = data.code;
             const dataArr = data.data;
-            if(code === 10002){ //token失效
-                window.tokenLoseFun();
-            }
-            else if(code === 1){  //成功
+            if(code === 1){  //成功
                 if(dataArr.length === 0){ //没有数据可展示了
                     self.setState({
                         isLoadingMore: true

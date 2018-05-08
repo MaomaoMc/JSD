@@ -9,7 +9,7 @@ class Title extends Component{
         window.location.reload();
     }
     render (){
-        if(this.props.code === 10002){
+        if(this.props.code > 10000){
             return (
                 <Redirect to="/"/>
             )

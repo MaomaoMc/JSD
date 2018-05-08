@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
@@ -78,11 +78,8 @@ class MyMineral extends Component  {
     render (){
         const data = this.state.data;
         const self = this;
-        if(this.state.code === 10002){  //token 过期
-            return <Redirect to = "/" />
-        }
         return <div>
-            <Title title = "我的矿机"/>
+            <Title title = "我的矿机" code = {this.state.code}/>
             {/* <div className = "myMineralUl"> */}
                 <ul className = "myMineralUl f_flex fz_20 fc_white">
                     {data.length > 0 && data.map(function(item, i){

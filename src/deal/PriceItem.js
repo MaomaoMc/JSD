@@ -54,7 +54,7 @@ class PriceItem extends Component {
     }
     render (){
         const data = this.state.data;
-        if(this.state.code === 10002){  //token 过期
+        if(this.state.code > 10000){  //token 过期
             return (
                 <Redirect to="/"/>
             )

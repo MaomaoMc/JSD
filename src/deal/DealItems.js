@@ -150,10 +150,7 @@ class DealItems extends Component {
             const data = res.data;
             const dataArr = data.data;
             const code = data.code;
-            if(code === 10002){ //token失效
-                window.tokenLoseFun();
-            }
-            else if(code === 1){  //成功
+            if(code === 1){  //成功
                 if(dataArr.length === 0){ //没有数据可展示了
                     self.setState({
                         isLoadingMore: true
@@ -189,7 +186,7 @@ class DealItems extends Component {
     render(){
         const self = this;
         const dealItems = this.state.dealItems;
-        if(this.state.code === 10002){  //token 过期
+        if(this.state.code > 10000){  //token 过期
             return (
                 <Redirect to="/"/>
             )

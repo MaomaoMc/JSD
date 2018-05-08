@@ -120,9 +120,6 @@ class ForgetPwd extends Component {
         })).then(function(res){
             const data = res.data;
             const data_code = data.code;
-            if(data_code === 10002){
-                window.tokenLoseFun();
-            }
             if(data_code === 1){  //发送成功 开始倒计时
                 self.setState({
                     countDown: 60
@@ -185,7 +182,7 @@ class ForgetPwd extends Component {
         const countDown = this.state.countDown;
         const page_type = this.state.page_type;
         return <div>
-             <Title title={this.state.page_type === 1 ? "忘记登录密码" : "忘记交易密码"} />
+             <Title title={this.state.page_type === 1 ? "忘记登录密码" : "忘记交易密码"} code = {this.state.code}/>
             <div className="account_form fz_26">
                 <div>
                     <label className="fc_white">手机号：</label>

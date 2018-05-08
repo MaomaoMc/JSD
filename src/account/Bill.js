@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import Title from './../Title';
@@ -55,9 +54,6 @@ class Bill extends Component {
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === 10002){  //token 失效
-                window.tokenLoseFun();
-            }
             if(code === 1){ //成功
                 self.setState({
                     money: data.money,
@@ -93,11 +89,8 @@ class Bill extends Component {
         const self = this;
         const data = this.state.data;
         const money = this.state.money;
-        if(this.state.code === 10002){
-            return <Redirect to = "/account"/>
-        }
         return <div>
-            <Title title="账单中心"/>
+            <Title title="账单中心" code = {this.state.code}/>
           <ul className="billTab f_flex">
           {
               tabs.map(function(tab, index){

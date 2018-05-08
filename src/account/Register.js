@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import Title from '../Title';
@@ -95,9 +95,6 @@ class Register extends Component {
         })).then(function(res){
             const data = res.data;
             const data_code = data.code;
-            if(data_code === 10002){
-                window.tokenLoseFun();
-            }
             if(data_code === 1){  //发送成功 开始倒计时
                 self.setState({
                     countDown: 60
@@ -170,9 +167,6 @@ class Register extends Component {
           })).then(function(res){
               const data = res.data;
               const data_code = data.code;
-              if(data_code === 10002){
-                   window.tokenLoseFun();
-              }
               self.setState({
                   warningDlgShow: true,
                   warningDlgText: data.msg,
@@ -184,13 +178,8 @@ class Register extends Component {
     }
     render (){
         const countDown = this.state.countDown;
-        if(this.state.data_code === 10002){  //token 过期
-            return (
-                <Redirect to="/" />
-            )
-        }
         return <div>
-            <Title title="注册页面"/>
+            <Title title="注册页面" code = {this.state.data_code}/>
             <div className="logo"></div>
             <p className="fc_white fz_30 text_center">创建账户</p>
             <div className="primary_form" style={{width: '3.392rem', margin: '0 auto'}}>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 //引入
@@ -11,6 +10,7 @@ import Shadow from './../Shadow';
 import WarningDlg from './../WarningDlg';
 import './../css/css/mineralPool.css';
 
+const pic_toux = require("../img/pic_toux.png");
 class MineralPool extends Component {
     constructor (props){
         super(props);
@@ -197,14 +197,8 @@ class MineralPool extends Component {
             {type: "team", text: "团队"},
         ];
         const tanTuiData = this.state.tanTuiData;
-        if(this.state.code === 10002){  //token 过期
-            window.tokenLoseFun();
-            return (
-                <Redirect to="/"/>
-            )
-        }
         return <div style={{paddingBottom: ".4rem"}}>
-            <Title title="矿池"/>
+            <Title title="矿池" code = {this.state.code}/>
             <div style={{padding: '0 .11rem'}}>
                 <div className="pool_overview f_flex">
                     <div>
@@ -237,11 +231,12 @@ class MineralPool extends Component {
                 <ul className="mineralItems f_flex">
                     {
                         mineralItems.length > 0 && mineralItems.map(function(item, i){
+                            const pic = item.pic;
                             return <li key={i} onClick = {e => {
                                 self.handleMessageDlg({type: "open", id: item.id_num, phone: item.phone})
                             }}>
                                 <div className="f_flex">
-                                    <div><img src={item.pic} alt=""/></div>
+                                    <div><img src={pic === "" ? pic_toux : pic} alt=""/></div>
                                     <div>
                                         <p>ID：{item.id_num}</p>
                                         <p>{item.level}</p>

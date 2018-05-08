@@ -1,6 +1,5 @@
 // Invite
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import QRCode from 'qrcode.react';
@@ -71,15 +70,8 @@ class Invite extends Component {
     }
     render (){
         const self = this;
-        console.log(this.state.path, this.state.id_num, '67677')
-        if(this.state.code === 10002){  //token 过期
-            window.tokenLoseFun();
-            return (
-                <Redirect to="/"/>
-            )
-        }
         return <div>
-            <Title title="邀请好友"/>
+            <Title title="邀请好友" code = {this.state.code}/>
             <div className = "text_center">
                 <img className = "mt_40" src={inviteImg} alt="" style = {{width :"2.525rem", height : "2.8rem"}}/>
             </div>

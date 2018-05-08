@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from "axios";
 import qs from 'qs';
 import Tab from './../Tab';
@@ -102,10 +101,7 @@ class MachineM extends Component {
           })).then(re=>{
             const data = re.data;
             const code = data.code;
-           if(code === 10002){
-            window.tokenLoseFun();
-           }
-           else if(code === 1){ //成功
+           if(code === 1){ //成功
             self.setState({
                 data: data.data,
                 token: token
@@ -129,11 +125,6 @@ class MachineM extends Component {
     render(){
         const self = this;
         const data = this.state.data;
-        if(this.state.code === 10002){  //token 过期
-            return (
-                <Redirect to="/"/>
-            )
-        }
         return <div>
             <Title  title="机市" code = {this.state.code}/>
             <div style={{padding: '0 .11rem 2rem'}}>

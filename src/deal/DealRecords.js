@@ -179,7 +179,7 @@ class DealRecords extends Component {
         const dealRecords = this.state.dealRecords;
         const type = self.state.type; //买单  还是  卖单
         const msgDlgData = this.state.msgDlgData;  //买卖家弹窗信息
-        if(this.state.code === 10002){  //token 过期
+        if(this.state.code > 10000){  //token 过期
             window.tokenLoseFun();
             return (
                 <Redirect to="/"/>

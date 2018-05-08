@@ -40,9 +40,6 @@ class PersonalData extends Component {
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === 10002){
-                window.tokenLoseFun();
-            }
             self.setState({
                 warningDlgShow: true,
                 warningText: data.msg
@@ -62,10 +59,8 @@ class PersonalData extends Component {
         }).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === 10002){
-                window.tokenLoseFun();
-            }
-            else if(code === 1){ //成功
+          
+            if(code === 1){ //成功
                 self.setState({
                     profile_pic: baseUrl +  data.data
                 }, function(){  //保存图片
@@ -91,10 +86,7 @@ class PersonalData extends Component {
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code === 10002){
-                window.tokenLoseFun()
-            }
-            else if(code === 1){ //成功
+            if(code === 1){ //成功
                 self.setState({
                     data: data.data,
                     profile_pic: data.data.pic

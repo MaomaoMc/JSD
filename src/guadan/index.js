@@ -48,6 +48,7 @@ class GuaDan extends Component {
             lists: [],
             dlgShow: false,  //支付密码弹窗
             pass: "", //支付密码
+            code: "",
             warningDlgShow: false,
             warningText: "", //警告文字
         };
@@ -185,7 +186,8 @@ class GuaDan extends Component {
                 const code = res.data.code;
                 self.setState({
                     warningDlgShow: true,
-                    warningText: res.data.msg
+                    warningText: res.data.msg,
+                    code: code
                 }, function(){
                     self.hanleWarningDlgTimer({code: code})
                 })
@@ -213,7 +215,7 @@ class GuaDan extends Component {
             }
         ];
         return <div>
-            <Title title={this.state.page_type === "1" ? "新手挂单" : "高手挂单"} />
+            <Title title={this.state.page_type === "1" ? "新手挂单" : "高手挂单"} code = {this.state.code}/>
             <div style={{ marginBottom: ".4rem" }}>
                 <div className="guadanItems">
                     <div className="tip fz_26 fc_white">{this.state.tip}</div>
