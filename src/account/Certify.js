@@ -9,6 +9,7 @@ class Certify extends Component{
     constructor (props){
         super(props);
         this.state ={
+            data: {card_num: "", username: ""}, //实名认证 已认证的返回信息
             username: "",  //姓名
             card_num: "", //身份证号码
             warningDlgShow: false,
@@ -63,15 +64,43 @@ class Certify extends Component{
             })
         })
     }
+    ajax(){
+        const self = this;
+        axios.post(window.baseUrl + "/home/Member/trueNamePic", qs.stringify({
+            token: localStorage.getItem("token"),
+        })).then(function(res){
+            const data = res.data;
+            const code = data.code;
+            if(code === 1){
+                self.setState({
+                    data: data.data
+                })
+            }
+            self.setState({
+                warningDlgShow: true,
+                warningText: data.msg,
+                code: code
+            }, function(){
+                self.hanleWarningDlgTimer()
+            })
+        })
+    }
+    componentDidMount(){
+        const type = this.props.match.params.type;
+        if(type == "authorized"){  //已认证的话 就显示认证的信息
+            this.ajax();
+        }
+    }
     render (){
         const type = this.props.match.params.type;
+        const data = this.state.data;
         return <div>
             <Title title="实名认证" code = {this.state.code}/>
             {type === "authorized" ? 
                 <div className="certify text_center fz_26 fc_white">
                         <img src={pic} alt="" style={{width: ".6rem", height: ".6rem", marginTop: '.15rem'}} />
-                        <p>程开甲</p>
-                        <p>231456632223232</p>
+                        <p>{data.username}</p>
+                        <p>{data.card_num}</p>
                 </div> : 
                 <div className="account_form fz_26">
                 <div>

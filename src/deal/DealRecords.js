@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import axios from "axios";
 import qs from "qs";
 import Shadow from './../Shadow';
@@ -43,24 +43,35 @@ class DealRecords extends Component {
             this.fetchDealRecords();
         })
     }
-    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
         setTimeout(
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){
+                        window.location.reload();
+                    }
                 })
             }
         , 1000)
     }
-    handleMoneyEvent (e){
+    handleMoneyEvent (e){  //确认付款 收款
         const trade_id = e.trade_id;
         const trade_type = e.type;
+        console.log(this.state.msgDlgShow, 'msgDlgShow')
         this.setState({
             dlgShow: true,
             shadowShow: true,
             trade_id: trade_id,
             trade_type: trade_type,
+        })
+    }
+    handlePwdEvent (e){  //支付密码
+        const value = e.val;
+        this.setState({
+            tradePassPwd: value
         })
     }
     handlePayPwd (e){ //弹窗 取消/确定
@@ -94,7 +105,7 @@ class DealRecords extends Component {
                     tradePassPwd: "",
                     code: code
                 }, function(){
-                    this.hanleWarningDlgTimer()
+                    self.hanleWarningDlgTimer({code: code})
                 })
             })
         }
@@ -142,7 +153,6 @@ class DealRecords extends Component {
         axios.post(window.baseUrl + "/home/Member/" + paramsStr1 + "?" + paramsStr2 + "=" + id , qs.stringify({
             token: localStorage.getItem("token")
         })).then(function(res){
-            console.log(res, 'sad')
             const data = res.data;
             const code = data.code;
             if(code === 1){
@@ -150,6 +160,13 @@ class DealRecords extends Component {
                     msgDlgData: data.data,
                     msgDlgShow: true,
                     shadowShow: true
+                })
+            }else{
+                self.setState({
+                    warningDlgShow: true,
+                    warningText: data.msg
+                }, function(){
+                    self.hanleWarningDlgTimer();
                 })
             }
         })
@@ -188,17 +205,17 @@ class DealRecords extends Component {
                             const status_msg = record.status_msg;
                             return <li key = {i}>
                                 <a onClick = {e => {
-                                    self.showBuyerSellerMsg({id: type === 1 ? record.buy_id : record.sell_id})
-                                }}><p className = "fz_20 over_hidden"><span className = "f_lt fc_blue">单号 ：</span>
+                                    self.showBuyerSellerMsg({id: type === 1 ? record.sell_id : record.buy_id})
+                                }}><p className = "fz_20 over_hidden"><span className = "f_lt fc_blue">单号 ：{record.trade_num}</span>
                                     <span className = "f_rt fc_white">{status_msg}</span></p>
-                                <p className = "fc_white fz_20">{type === 1 ? "卖家ID ：" + record.buy_msg : "买家ID：" + record.sell_msg}</p>
+                                <p className = "fc_white fz_20">{type === 1 ? "卖家ID ：" + record.sell_msg : "买家ID：" + record.buy_msg}</p>
                                 <p className = "fc_white fz_20">挂卖{record.num}JSD，单价{record.price}元，总价{parseFloat(record.num * record.price).toFixed(2)}</p>
-                                
+                                </a>
                                 {status_msg === "已付款" ? <span className="btn fz_20" onClick = { e => {
                                     self.handleMoneyEvent({trade_id: record.trade_id, type: "maskSetMoney"})
                                 }}>确认收款</span> : status_msg === "已付币" ? <span className="btn fz_20" onClick = { e => {
                                     self.handleMoneyEvent({trade_id: record.trade_id, type: "maskGetMoney"})
-                                }}>确认付款</span> : null}</a>
+                                }}>确认付款</span> : null}
                             </li>
                         })
                     }
@@ -212,11 +229,12 @@ class DealRecords extends Component {
                 <p className="dlg_tit fc_white">输入密码</p>
                 <div className="dlg_form">
                     <p className="text_center fz_24 fc_white">请输入支付密码：</p>
-                    <input className="b_blue1" type="text" value = {this.state.tradePassPwd} 
+                    <input className="b_blue1" type="password" value = {this.state.tradePassPwd} 
                     onChange = {e => {
                         this.handlePwdEvent({val: e.target.value})
                     }}
                     />
+                    <div class="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
                     <div className="over_hidden" style={{padding: "0 .14rem"}}>
                         <span className="btn fz_24 fc_white f_lt" onClick = {e => {
                             self.handlePayPwd({type: "cancel"})
@@ -232,7 +250,7 @@ class DealRecords extends Component {
                 <a className="btn_close" onClick = {e => {
                     self.setState({msgDlgShow: false, shadowShow: false})
                 }}></a>
-                <div style={{padding: '.25rem .45rem'}}>
+                <div style={{padding: '.25rem'}}>
                     <ul className="f_flex">
                         <li style={{lineHeight: ".3rem"}}>姓名：{msgDlgData.name}</li>
                         <li style={{lineHeight: ".3rem"}}>手机号：{msgDlgData.phone}</li>

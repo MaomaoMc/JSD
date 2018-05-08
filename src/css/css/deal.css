@@ -157,11 +157,11 @@ ul.dealItems {
         height: 100%; }
         .dealRecords ul.records li a p {
           line-height: .2rem; }
-        .dealRecords ul.records li a span.btn {
-          width: .8rem;
-          position: absolute;
-          right: 0;
-          bottom: .1rem; }
+      .dealRecords ul.records li span.btn {
+        width: .8rem;
+        position: absolute;
+        right: 0;
+        bottom: .1rem; }
 
 /*弹窗*/
 .dlgPayKj {
@@ -206,7 +206,7 @@ ul.dealItems {
       width: 100%;
       height: .29rem;
       float: left;
-      margin-bottom: .2rem; }
+      margin-bottom: .1rem; }
     .dialog .dlg_form span.btn {
       width: .775rem;
       height: .275rem;
@@ -224,6 +224,12 @@ ul.dealItems {
       position: absolute;
       top: 0;
       right: 0; }
+  .dialog .fgtTradepass {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: .1rem; }
+    .dialog .fgtTradepass span {
+      float: right; }
 
 /*挂单*/
 .guadanItems {

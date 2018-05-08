@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import axios from "axios";
 import qs from "qs";
 import WarningDlg from './../WarningDlg';
+import Shadow from './../Shadow';
 
 class DealItems extends Component {
     constructor(props) {
@@ -31,12 +32,16 @@ class DealItems extends Component {
             tradePassPwd: e.val
         })
     }
-    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
         setTimeout(
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){
+                        window.location.reload();
+                    }
                 })
             }
         , 1000)
@@ -65,7 +70,7 @@ class DealItems extends Component {
                         warningText: "购买成功",
                         tradePassPwd: ""
                     }, function(){
-                        this.hanleWarningDlgTimer()
+                        this.hanleWarningDlgTimer({code: code})
                     })
                 }
                 else if(code === -4){ //支付密码不正确
@@ -189,7 +194,7 @@ class DealItems extends Component {
                 <Redirect to="/"/>
             )
         }
-        return <div>
+        return <div style={{paddingBottom: ".4rem"}}>
             <ul className="dealItems f_flex">
                 {
                     dealItems.length > 0 && dealItems.map(function (item, i) {
@@ -221,6 +226,7 @@ class DealItems extends Component {
                         this.handlePwdEvent({val: e.target.value})
                     }}
                     />
+                    <div class="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
                     <div className="over_hidden" style={{padding: "0 .14rem"}}>
                         <span className="btn fz_24 fc_white f_lt" onClick = {e => {
                             self.handlePayPwd({type: "cancel"})
@@ -231,6 +237,7 @@ class DealItems extends Component {
                     </div>
                 </div>
             </div>
+            {this.state.dlgShow ? <Shadow /> : null}
             {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }

@@ -8,9 +8,9 @@ class ChangeTradePwd extends Component {
         return <div>
             <Title title="修改交易密码"/>
             <div className="account_form">
-                <input type="text" name="" placeholder="旧密码："/>
-                <input type="text" placeholder="新密码："/>
-                <input type="text" placeholder="重复密码："/>
+                <input type="password" name="" placeholder="旧密码："/>
+                <input type="password" placeholder="新密码："/>
+                <input type="password" placeholder="重复密码："/>
                 <span className="btn btn_primary submit_btn h_80 fz_26 f_lt mt_50" style={{width: '100%'}}
                 onClick={e => {
                     this.register({})

@@ -203,7 +203,7 @@ class MineralPool extends Component {
                 <Redirect to="/"/>
             )
         }
-        return <div>
+        return <div style={{paddingBottom: ".4rem"}}>
             <Title title="矿池"/>
             <div style={{padding: '0 .11rem'}}>
                 <div className="pool_overview f_flex">

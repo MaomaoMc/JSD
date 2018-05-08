@@ -9,12 +9,15 @@ import WarningDlg from './../WarningDlg';
 const personal_data = {
     profile_pic: require("../img/icon_grzl_nor.png")
 };
+const baseUrl = window.baseUrl;
+const sundryData = localStorage.getItem("sundryData");
+const token = localStorage.getItem("token");
 class PersonalData extends Component {
     constructor (props){
         super(props);
-        const sundryData = localStorage.getItem("sundryData");
+        
         this.state = {
-            profile_pic: (window.baseUrl + JSON.parse(sundryData).adminpic), //头像
+            profile_pic: (baseUrl + JSON.parse(sundryData).adminpic), //头像
             data: {},  //个人数据
             warningDlgShow: false,
             warningText: ""
@@ -30,22 +33,30 @@ class PersonalData extends Component {
             }
         , 1000)
     }
+    setPhotoEvent (){
+        const self = this;
+        axios.post(window.baseUrl +  "/home/Member/editphoto?token=" + token, qs.stringify({
+            pic: self.state.profile_pic
+        })).then(function(res){
+            const data = res.data;
+            const code = data.code;
+            if(code === 10002){
+                window.tokenLoseFun();
+            }
+            self.setState({
+                warningDlgShow: true,
+                warningText: data.msg
+            }, function(){
+                self.hanleWarningDlgTimer();
+            })
+        });
+    }
     uploadedFile (e){ //修改头像
         const self = this;
         let file = document.getElementById("photo").files[0];
-            let reader = new FileReader();
-            reader.onloadend = () => {
-             // 通过 reader.result 来访问生成的 DataURL
-                // var url=reader.result;
-                // setImageURL(url);
-            };
-            if (file) {
-              reader.readAsDataURL(file);
-            } 
-            console.log(file, 'file')
         let formData = new FormData()  // 创建form对象
         formData.append('pic', file)  // 通过append向form对象添加数据
-        axios.post(window.baseUrl +  "/home/Base/uploadPic?token=" + localStorage.getItem("token"), formData, {
+        axios.post(baseUrl +  "/home/Base/uploadPic?token=" + token, formData, {
             transformRequest: [(data) => data],
             headers: {}
         }).then(function(res){
@@ -56,7 +67,9 @@ class PersonalData extends Component {
             }
             else if(code === 1){ //成功
                 self.setState({
-                    profile_pic: window.baseUrl +  data.data
+                    profile_pic: baseUrl +  data.data
+                }, function(){  //保存图片
+                    self.setPhotoEvent()
                 })
             } else {
                 self.setState({
@@ -73,8 +86,8 @@ class PersonalData extends Component {
     }
     ajax (){ //个人资料数据
         const self = this;
-        axios.post(window.baseUrl +  "/home/Member/personalData", qs.stringify({
-            token: localStorage.getItem("token")
+        axios.post(baseUrl +  "/home/Member/personalData", qs.stringify({
+            token: token
         })).then(function(res){
             const data = res.data;
             const code = data.code;
@@ -83,7 +96,8 @@ class PersonalData extends Component {
             }
             else if(code === 1){ //成功
                 self.setState({
-                    data: data.data
+                    data: data.data,
+                    profile_pic: data.data.pic
                 })
             } else {
                 self.setState({
@@ -103,6 +117,7 @@ class PersonalData extends Component {
     }
     render (){
         const data = this.state.data;
+        const profile_pic = this.state.profile_pic;
         return <div className="personalData">
             <Title title="个人资料" code = {this.state.code}/>
             <div className="file"  >
@@ -110,7 +125,7 @@ class PersonalData extends Component {
                     <input type="file" name="photo" id="photo" 
                         onChange = {e => {this.uploadedFile({value: e.target.value, obj: e.target})}}
                          />
-                         <img src={this.state.profile_pic} alt=""/>
+                         <img src={profile_pic === "" ? (baseUrl + JSON.parse(sundryData).adminpic) : profile_pic} alt=""/>
                        
                 </form>
             </div>  
@@ -147,12 +162,12 @@ class PersonalData extends Component {
                             <span className="fc_white">{data.username}</span>
                             <span className="mark unauthorized">未认证</span>
                         </span>
-                    </Link> :  <span><span className="f_lt fc_blue">实名认证</span>
+                    </Link> :  <Link to = "/account/certify/authorized"><span><span className="f_lt fc_blue">实名认证</span>
                             <span className="f_rt">
                                 <span className="fc_white">{data.username}</span>
                                 <span className="mark authenticated">已认证</span> 
                             </span>
-                        </span>
+                        </span></Link>
                     }
                 </li>
                 <li>

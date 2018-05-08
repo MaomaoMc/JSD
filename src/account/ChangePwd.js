@@ -24,27 +24,15 @@ class ChangePwd extends Component {
             title: title,
             code: "",
             warningDlgShow: false,
-            warningText: ""
+            warningDlgText: ""
         }
     }
     handleInputChange (e){  //input change event
         const type = e.type;
         const val = e.val;
-        if(type === "oldpass"){
-            this.setState({
-                oldpass: val
-            })
-        }
-        if(type === "pass"){
-            this.setState({
-                pass: val
-            })
-        }
-        if(type === "repass"){
-            this.setState({
-                repass: val
-            })
-        }
+        this.setState({
+            [type]: val
+        })
     }
     hanleWarningDlgTimer (){  //定时关闭 警告弹窗
         const self = this;
@@ -55,6 +43,29 @@ class ChangePwd extends Component {
                 })
             }
         , 1000)
+    }
+    passValidate (e){
+        const type = this.state.type;
+        const value = e.value;
+        if(type === 2){ //修改交易密码
+            if(value.length < 6){
+                this.setState({
+                    warningDlgShow: true,
+                    warningDlgText: "交易密码不能小于6位"
+                }, function(){
+                    this.hanleWarningDlgTimer()
+                })
+            } 
+        }
+        
+        if(!(/^[A-Za-z0-9]+$/.test(value))){  //密码只能是6位数 的字母加数字
+            this.setState({
+                warningDlgShow: true,
+                warningDlgText: "密码只能是字母或数字组成"
+            }, function(){
+                this.hanleWarningDlgTimer()
+            })
+        }
     }
     submit() {  //提交
         const state = this.state;
@@ -82,30 +93,37 @@ class ChangePwd extends Component {
         })
     }
     render() {
+        const type = this.state.type;
         return <div>
             <Title title={this.state.title} code = {this.state.code} />
             <div className="account_form fz_26">
                 <div>
                     <label className="fc_white">旧密码：</label>
-                    <input type="password" name="" placeholder="请输入旧密码" value = {this.state.oldpass}
+                    <input type="password" name="" maxLength = {type === "2" ? "6" : ""} placeholder="请输入旧密码" value = {this.state.oldpass}
                     onChange = {e => {
                         this.handleInputChange({type: "oldpass", val: e.target.value})
-                    }} 
+                    }} onBlur = {e => {
+                        this.passValidate({value: e.target.value})
+                    }}
                     />
                 </div>
                 <div>
                     <label className="fc_white">新密码：</label>
-                    <input type="password" placeholder="请输入新密码" value = {this.state.pass}
+                    <input type="password" placeholder="请输入新密码" maxLength = {type === "2" ? "6" : ""} value = {this.state.pass}
                     onChange = {e => {
                         this.handleInputChange({type: "pass", val: e.target.value})
+                    }} onBlur = {e => {
+                        this.passValidate({value: e.target.value})
                     }}
                     />
                 </div>
                 <div>
                     <label className="fc_white">重复密码：</label>
-                    <input type="password" placeholder="请确认新密码" value = {this.state.repass} 
+                    <input type="password" placeholder="请确认新密码" maxLength = {type === "2" ? "6" : ""} value = {this.state.repass} 
                     onChange = {e => {
                         this.handleInputChange({type: "repass", val: e.target.value})
+                    }} onBlur = {e => {
+                        this.passValidate({value: e.target.value})
                     }}
                     />
                 </div>
@@ -115,7 +133,7 @@ class ChangePwd extends Component {
                         this.submit({})
                     }}>提交</span>
             </div>
-            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
+            {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningDlgText} /> : null}
         </div>
     }
 }

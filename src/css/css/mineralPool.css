@@ -15,6 +15,7 @@
 
 .mineralItems {
   flex-direction: column;
+  padding-bottom: .4rem;
   margin-top: .1rem; }
   .mineralItems li {
     text-align: left;

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import WarningDlg from './../WarningDlg';
 
+
 class Price extends Component {
     constructor (props){
         super(props);

@@ -20,7 +20,6 @@ class Invite extends Component {
         this.state = {
             id_num: "",
             code: "",
-            url: "",
             path: "", // 保存二维码SVG的path
             warningDlgShow: false,
             warningText: ""
@@ -29,8 +28,7 @@ class Invite extends Component {
     copy (e){
         //使用方法
         copy(e.text);
-        // this.setState({path: e.text});
-        this.setState({path:  "http://localhost:3000/#/account/register?tui_id=" + this.state.id_num});
+        alert("复制成功");
     }
     hanleWarningDlgTimer (){  //定时关闭 警告弹窗
         const self = this;
@@ -53,7 +51,7 @@ class Invite extends Component {
                 const id_num = data.data.id_num;
                 self.setState({
                     id_num: id_num,
-                    url: window.baseUrl + "/build/index.html#/account/register?tui_id=" + id_num
+                    path: window.baseUrl + "/build/index.html#/account/register?tui_id=" + id_num
                 })
             }else{  //失败
                 self.setState({
@@ -89,13 +87,13 @@ class Invite extends Component {
                     <p className = "fz_20 fc_gray">我的推荐ID</p>
                     <p className= "mt_10 mb_20">
                         <span className="inviteId">{this.state.id_num}</span>
-                        <span className = "btn btn_primary">复制</span>
+                        <span className = "btn btn_primary" onClick = {e => {this.copy({text: this.state.id_num})}}>复制</span>
                     </p>
                     <p className = "fz_20 fc_gray">我的推荐链接</p>
                     <p className="mt_10 mb_20">
-                        <span className="inviteLink">{this.state.url} </span>
+                        <span className="inviteLink">{this.state.path} </span>
                         <span className = "btn btn_primary"
-                        onClick = {e => {this.copy({text: this.state.url})}}
+                        onClick = {e => {this.copy({text: this.state.path})}}
                         >复制</span>
                     </p>
                 <p><i className="f_lt inviteCode"></i>

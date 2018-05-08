@@ -17,12 +17,16 @@ class MyMineral extends Component  {
             warningDlgtext: "",
         }
     }
-    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
         setTimeout(
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){
+                        window.location.reload();
+                    }
                 })
             }
         , 1000)
@@ -59,20 +63,12 @@ class MyMineral extends Component  {
         })).then(function(res){
             const data = res.data;
             const code = data.code;
-            if(code !== 1){  //失败的话
-                self.setState({
-                    warningDlgShow: true,
-                    warningDlgtext: data.msg
-                }, function(){
-                    self.hanleWarningDlgTimer();
-                })
-            }else{
-                self.setState({
-                    data: data.data
-                })
-            }
             self.setState({
+                warningDlgShow: true,
+                warningDlgtext: data.msg,
                 code: code
+            }, function(){
+                self.hanleWarningDlgTimer({code: code});
             })
         })
     }

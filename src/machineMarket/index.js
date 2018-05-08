@@ -136,7 +136,7 @@ class MachineM extends Component {
         }
         return <div>
             <Title  title="机市" code = {this.state.code}/>
-            <div style={{padding: '0 .11rem', marginBottom: "2rem"}}>
+            <div style={{padding: '0 .11rem 2rem'}}>
                 {
                      data.length > 0 && data.map(function (item, i) {
                         return <div key={i} className="item">
@@ -164,7 +164,7 @@ class MachineM extends Component {
             <div className={this.state.dlgShow ? "dialog dlgPayKj" : "dialog dlgPayKj hide"}>
                 <p className="dlg_tit fc_white">购买矿机</p>
                 <div className="dlg_form">
-                    <input className="b_blue1 mt_40 fc_white" type="text" placeholder = "请输入交易密码" 
+                    <input className="b_blue1 mt_40 fc_white" type="password" placeholder = "请输入交易密码" 
                     value = {this.state.tradePassPwd} 
                     onChange = {e => {
                         this.handlePwdEvent({val: e.target.value})

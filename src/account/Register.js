@@ -13,7 +13,6 @@ class Register extends Component {
         if(hash.indexOf("tui_id") !== -1){
             tui_id = hash.substring(hash.indexOf("tui_id") + 7);
         }
-        console.log(tui_id, 'tui_id')
         this.state = {
             phone: "",
             code: "", //验证码
@@ -48,17 +47,25 @@ class Register extends Component {
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                    if(obj && obj.code === 1){ //注册成功
+                        window.history.back();
+                    }
                 })
             }
         , 1000)
     }
     resendCode (){  //60s倒计时 重新发送验证码
         let countDown = this.state.countDown;
+        let timer;
         const self = this;
         if(countDown !== 0){  //倒计时没结束
-            setInterval(
+             timer = setInterval(
                 function () {
                     countDown--;
+                    if(countDown === 0){
+                        clearInterval(timer);
+                    }
                     self.setState({
                         countDown: countDown
                     })
@@ -110,15 +117,19 @@ class Register extends Component {
     }
     passValidate (e){
         const value = e.value;
-        if(value.length < 6){
-            this.setState({
-                warningDlgShow: true,
-                warningDlgText: "密码不能小于6位"
-            }, function(){
-                this.hanleWarningDlgTimer()
-            })
-            return;
-        } 
+        const type = e.type;
+        if(type !== "l_pass" && type !== "rl_pass"){ //如果不是登录密码 而是交易密码的话
+            if(value.length < 6){
+                this.setState({
+                    warningDlgShow: true,
+                    warningDlgText: "交易密码不能小于6位"
+                }, function(){
+                    this.hanleWarningDlgTimer()
+                })
+                return;
+            } 
+        }
+        
         if(!(/^[A-Za-z0-9]+$/.test(value))){  //密码只能是6位数 的字母加数字
             this.setState({
                 warningDlgShow: true,
@@ -194,29 +205,31 @@ class Register extends Component {
                         this.handleSendCode()
                     }}>{countDown > 0 && countDown < 60 ? countDown + "s后重新发送" : countDown === 0 ? "重新发送" : "发送短信"}</span>
                 </div>
-                <input type="password" placeholder="创建密码：" maxLength = "6" value = {this.state.l_pass} onChange = {e => {
+                <input type="password" placeholder="创建密码：" value = {this.state.l_pass} onChange = {e => {
                     this.handleInputChange({type: "l_pass", value: e.target.value})
                 }} onBlur = {e => {
-                    this.passValidate({value: e.target.value})
+                    this.passValidate({type: "l_pass", value: e.target.value})
                 }}/>
-                <input type="password" placeholder="重复确认密码：" maxLength = "6" value = {this.state.rl_pass} onChange = {e => {
+                <input type="password" placeholder="重复确认密码：" value = {this.state.rl_pass} onChange = {e => {
                     this.handleInputChange({type: "rl_pass", value: e.target.value})
                 }} onBlur = {e => {
-                    this.passValidate({value: e.target.value})
+                    this.passValidate({type: "rl_pass", value: e.target.value})
                 }}/>
                 <input type="password" placeholder="创建交易密码：" maxLength = "6" value = {this.state.t_pass} onChange = {e => {
                     this.handleInputChange({type: "t_pass", value: e.target.value})
                 }} onBlur = {e => {
-                    this.passValidate({value: e.target.value})
+                    this.passValidate({type: "t_pass", value: e.target.value})
                 }}/>
                 <input type="password" placeholder="重复交易密码：" maxLength = "6" value = {this.state.rt_pass} onChange = {e => {
                     this.handleInputChange({type: "rt_pass", value: e.target.value})
                 }} onBlur = {e => {
-                    this.passValidate({value: e.target.value})
+                    this.passValidate({type: "rt_pass", value: e.target.value})
                 }}/>
-                <input type="text" placeholder="推荐人手机号或ID：" value = {this.state.tui_id} onChange = {e => {
+                {window.location.hash.indexOf("tui_id") !== -1 ? <input type="text" placeholder="推荐人手机号或ID：" readOnly="true" defaultValue= {this.state.tui_id} />
+                 : <input type="text" placeholder="推荐人手机号或ID：" value = {this.state.tui_id} onChange = {e => {
                     this.handleInputChange({type: "tui_id", value: e.target.value})
-                }}/>
+                }}/>}
+                
                 <span className="btn btn_primary login_btn h_80 fz_26 f_lt mt_50" style={{width: '100%'}}
                 onClick={e => {
                     this.register({})
