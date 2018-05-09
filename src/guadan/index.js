@@ -27,10 +27,10 @@ class GuaDan extends Component {
             percent = (newPrice - less_price) / (more_price - less_price); //圆点 在线上的 百分多少的位置
         if (index === -1) { // 高手挂单
             page_type = "2";
-            tip = "算力≥5用户可进行10-200JSD议价交易！";
+            tip = sundryData.gao_tishi;
         } else {  //新手挂单
             page_type = "1";
-            tip = "认证用户可进行1-10JSD议价交易！";
+            tip = sundryData.xin_tishi;
         }
         this.state = {
             page_type: page_type,
