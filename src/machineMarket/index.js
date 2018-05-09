@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import axios from "axios";
 import qs from 'qs';
 import Tab from './../Tab';
@@ -15,6 +16,7 @@ class MachineM extends Component {
             data: [],
             token: "",
             id: "",
+            buyMinerSuccess: false,  //购买矿机是否成功  成功的话跳转到我的矿机页面去
             shadowShow: false,
             dlgShow: false,
             warningDlgShow: false,
@@ -65,11 +67,12 @@ class MachineM extends Component {
             })).then(re => {
                 const data = re.data;
                 const code = data.code;
-                if(code === 1){ //购买成功
+                if(code === 1){ //购买成功 购买矿机成功的话跳转到 我的矿机页面
                     this.setState({
                         dlgShow: false,
                         shadowShow: false,
-                        tradePassPwd: ""
+                        tradePassPwd: "",
+                        buyMinerSuccess: true
                     })
                 }else if(code === -3){//如果jsd余额不足
                     this.setState({
@@ -125,6 +128,9 @@ class MachineM extends Component {
     render(){
         const self = this;
         const data = this.state.data;
+        if(this.state.buyMinerSuccess){ // 购买矿机成功的话跳转到 我的矿机页面
+            return <Redirect to = "/account/myMineral"/>
+        }
         return <div>
             <Title  title="机市" code = {this.state.code}/>
             <div style={{padding: '0 .11rem 2rem'}}>
