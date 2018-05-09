@@ -60,7 +60,6 @@ class DealRecords extends Component {
     handleMoneyEvent (e){  //确认付款 收款
         const trade_id = e.trade_id;
         const trade_type = e.type;
-        console.log(this.state.msgDlgShow, 'msgDlgShow')
         this.setState({
             dlgShow: true,
             shadowShow: true,
@@ -211,11 +210,13 @@ class DealRecords extends Component {
                                 <p className = "fc_white fz_20">{type === 1 ? "卖家ID ：" + record.sell_msg : "买家ID：" + record.buy_msg}</p>
                                 <p className = "fc_white fz_20">挂卖{record.num}JSD，单价{record.price}元，总价{parseFloat(record.num * record.price).toFixed(2)}</p>
                                 </a>
-                                {status_msg === "已付款" ? <span className="btn fz_20" onClick = { e => {
+                                {type === 1 && status_msg === "已付币" ? <span className="btn fz_20" onClick = { e => {
                                     self.handleMoneyEvent({trade_id: record.trade_id, type: "maskSetMoney"})
-                                }}>确认收款</span> : status_msg === "已付币" ? <span className="btn fz_20" onClick = { e => {
-                                    self.handleMoneyEvent({trade_id: record.trade_id, type: "maskGetMoney"})
                                 }}>确认付款</span> : null}
+                                {type === 2 && status_msg === "已付款" ? <span className="btn fz_20" onClick = { e => {
+                                    self.handleMoneyEvent({trade_id: record.trade_id, type: "maskGetMoney"})
+                                }}>确认收款</span> : null}
+                               
                             </li>
                         })
                     }
@@ -234,7 +235,7 @@ class DealRecords extends Component {
                         this.handlePwdEvent({val: e.target.value})
                     }}
                     />
-                    <div class="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
+                    <div className="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
                     <div className="over_hidden" style={{padding: "0 .14rem"}}>
                         <span className="btn fz_24 fc_white f_lt" onClick = {e => {
                             self.handlePayPwd({type: "cancel"})

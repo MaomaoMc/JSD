@@ -223,7 +223,7 @@ class DealItems extends Component {
                         this.handlePwdEvent({val: e.target.value})
                     }}
                     />
-                    <div class="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
+                    <div className="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
                     <div className="over_hidden" style={{padding: "0 .14rem"}}>
                         <span className="btn fz_24 fc_white f_lt" onClick = {e => {
                             self.handlePayPwd({type: "cancel"})

@@ -10,8 +10,9 @@ class Title extends Component{
     }
     render (){
         if(this.props.code > 10000){
+            window.tokenLoseFun()
             return (
-                <Redirect to="/"/>
+                <Redirect to="/" />
             )
         }
         return  <div className="title">

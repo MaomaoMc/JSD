@@ -103,13 +103,14 @@ const accountMenus = [
         component: LuckDial,
         text: "幸运转盘"
     },
-    {
-        pic: require("../img/icon_ggl_nor.png"),
-        picActive: require("../img/icon_ggl_hot.png"),
-        link: "/account/lottery",
-        component: Lottery,
-        text: "刮刮乐"
-    }
+    //刮刮乐先暂时不要  多出一行不好看
+    // {
+    //     pic: require("../img/icon_ggl_nor.png"),
+    //     picActive: require("../img/icon_ggl_hot.png"),
+    //     link: "/account/lottery",
+    //     component: Lottery,
+    //     text: "刮刮乐"
+    // }
 ];
 class Personal extends Component {
     constructor (props){

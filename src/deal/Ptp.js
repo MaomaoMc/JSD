@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
 import WarningDlg from './../WarningDlg';
+import Shadow from './../Shadow';
 
+const token = localStorage.getItem("token");
 class Ptp extends Component {
     constructor (props){
         super(props);
@@ -11,6 +13,7 @@ class Ptp extends Component {
             buy_num: "",
             price: "",
             num: "",
+            dlgShow: false,  //交易密码弹窗
             warningDlgShow: false,
             warningText: ""
         }
@@ -18,87 +21,67 @@ class Ptp extends Component {
     handleInputChange (e){
         const type = e.type;
         const val = e.value;
-        if(type === "buy_num"){
-            this.setState({
-                buy_num: val
-            })
-        }
-        if(type === "num"){
-            this.setState({
-                num: val
-            })
-        }
-        if(type === "price"){
-            this.setState({
-                price: val
-            })
-        }
+        this.setState({
+            [type]: val
+        })
     }
-    hanleWarningDlgTimer (){  //定时关闭 警告弹窗
+    hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
         setTimeout(
             function(){
                 self.setState({
                     warningDlgShow: false
+                }, function(){
+                   if(obj && obj.code === 1){
+                       window.location.reload();
+                   }
                 })
             }
         , 1000)
     }
-    handleSell (){  //卖出
-        const token = localStorage.getItem("token");
-        const buy_num = this.state.buy_num;
-        const price = this.state.price;
-        const num = this.state.num;
-        const self = this;
-        // if(buy_num === ""){
-        //     alert("买家ID号不能为空");
-        //     return;
-        // }
-        // if(num === ""){
-        //     alert("售出数量不能为空");
-        //     return;
-        // }
-        // if(price === ""){
-        //     alert("约定价格不能为空");
-        //     return;
-        // }
-        axios.post(window.baseUrl + "/home/Trade/faceTrade", qs.stringify({
-            token : token,
-            buy_num: buy_num,
-            price: price,
-            num: num
-        })).then(function(res){
-            const data = res.data;
-            const code = data.code;
-            if(data.code === -6){  //卖家不存在
-                self.setState({
-                    buy_num: "",
-                    warningDlgShow: true,
-                    warningText: "卖家不存在"
-                }, function(){
-                    this.hanleWarningDlgTimer();
-                })
-            }else if(data.code === 1){  //操作成功
-                self.setState({
-                    buy_num: "",
-                    num: "",
-                    price: "",
-                    warningDlgShow: true,
-                    warningText: "卖出成功"
-                }, function(){
-                    this.hanleWarningDlgTimer();
-                })
-            }else{
-                self.setState({
-                    warningDlgShow: true,
-                    warningText: data.msg
-                }, function(){
-                    self.hanleWarningDlgTimer();
-                })
-            }
-            self.setState({
-                code: code
+    handlePwdEvent (e){  //输入交易密码
+        this.setState({
+            pass: e.val
+        })
+    }
+    handlePayPwd (e){ //弹窗 取消/确定
+        const type = e.type;
+        if(type === "cancel"){  //取消
+            this.setState({
+                dlgShow: false,
+                pass: ""
             })
+        }else{   //如果是 确定的话  要判断支付密码是否正确了
+            const pass = this.state.pass;
+            const token = localStorage.getItem("token");
+            const buy_num = this.state.buy_num;
+            const price = this.state.price;
+            const num = this.state.num;
+            const self = this;
+            axios.post(window.baseUrl + "/home/Trade/faceTrade", qs.stringify({
+                token : token,
+                buy_num: buy_num,
+                price: price,
+                num: num,
+                pass: pass  //交易密码
+            })).then(function(res){
+                const data = res.data;
+                const code = data.code;
+                self.setState({
+                    dlgShow: false,
+                    pass: "",
+                    warningDlgShow: true,
+                    warningText: data.msg,
+                    code: code
+                }, function(){
+                    self.hanleWarningDlgTimer({code: code})
+                });
+            })
+        }
+    }
+    handleSell (){  //卖出
+        this.setState({
+            dlgShow: true
         })
     }
     render(){
@@ -143,6 +126,27 @@ class Ptp extends Component {
                 }}
                 >卖出</span>
             </div>
+            <div className={this.state.dlgShow ? "dialog dlgPayPwd" : "dialog dlgPayPwd hide"}>
+                <p className="dlg_tit fc_white">输入密码</p>
+                <div className="dlg_form">
+                    <p className="text_center fz_24 fc_white">请输入支付密码：</p>
+                    <input className="b_blue1" type="password" value = {this.state.pass} 
+                    onChange = {e => {
+                        this.handlePwdEvent({val: e.target.value})
+                    }}
+                    />
+                    <div className="fgtTradepass"><Link to = "/account/forgetTradePwd"><span className="fz_24 fc_blue">忘记交易密码?</span></Link></div>
+                    <div className="over_hidden" style={{padding: "0 .14rem"}}>
+                        <span className="btn fz_24 fc_white f_lt" onClick = {e => {
+                            this.handlePayPwd({type: "cancel"})
+                        }}>取消</span>
+                        <span className="btn fz_24 fc_white f_rt" onClick = {e => {
+                            this.handlePayPwd({type: "confirm"})
+                        }}>确定</span>
+                    </div>
+                </div>
+            </div>
+            {this.state.dlgShow ? <Shadow /> : null}
             {this.state.warningDlgShow ? <WarningDlg text = {this.state.warningText} /> : null}
         </div>
     }

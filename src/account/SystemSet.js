@@ -10,13 +10,13 @@ class SystemSet extends Component{
         };
       }
     exitApp (){ //退出程序
-        window.tokenLoseFun();
         this.setState({
             exitApp: true
         })
     }
     render (){
         if(this.state.exitApp) {
+            window.tokenLoseFun();
             return (
                 <Redirect to="/"/>
             )

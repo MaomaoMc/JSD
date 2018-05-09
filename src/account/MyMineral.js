@@ -6,7 +6,8 @@ import Title from '../Title';
 import WarningDlg from '../WarningDlg';
 
 const baseUrl = window.baseUrl;
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
+// console.log(token, 'tokentoken')
 class MyMineral extends Component  {
     constructor (props){
         super(props);
@@ -33,8 +34,9 @@ class MyMineral extends Component  {
     }
     ajax (){
         const self = this;
+        console.log(localStorage.getItem("token"), 'token')
         axios.post(baseUrl + "/home/Index/myMillList", qs.stringify({
-            token: token
+            token: localStorage.getItem("token")
         })).then(function(res){
             const data = res.data;
             const code = data.code;
@@ -58,7 +60,7 @@ class MyMineral extends Component  {
     handleUseMill (e){  //启用矿机
         const self = this;
         axios.post(baseUrl + "/home/Index/useMill", qs.stringify({
-            token: token,
+            token: localStorage.getItem("token"),
             id: e.id
         })).then(function(res){
             const data = res.data;
