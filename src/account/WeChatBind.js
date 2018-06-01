@@ -4,7 +4,6 @@ import qs from 'qs';
 import Title from '../Title';
 import WarningDlg from './../WarningDlg';
 
-const pic = require("../img/pic_morentx.png");
 class WeChatBind extends Component{
     constructor (props){
         super(props);

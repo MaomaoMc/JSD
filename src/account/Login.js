@@ -11,12 +11,11 @@ import WarningDlg from './../WarningDlg';
 class Login extends Component {
   constructor(props) {
     super(props);
-    const l_pass = localStorage.getItem("password");
     this.state = { 
-      logined: localStorage.getItem("logined"),
+      logined: false,
       keepPwd: false,
-      phone: "",
-      l_pass: l_pass ? l_pass : "",
+      phone: localStorage.getItem("phone") || "",
+      l_pass: "",
       warningDlgShow: false,
       warningText: ""
     };
@@ -35,13 +34,13 @@ class Login extends Component {
         })
       }
   }
-  keepPwdEvent (){ //记住密码
+  keepPwdEvent (){ //记住密码--> 转变为记住手机号吗
     const keepPwd = this.state.keepPwd;
-    const l_pass = this.state.l_pass;
+    const phone = this.state.phone;
     this.setState({
       keepPwd: !keepPwd
     }, function(){
-      localStorage.setItem("password", l_pass);
+      localStorage.setItem("phone", phone);
     })
   }
   checkMobile (phone){ //手机号码验证
@@ -143,7 +142,7 @@ class Login extends Component {
                       this.keepPwdEvent()
                     }}
                   >{this.state.keepPwd ? <span>√</span> : null}</span>
-                  <label className="fz_26 fc_blue f_lt ml_10">记住密码</label>
+                  <label className="fz_26 fc_blue f_lt ml_10">记住手机号</label>
                 </span>
                 <Link to = "/account/forgetLoginPwd"><span className="fz_26 fc_blue f_rt">忘记密码？</span></Link>
               </div>

@@ -4,7 +4,6 @@ import qs from 'qs';
 import Title from '../Title';
 import WarningDlg from './../WarningDlg';
 
-const pic = require("../img/pic_morentx.png");
 class AliPayBind extends Component{
     constructor (props){
         super(props);
@@ -56,7 +55,6 @@ class AliPayBind extends Component{
         })
     }
     render (){
-        const type = this.props.match.params.type;
         return <div>
             <Title title="支付宝绑定" code = {this.state.code}/>
             <div className="account_form fz_26">

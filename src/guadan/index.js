@@ -12,35 +12,36 @@ const wenhao = require("../img/icon_xinshouwenti.png");
 
 class GuaDan extends Component {
     static defaultProps = {
-        sundryData: JSON.parse(localStorage.getItem("sundryData")) || { newPrice: 0, less_bee: 0, more_bee: 0 },
         hash: window.location.hash
     }
     constructor(props) {
         super(props);
         const hash = window.location.hash;
         const index = hash.indexOf("newerGuad");
-        const sundryData = this.props.sundryData;
-        const newPrice = sundryData.newPrice;  //当前价格
-        const less_price = sundryData.less_bee * newPrice;
-        const more_price = sundryData.more_bee * newPrice;
-        let page_type, tip,
-            percent = (newPrice - less_price) / (more_price - less_price); //圆点 在线上的 百分多少的位置
+        
+        
+        
+        // const newPrice = sundryData.newPrice;  //当前价格
+        // const less_price = sundryData.less_bee * newPrice;
+        // const more_price = sundryData.more_bee * newPrice;
+        let page_type;
+        //     percent = (newPrice - less_price) / (more_price - less_price); //圆点 在线上的 百分多少的位置
         if (index === -1) { // 高手挂单
             page_type = "2";
-            tip = sundryData.gao_tishi;
+            // tip = sundryData.gao_tishi;
         } else {  //新手挂单
             page_type = "1";
-            tip = sundryData.xin_tishi;
+            // tip = sundryData.xin_tishi;
         }
-        this.state = {
+        this.state = Object.assign({
             page_type: page_type,
-            tip: tip,
-            price: newPrice,
+            tip: "",
+            price: "",
+            newPrice: "",
+            percent: "",
+            less_price: "",
+            more_price: "",
             count: 1,
-            newPrice: newPrice,
-            percent: percent,
-            less_price: less_price,
-            more_price: more_price,
             barLeft: 0,
             type: "kanban", // 默认看板选中
             tabIndex: 0,
@@ -51,7 +52,10 @@ class GuaDan extends Component {
             code: "",
             warningDlgShow: false,
             warningText: "", //警告文字
-        };
+        });
+    }
+    setExtraState (sundryData, index){
+        
     }
     hanleWarningDlgTimer (obj){  //定时关闭 警告弹窗
         const self = this;
@@ -106,6 +110,7 @@ class GuaDan extends Component {
         })
     }
     componentDidMount() {
+        this.getSundry();
         const self = this;
         var scroll = document.getElementById('scroll');
         const bar = document.getElementById("bar");
@@ -201,6 +206,46 @@ class GuaDan extends Component {
         })
         
     }
+    getSundry () { //一些杂项的数据
+        const self = this;
+        axios.post(window.baseUrl + "/home/Login/getSundry", qs.stringify({
+          token: localStorage.getItem("token"),
+        })).then(re=>{
+          const data = re.data;
+          const code = re.code;
+         if(data.code === 1){ //成功
+          localStorage.setItem("sundryData", JSON.stringify(data.data));  //后面的页面时不时要用到的 先存着
+          const sundryData = data.data;
+            const newPrice = sundryData.newPrice;  //当前价格
+            const less_price = sundryData.less_bee * newPrice;
+            const more_price = sundryData.more_bee * newPrice;
+            const hash = window.location.hash;
+            const index = hash.indexOf("newerGuad");
+            let page_type, tip,
+                percent = (newPrice - less_price) / (more_price - less_price); //圆点 在线上的 百分多少的位置
+            if (index === -1) { // 高手挂单
+                tip = sundryData.gao_tishi;
+            } else {  //新手挂单
+                tip = sundryData.xin_tishi;
+            }
+            self.setState({
+                tip: tip,
+                price: newPrice,
+                newPrice: newPrice,
+                percent: percent,
+                less_price: less_price,
+                more_price: more_price
+            })
+         } else {
+            this.setState({
+              warningDlgShow: true,
+              warningText: data.msg,
+          }, function(){
+              this.hanleWarningDlgTimer()
+          })
+         }
+        })
+      }
     render() {
         const count = this.state.count;
         const self = this;
@@ -227,23 +272,7 @@ class GuaDan extends Component {
                         <div className="unit_price">
                             <span >减价</span>
                             <div className="inline_block">
-                                <input className="price_ipt" type="text" value={this.state.price}
-                                    onChange={e => {
-                                        this.handleIptChange({ type: "price", value: e.target.value })
-                                    }}
-                                    onBlur={e => {
-                                        const value = e.target.value;
-                                        if (value > this.state.more_price) {
-                                            alert("不能大于最大值");
-                                        }
-                                        if (value < this.state.less_price) {
-                                            alert("不能小于最大值");
-                                        }
-                                        this.setState({
-                                            price: this.state.newPrice
-                                        })
-                                    }}
-                                />
+                                <span className="price_ipt">{this.state.price}</span>
                                 <span className="price_opt price_down"
                                     onClick={e => {
                                         this.handlePrice({ type: "reduce" })

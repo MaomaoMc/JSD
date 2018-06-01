@@ -6,7 +6,7 @@ import WarningDlg from '../WarningDlg';
 import Shadow from '../Shadow';
 
 const baseUrl = window.baseUrl;
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 class Feedback extends Component{
     constructor (props){
         super(props);
@@ -37,7 +37,7 @@ class Feedback extends Component{
         const self = this;
         const problem = this.state.problem;
         axios.post(baseUrl + "/home/Member/askService", qs.stringify({
-            token: token,
+            token: localStorage.getItem("token"),
             problem: problem
         })).then(function(res){
             const data = res.data;
@@ -61,7 +61,7 @@ class Feedback extends Component{
     ajax (){  //留言反馈记录
         const self = this;
         axios.post(baseUrl + "/home/Member/LeaveMsgList", qs.stringify({
-            token: token
+            token: localStorage.getItem("token")
         })).then(function(res){
             const data = res.data;
             const code = data.code;

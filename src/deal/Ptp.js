@@ -5,7 +5,6 @@ import qs from 'qs';
 import WarningDlg from './../WarningDlg';
 import Shadow from './../Shadow';
 
-const token = localStorage.getItem("token");
 class Ptp extends Component {
     constructor (props){
         super(props);

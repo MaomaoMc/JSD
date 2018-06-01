@@ -215,7 +215,7 @@ class Register extends Component {
                     this.passValidate({type: "rt_pass", value: e.target.value})
                 }}/>
                 {window.location.hash.indexOf("tui_id") !== -1 ? <input type="text" placeholder="推荐人手机号或ID：" readOnly="true" defaultValue= {this.state.tui_id} />
-                 : <input type="text" placeholder="推荐人手机号或ID：" value = {this.state.tui_id} onChange = {e => {
+                 : <input type="text" placeholder="推荐人ID：" value = {this.state.tui_id} onChange = {e => {
                     this.handleInputChange({type: "tui_id", value: e.target.value})
                 }}/>}
                 

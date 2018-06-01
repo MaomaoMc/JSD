@@ -10,13 +10,13 @@ class SystemSet extends Component{
         };
       }
     exitApp (){ //退出程序
+        window.tokenLoseFun();
         this.setState({
             exitApp: true
         })
     }
     render (){
         if(this.state.exitApp) {
-            window.tokenLoseFun();
             return (
                 <Redirect to="/"/>
             )
@@ -50,7 +50,7 @@ class SystemSet extends Component{
                 </li>
                 <li>
                     <Link to="/account/systemSet/wechat">
-                        <span className="f_lt fc_blue">微信公众号</span>
+                        <span className="f_lt fc_blue">微信客服</span>
                         <span className="f_rt">
                             <span className="fc_white">J_SD</span>
                         </span>

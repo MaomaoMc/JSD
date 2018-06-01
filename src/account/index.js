@@ -51,12 +51,12 @@ class Account extends Component {
                 <Route path="/account/robPacket" component = {RobPacket} />
                 <Route path="/account/luckDial" component = {LuckDial} />
                 <Route path="/account/lottery" component = {Lottery} />
+                <Route path="/account/creditCertify/:type" component = {CreditCertify} />
                 <Route path="/account/certify/:type" component = {Certify} />
                 <Route path="/account/shuaCertify/" component = {ShuaCertify} />
                 
                 <Route path="/account/changeLoginPwd" component = {ChangePwd} />
                 <Route path="/account/changeTradePwd" component = {ChangePwd} />
-                <Route path="/account/creditCertify" component = {CreditCertify} />
                 <Route path="/account/forgetLoginPwd" component = {ForgetPwd} />
                 <Route path="/account/forgetTradePwd" component = {ForgetPwd} />
                 <Route path="/account/weChatBind" component = {WeChatBind} />

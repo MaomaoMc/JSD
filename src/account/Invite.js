@@ -70,6 +70,7 @@ class Invite extends Component {
     }
     render (){
         const self = this;
+        console.log(JSON.parse(localStorage.getItem("sundryData")).appqrcode, '2')
         return <div>
             <Title title="邀请好友" code = {this.state.code}/>
             <div className = "text_center">
@@ -92,7 +93,8 @@ class Invite extends Component {
                     <span className="fz_20 fc_white f_lt" style={{lineHeight: ".15rem", marginLeft: ".05rem"}}>推荐二维码</span></p>
             </div>
             <div className="text_center mt_40">
-                {this.state.path !== "" ? <QRCode value = {this.state.path}/> : null}
+                {/* {this.state.path !== "" ? <QRCode value = {this.state.path}/> : null} */}
+                <img style = {{display: "block", width: "1.4rem", height: "1.4rem", margin: ".2rem auto"}} src = {JSON.parse(localStorage.getItem("sundryData")).appqrcode} alt = ""/>
             </div>
         </div>
     }

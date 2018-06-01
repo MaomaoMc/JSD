@@ -4,28 +4,6 @@ import qs from 'qs';
 import Title from '../Title';
 import WarningDlg from './../WarningDlg';
 
-const sysNotices = [
-    {
-        date: "2018-04-18 13:55",
-        title: "认证系统内测版上线通知",
-        content: "新的认证系统内测版也将上线测试，平台将陆续开放"
-    },
-    {
-        date: "2018-04-18 13:55",
-        title: "认证系统内测版上线通知",
-        content: "新的认证系统内测版也将上线测试，平台将陆续开放"
-    },
-    {
-        date: "2018-04-18 13:55",
-        title: "认证系统内测版上线通知",
-        content: "新的认证系统内测版也将上线测试，平台将陆续开放"
-    },
-    {
-        date: "2018-04-18 13:55",
-        title: "认证系统内测版上线通知",
-        content: "新的认证系统内测版也将上线测试，平台将陆续开放"
-    }
-]
 class SystemNotice extends Component{
     constructor (props){
         super(props);

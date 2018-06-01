@@ -6,21 +6,21 @@ import Title from '../Title';
 import Tab from '../Tab';
 import WarningDlg from './../WarningDlg';
 
-const personal_data = {
-    profile_pic: require("../img/icon_grzl_nor.png")
-};
 const baseUrl = window.baseUrl;
-const sundryData = localStorage.getItem("sundryData");
-const token = localStorage.getItem("token");
 class PersonalData extends Component {
     constructor (props){
         super(props);
-        
+        const sundryData = localStorage.getItem("sundryData");
+        const token = localStorage.getItem("token");
+        console.log(token, 'tokentoken')
         this.state = {
             profile_pic: (baseUrl + JSON.parse(sundryData).adminpic), //头像
+            sundryData: sundryData,
+            token: token,
             data: {},  //个人数据
             warningDlgShow: false,
-            warningText: ""
+            warningText: "",
+            code: ""
         }
     }
     hanleWarningDlgTimer (){  //定时关闭 警告弹窗
@@ -35,14 +35,15 @@ class PersonalData extends Component {
     }
     setPhotoEvent (){
         const self = this;
-        axios.post(window.baseUrl +  "/home/Member/editphoto?token=" + token, qs.stringify({
+        axios.post(window.baseUrl +  "/home/Member/editphoto?token=" + self.state.token, qs.stringify({
             pic: self.state.profile_pic
         })).then(function(res){
             const data = res.data;
             const code = data.code;
             self.setState({
                 warningDlgShow: true,
-                warningText: data.msg
+                warningText: data.msg,
+                code: code
             }, function(){
                 self.hanleWarningDlgTimer();
             })
@@ -53,7 +54,7 @@ class PersonalData extends Component {
         let file = document.getElementById("photo").files[0];
         let formData = new FormData()  // 创建form对象
         formData.append('pic', file)  // 通过append向form对象添加数据
-        axios.post(baseUrl +  "/home/Base/uploadPic?token=" + token, formData, {
+        axios.post(baseUrl +  "/home/Base/uploadPic?token=" + self.state.token, formData, {
             transformRequest: [(data) => data],
             headers: {}
         }).then(function(res){
@@ -82,7 +83,7 @@ class PersonalData extends Component {
     ajax (){ //个人资料数据
         const self = this;
         axios.post(baseUrl +  "/home/Member/personalData", qs.stringify({
-            token: token
+            token: self.state.token
         })).then(function(res){
             const data = res.data;
             const code = data.code;
@@ -117,7 +118,7 @@ class PersonalData extends Component {
                     <input type="file" name="photo" id="photo" 
                         onChange = {e => {this.uploadedFile({value: e.target.value, obj: e.target})}}
                          />
-                         <img src={profile_pic === "" ? (baseUrl + JSON.parse(sundryData).adminpic) : profile_pic} alt=""/>
+                         <img src={profile_pic === "" ? (baseUrl + JSON.parse(this.state.sundryData).adminpic) : profile_pic} alt=""/>
                        
                 </form>
             </div>  
@@ -148,6 +149,21 @@ class PersonalData extends Component {
                     </span>
                 </li>
                 <li>
+                    {data.bank_num === "" ? <Link to = "/account/creditCertify/unauthorized">
+                        <span className="f_lt fc_blue">银行卡</span>
+                        <span className="f_rt">
+                            <span className="fc_white">{data.bank_num}</span>
+                            <span className="mark unauthorized">未认证</span>
+                        </span>
+                    </Link> :  <Link to = "/account/creditCertify/authorized"><span><span className="f_lt fc_blue">银行卡</span>
+                            <span className="f_rt">
+                                <span className="fc_white">{data.bank_num}</span>
+                                <span className="mark authenticated">已认证</span> 
+                            </span>
+                        </span></Link>
+                    }
+                </li>
+                <li>
                     {data.username === "" ? <Link to = "/account/certify/unauthorized">
                         <span className="f_lt fc_blue">实名认证</span>
                         <span className="f_rt">
@@ -172,22 +188,33 @@ class PersonalData extends Component {
                 </li>
                 <li style={{height: ".21rem"}}></li>
                 <li>
-                    <Link to="/account/weChatBind">
+                    {data.wx_num === "" ? <Link to="/account/weChatBind">
                         <span className="f_lt fc_blue">微信</span>
                         <span className="f_rt">
                             <span className="fc_white">{data.wx_num}</span>
                             <span className="go_arrow"></span>
                         </span>
-                    </Link>
+                    </Link> : <a>
+                        <span className="f_lt fc_blue">微信</span>
+                        <span className="f_rt">
+                            <span className="fc_white">{data.wx_num}</span>
+                        </span>
+                    </a>}
                 </li>
                 <li>
-                    <Link to="/account/aliPayBind">
+                    {data.zfb_num === "" ? <Link to="/account/aliPayBind">
                         <span className="f_lt fc_blue">支付宝</span>
                         <span className="f_rt">
                             <span className="fc_white">{data.zfb_num}</span>
                             <span className="go_arrow"></span>
                         </span>
-                    </Link>
+                    </Link> :
+                     <a>
+                        <span className="f_lt fc_blue">支付宝</span>
+                                <span className="f_rt">
+                                    <span className="fc_white">{data.zfb_num}</span>
+                        </span>
+                    </a>}
                 </li>
                 <li>
                     <Link to="/account/changeLoginPwd">
