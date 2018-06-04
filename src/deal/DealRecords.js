@@ -210,6 +210,9 @@ class DealRecords extends Component {
                                 <p className = "fc_white fz_20">{type === 1 ? "卖家ID ：" + record.sell_msg : "买家ID：" + record.buy_msg}</p>
                                 <p className = "fc_white fz_20">挂卖{record.num}JSD，单价{record.price}元，总价{parseFloat(record.num * record.price).toFixed(2)}</p>
                                 </a>
+                                {record.status === 1 ? <span className="btn fz_20" onClick = { e => {
+                                    self.handleMoneyEvent({trade_id: record.trade_id, type: "cancel"})
+                                }}>取消订单</span> : null}
                                 {type === 1 && status_msg === "已付币" ? <span className="btn fz_20" onClick = { e => {
                                     self.handleMoneyEvent({trade_id: record.trade_id, type: "maskSetMoney"})
                                 }}>确认付款</span> : null}
