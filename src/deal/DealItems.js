@@ -63,43 +63,14 @@ class DealItems extends Component {
             })).then(re => {
                 const data = re.data;
                 const code = data.code;
-                if(code === 1){ //购买成功
-                    this.setState({
-                        dlgShow: false,
-                        warningDlgShow: true,
-                        warningText: "购买成功",
-                        tradePassPwd: ""
-                    }, function(){
-                        this.hanleWarningDlgTimer({code: code})
-                    })
-                }
-                else if(code === -4){ //支付密码不正确
-                    this.setState({
-                        warningDlgShow: true,
-                        warningText: "支付密码不正确",
-                        tradePassPwd: ""
-                    }, function(){
-                        this.hanleWarningDlgTimer()
-                    })
-                }
-                else if(code === -3){//如果jsd余额不足
-                    this.setState({
-                        dlgShow: false,
-                        warningDlgShow: true,
-                        warningText: "JSD余额不足",
-                        tradePassPwd: ""
-                    }, function(){
-                        this.hanleWarningDlgTimer()
-                    })
-                } else{
-                    self.setState({
-                        warningDlgShow: true,
-                        warningText: data.msg,
-                        code: code
-                    }, function(){
-                        this.hanleWarningDlgTimer()
-                    })
-                }
+                self.setState({
+                    dlgShow: false,
+                    warningDlgShow: true,
+                    warningText: data.msg,
+                    tradePassPwd: ""
+                }, function(){
+                    self.hanleWarningDlgTimer({code: code})
+                })
             })
         }
        
