@@ -149,10 +149,10 @@ class GuaDan extends Component {
             let page_type, tip;
             if (index === -1) { // 高手挂单
                 page_type = "2";
-                tip = "算力≥5用户可进行10-200JSD议价交易！";
+                tip = "算力≥5用户可进行10-200BTI议价交易！";
             } else {  //新手挂单
                 page_type = "1";
-                tip = "认证用户可进行1-10JSD议价交易！";
+                tip = "认证用户可进行1-10BTI议价交易！";
             }
             this.setState({
                 page_type: page_type,
@@ -266,7 +266,7 @@ class GuaDan extends Component {
                     <div className="tip fz_26 fc_white">{this.state.tip}</div>
                     <p className="fc_yellow" style={{ lineHeight: '.5rem' }}><span className="fz_30">当前价：</span>
                         <span style={{ fontSize: '.35rem' }}>{this.state.newPrice}</span>
-                        <span className="fz_30">JSD</span>
+                        <span className="fz_30">BTI</span>
                     </p>
                     <div className="price_adjust fc_white fz_26 mb_20">
                         <div className="unit_price">
@@ -296,7 +296,7 @@ class GuaDan extends Component {
                             }}
 
                         />
-                        <p className="fc_blue fz_26">买入{count}JSD，出价{this.state.price}，总价{Math.round(parseFloat(count * this.state.price) * 100) / 100}元</p>
+                        <p className="fc_blue fz_26">买入{count}BTI，出价{this.state.price}，总价{Math.round(parseFloat(count * this.state.price) * 100) / 100}元</p>
                         <span className="btn btn_orange" style={{ margin: '.1rem auto' }}
                             onClick={e => {
                                 this.handleBuyJd()

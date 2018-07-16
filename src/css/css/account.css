@@ -1,8 +1,8 @@
 @charset "UTF-8";
 .logo {
-  width: 1.32rem;
-  height: 1.33rem;
-  background-image: url(../../img/jsd.png);
+  width: .75rem;
+  height: .75rem;
+  background-image: url(../../img/logo.png);
   background-repeat: no-repeat;
   background-size: 100%;
   margin-top: .5rem;

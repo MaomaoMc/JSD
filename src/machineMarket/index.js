@@ -74,12 +74,12 @@ class MachineM extends Component {
                         tradePassPwd: "",
                         buyMinerSuccess: true
                     })
-                }else if(code === -3){//如果jsd余额不足
+                }else if(code === -3){//如果bti余额不足
                     this.setState({
                         dlgShow: false,
                         shadowShow: false,
                         warningDlgShow: true,
-                        warningText: "JSD不足",
+                        warningText: "BTI不足",
                         tradePassPwd: ""
                     }, function(){
                         this.hanleWarningDlgTimer()
@@ -150,7 +150,7 @@ class MachineM extends Component {
                                             self.handleBayEvent({id: item.id})
                                         }}>
                                         <i className="cart_icon"></i>
-                                       <span> {item.price} JSD</span>
+                                       <span> {item.price} BTI</span>
                                     </div>
                                 </div>
                             </div>

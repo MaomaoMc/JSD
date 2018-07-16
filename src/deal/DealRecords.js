@@ -208,7 +208,7 @@ class DealRecords extends Component {
                                 }}><p className = "fz_20 over_hidden"><span className = "f_lt fc_blue">单号 ：{record.trade_num}</span>
                                     <span className = "f_rt fc_white">{status_msg}</span></p>
                                 <p className = "fc_white fz_20">{type === 1 ? "卖家ID ：" + record.sell_msg : "买家ID：" + record.buy_msg}</p>
-                                <p className = "fc_white fz_20">挂卖{record.num}JSD，单价{record.price}元，总价{parseFloat(record.num * record.price).toFixed(2)}</p>
+                                <p className = "fc_white fz_20">挂卖{record.num}BTI，单价{record.price}元，总价{parseFloat(record.num * record.price).toFixed(2)}</p>
                                 </a>
                                 {record.status === 1 ? <span className="btn fz_20" onClick = { e => {
                                     self.handleMoneyEvent({trade_id: record.trade_id, type: "cancel"})
@@ -254,12 +254,14 @@ class DealRecords extends Component {
                 <a className="btn_close" onClick = {e => {
                     self.setState({msgDlgShow: false, shadowShow: false})
                 }}></a>
-                <div style={{padding: '.25rem'}}>
+                <div style={{padding: '.1rem .25rem'}}>
                     <ul className="f_flex">
-                        <li style={{lineHeight: ".3rem"}}>姓名：{msgDlgData.name}</li>
-                        <li style={{lineHeight: ".3rem"}}>手机号：{msgDlgData.phone}</li>
-                        <li style={{lineHeight: ".3rem"}}>微信账号：{msgDlgData.wx_num}</li>
-                        <li style={{lineHeight: ".3rem"}}>支付宝账号：{msgDlgData.zfb_num}</li>
+                        <li style={{lineHeight: ".25rem"}}>姓名：{msgDlgData.name}</li>
+                        <li style={{lineHeight: ".25rem"}}>手机号：{msgDlgData.phone}</li>
+                        <li style={{lineHeight: ".25rem"}}>微信账号：{msgDlgData.wx_num}</li>
+                        <li style={{lineHeight: ".25rem"}}>支付宝账号：{msgDlgData.zfb_num}</li>
+                        <li style={{lineHeight: ".25rem"}}>银行名称：{msgDlgData.bank_name}</li>
+                        <li style={{lineHeight: ".25rem"}}>银行卡号：{msgDlgData.bank_num}</li>
                     </ul>
                 </div>
             </div>

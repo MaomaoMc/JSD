@@ -75,7 +75,7 @@ class Price extends Component {
                 text: '实时价格',
                 left:'left',
                 textStyle:{
-                    //文字颜色
+                    //文字颜色1
                     color:'#00a8ff',
                     //字体系列
                     //字体大小
