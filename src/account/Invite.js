@@ -91,7 +91,7 @@ class Invite extends Component {
                         >复制</span>
                     </p>
                 <p><i className="f_lt inviteCode"></i>
-                    <span className="fz_20 fc_white f_lt" style={{lineHeight: ".15rem", marginLeft: ".05rem"}}>推荐二维码</span></p>
+                    <span className="fz_20 fc_white f_lt" style={{lineHeight: ".15rem", marginLeft: ".05rem"}}>APP下载二维码</span></p>
             </div>
             <div className="text_center mt_40">
                 <img style = {{display: "block", width: "1.4rem", height: "1.4rem", margin: ".2rem auto"}} src = {JSON.parse(localStorage.getItem("sundryData")).appqrcode} alt = ""
