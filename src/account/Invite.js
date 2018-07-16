@@ -20,6 +20,7 @@ class Invite extends Component {
             id_num: "",
             code: "",
             path: "", // 保存二维码SVG的path
+            enlargeImg: false,
             warningDlgShow: false,
             warningText: ""
         };
@@ -93,9 +94,22 @@ class Invite extends Component {
                     <span className="fz_20 fc_white f_lt" style={{lineHeight: ".15rem", marginLeft: ".05rem"}}>推荐二维码</span></p>
             </div>
             <div className="text_center mt_40">
-                {/* {this.state.path !== "" ? <QRCode value = {this.state.path}/> : null} */}
-                <img style = {{display: "block", width: "1.4rem", height: "1.4rem", margin: ".2rem auto"}} src = {JSON.parse(localStorage.getItem("sundryData")).appqrcode} alt = ""/>
+                <img style = {{display: "block", width: "1.4rem", height: "1.4rem", margin: ".2rem auto"}} src = {JSON.parse(localStorage.getItem("sundryData")).appqrcode} alt = ""
+                onClick = {e => {
+                   this.setState({
+                    enlargeImg: true
+                   })
+                }}/>
             </div>
+            {this.state.enlargeImg ? <div>
+                <img style = {{width: "2.2rem", height: "2.2rem", position: "fixed", top: "50%", left: "50%", zIndex: 100, marginLeft: "-1.1rem", marginTop: "-1.1rem"}}
+                 src = {JSON.parse(localStorage.getItem("sundryData")).appqrcode}/>
+                <div className = "shadow" onClick = {e => {
+                   this.setState({
+                    enlargeImg: false
+                   })
+                }}></div>
+            </div> : null}
         </div>
     }
 }

@@ -52,7 +52,7 @@ class SystemSet extends Component{
                     <Link to="/account/systemSet/wechat">
                         <span className="f_lt fc_blue">微信客服</span>
                         <span className="f_rt">
-                            <span className="fc_white">J_SD</span>
+                            <span className="fc_white">B_TI</span>
                         </span>
                     </Link>
                 </li>

@@ -37,7 +37,7 @@ console.log(docHtml.getAttribute('data-dpr'))
     docHtml.addEventListener('DOMContentLoaded', setHtmlFontSize, false);
 
 })(window);
-window.baseUrl = "http://www.6615766.cn/";
+window.baseUrl = "http://www.zgnzlj.cn/";
 window.tokenLoseFun = function(){
     localStorage.removeItem("logined");
     localStorage.removeItem("sundryData");
